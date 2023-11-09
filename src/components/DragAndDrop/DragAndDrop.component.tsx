@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import { FaPhotoVideo } from "react-icons/fa";
+
 /**
  * 드래그엔드랍 컴포넌트
  */
@@ -36,9 +38,12 @@ export default function DragAndDrop() {
     <div
       onDragOver={handleDragOver}
       onDrop={handleDrop}
-      className="w-[500px] h-[400px]"
+      className="w-[500px] h-[400px] border-dotted border-sky-400 border-4"
     >
-      <label htmlFor="drag-and-drop" className="w-full h-full flex bg-white">
+      <label
+        htmlFor="drag-and-drop"
+        className="w-full h-full flex flex-col justify-center items-center gap-3 bg-white"
+      >
         <input
           id="drag-and-drop"
           type="file"
@@ -48,6 +53,8 @@ export default function DragAndDrop() {
           onChange={handleFileInputChange}
           ref={inputRef}
         />
+        <FaPhotoVideo className="w-[30%] h-[30%]" color="#ced4da" />
+        Drag and Drop your image here or click
       </label>
       <div>
         {selectedFiles.map((file, index) => (
