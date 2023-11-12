@@ -38,7 +38,7 @@ export default function DragAndDrop() {
     <div
       onDragOver={handleDragOver}
       onDrop={handleDrop}
-      className="w-[500px] h-[400px] border-dotted border-sky-400 border-4"
+      className="w-[600px] h-[400px] border-dotted border-sky-400 border-4"
     >
       <label
         htmlFor="drag-and-drop"
