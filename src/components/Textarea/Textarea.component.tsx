@@ -7,9 +7,9 @@ interface ITextareaProps {
    */
   onChange?: (text: string) => void;
   /**
-   *
+   * placeholder
    */
-  placeholder: string;
+  placeholder?: string;
 }
 
 /**
@@ -28,7 +28,7 @@ export default function Textarea(props: ITextareaProps) {
 
   return (
     <textarea
-      className="w-full h-full p-1 box-border bg-white"
+      className="w-[600px] h-[500px] p-1 rounded-lg border-2 border-gray-200 border-solid resize-none bg-white box-border"
       placeholder={placeholder}
       onChange={(e) => setText(e.target.value)}
     />
