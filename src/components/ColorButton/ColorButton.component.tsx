@@ -18,7 +18,7 @@ export default function ColorButton(props: IButtonProps) {
 
   return (
     <button
-      className={`w-[200px] h-[50px] flex justify-center items-center text-white font-bold ${className}`}
+      className={`flex justify-center items-center text-white font-bold ${className}`}
     >
       {text}
     </button>
