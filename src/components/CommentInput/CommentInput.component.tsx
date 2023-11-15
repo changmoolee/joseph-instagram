@@ -24,7 +24,7 @@ export default function CommentInput(props: ICommentInputProps) {
   }, [comment, onChange]);
 
   return (
-    <section className="w-full h-[50px] flex border-solid border-[1px] border-black">
+    <section className="w-full h-[50px] flex border-solid border-[1px] border-gray-200">
       <button className="w-[40px] h-full flex justify-center items-center">
         <BiSmile className="w-[25px] h-[25px]" />
       </button>

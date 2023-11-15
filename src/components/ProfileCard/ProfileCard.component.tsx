@@ -24,7 +24,7 @@ export default function ProfileCard(props: IProfileCardProps) {
   } = props;
 
   return (
-    <article className="flex items-center gap-3 p-5 border-solid border-[1px] border-black">
+    <article className="flex items-center gap-3 p-5 border-solid border-[2px] border-gray-200">
       <ProfileImage src="/" />
       <section className="flex flex-col">
         <span className="text-black fond-bold">{engName}</span>

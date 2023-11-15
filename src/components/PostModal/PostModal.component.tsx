@@ -45,7 +45,7 @@ export default function PostModal(props: IPostModalProps) {
               <Like checked />
               <Bookmark checked />
             </div>
-            <div className="flex-col">
+            <div className="flex flex-col">
               <span>0 Like</span>
               <span>23 hours ago</span>
             </div>
