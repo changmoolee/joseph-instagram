@@ -3,14 +3,34 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { create } from "zustand";
+
+interface LoginState {
+  isLogin: boolean;
+  token: string;
+}
+interface LoginAction {
+  excuteLogin: () => void;
+  excuteLogout: () => void;
+}
+
+/** 로그인 전역상태 */
+const useLoginStateStore = create<LoginState & LoginAction>((set) => ({
+  isLogin: false,
+  token: "",
+  excuteLogin: () => set(() => ({ isLogin: true })),
+  excuteLogout: () => set(() => ({ isLogin: false })),
+}));
+// zustand middleware 사용하기
 
 /**
- *
  * 로그인 페이지
  */
 export default function Login() {
   /** router */
   const router = useRouter();
+
+  const excuteLogin = useLoginStateStore((state) => state.excuteLogin);
 
   // 메일주소
   const [email, setEmail] = React.useState<string>("");
@@ -29,6 +49,8 @@ export default function Login() {
     const { result, message } = response.data;
 
     if (result === "success") {
+      // 로그인 전역상태
+      excuteLogin();
       // 메인페이지로 이동
       router.push("/");
     }
