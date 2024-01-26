@@ -4,23 +4,30 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 interface LoginState {
   isLogin: boolean;
   token: string;
-}
-interface LoginAction {
   excuteLogin: () => void;
   excuteLogout: () => void;
 }
 
 /** 로그인 전역상태 */
-const useLoginStateStore = create<LoginState & LoginAction>((set) => ({
-  isLogin: false,
-  token: "",
-  excuteLogin: () => set(() => ({ isLogin: true })),
-  excuteLogout: () => set(() => ({ isLogin: false })),
-}));
+const useLoginStateStore = create<LoginState>()(
+  persist(
+    (set) => ({
+      isLogin: false,
+      token: "",
+      excuteLogin: () => set({ isLogin: true }),
+      excuteLogout: () => set({ isLogin: false }),
+    }),
+    {
+      name: "user-auth", // 로컬 스토리지에 저장될 때 사용될 키 이름
+      storage: createJSONStorage(() => localStorage), // 사용할 스토리지 종류를 지정 (여기서는 localStorage)
+    }
+  )
+);
 // zustand middleware 사용하기
 
 /**
@@ -81,6 +88,7 @@ export default function Login() {
           <span className="w-[80px]">비밀번호</span>
           <input
             className="w-full"
+            type="password"
             placeholder="password"
             value={password}
             onChange={(e) => {
