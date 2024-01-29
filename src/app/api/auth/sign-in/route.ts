@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { connectToDatabase } from "../../../../../utils/mongodb";
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function POST(request: any) {
   const { client } = await connectToDatabase();
@@ -18,6 +19,7 @@ export async function POST(request: any) {
   try {
     const getResult = await db.collection("users").findOne({ email });
 
+    // 이메일 검증
     if (!getResult?.email) {
       throw new Error("아이디가 존재하지 않습니다.");
     }
@@ -32,9 +34,8 @@ export async function POST(request: any) {
       { expiresIn: "1h" } // Token expiration time
     );
 
-    const response = NextResponse.next();
-
-    response.cookies.set("token", token);
+    // https://nextjs.org/docs/app/api-reference/functions/cookies
+    cookies().set("token", token);
 
     return NextResponse.json({
       message: "로그인을 성공하였습니다.",
@@ -42,7 +43,5 @@ export async function POST(request: any) {
     });
   } catch (error: any) {
     return NextResponse.json({ message: error.message, result: "fail" });
-  } finally {
-    await client.close();
   }
 }
