@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { connectToDatabase } from "../../../../../utils/mongodb";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
@@ -24,7 +25,11 @@ export async function POST(request: any) {
       throw new Error("아이디가 존재하지 않습니다.");
     }
 
-    if (getResult?.password !== password) {
+    /** 패스워드 일치 여부 */
+    const isMatch = await bcrypt.compare(password, getResult?.password);
+
+    // 패스워드 검증
+    if (!isMatch) {
       throw new Error("비밀번호가 올바르지 않습니다.");
     }
 
