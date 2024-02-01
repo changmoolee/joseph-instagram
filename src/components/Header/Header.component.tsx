@@ -4,13 +4,43 @@ import Link from "next/link";
 import { AiOutlineHome } from "react-icons/ai";
 import { FiSearch } from "react-icons/fi";
 import { BsPlusSquare } from "react-icons/bs";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useLoginStateStore } from "@/app/login/page";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 /**
  * 헤더 컴포넌트
  */
 export default function Header() {
-  const { data: session } = useSession();
+  /** router */
+  const router = useRouter();
+
+  const isLogin = useLoginStateStore((state) => state.isLogin);
+
+  const excuteLogout = useLoginStateStore((state) => state.excuteLogout);
+
+  /**
+   * 로그아웃 함수
+   */
+  const signOut = async () => {
+    const response = await axios.post("/api/auth/sign-out");
+
+    const { result, message } = response.data;
+
+    if (result === "success") {
+      // 로그아웃
+      excuteLogout();
+      // 성공 메시지
+      alert(message);
+      // 메인페이지로 이동
+      router.push("/");
+    }
+
+    if (result === "fail") {
+      // 에러메시지
+      alert(message);
+    }
+  };
 
   return (
     <header className="w-full h-[100px] flex justify-center border-solid border-b-[1px] border-black">
@@ -31,20 +61,18 @@ export default function Header() {
             </Link>
           </li>
           <li>
-            <Link href={"/new"}>
+            <Link href={"/post/new"}>
               <BsPlusSquare className="w-[25px] h-[25px]" />
             </Link>
           </li>
-          {session && (
-            <li>
-              <button>Profile Image</button>
-            </li>
-          )}
           <li>
-            {session ? (
-              <button onClick={() => signOut()}>Sign out</button>
+            <button>Profile Image</button>
+          </li>
+          <li>
+            {isLogin ? (
+              <button onClick={signOut}>Sign out</button>
             ) : (
-              <button onClick={() => signIn()}>Sign in</button>
+              <Link href={"/login"}>Sign in</Link>
             )}
           </li>
         </ul>
