@@ -3,10 +3,20 @@
 import React from "react";
 import { FaPhotoVideo } from "react-icons/fa";
 
+interface IDragAndDropProps {
+  /**
+   * textarea 요소에 입력되는 텍스트를 체크하는 파라미터
+   */
+  onChange?: (file: File[]) => void;
+}
+
 /**
  * 드래그엔드랍 컴포넌트
  */
-export default function DragAndDrop() {
+export default function DragAndDrop(props: IDragAndDropProps) {
+  // props
+  const { onChange = (file) => console.log(file) } = props;
+
   const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
   /**
    * input 요소에 들어가는 파일
@@ -33,6 +43,10 @@ export default function DragAndDrop() {
     const files = Array.from(e.target.files as FileList);
     handleFiles(files);
   };
+
+  React.useEffect(() => {
+    onChange(selectedFiles);
+  }, [selectedFiles, onChange]);
 
   return (
     <div
