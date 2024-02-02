@@ -64,7 +64,7 @@ export default function DragAndDrop(props: IDragAndDropProps) {
     <div
       onDragOver={handleDragOver}
       onDrop={handleDrop}
-      className="w-[600px] h-[400px]"
+      className="w-[600px] h-[300px]"
     >
       {selectedFiles.length === 0 ? (
         <div className="w-full h-full flex flex-col justify-center items-center gap-3 bg-white border-dotted border-sky-400 border-4">
