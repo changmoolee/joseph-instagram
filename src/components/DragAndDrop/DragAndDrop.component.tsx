@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
 import { FaPhotoVideo } from "react-icons/fa";
 
@@ -18,6 +19,8 @@ export default function DragAndDrop(props: IDragAndDropProps) {
   const { onChange = (file) => console.log(file) } = props;
 
   const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
+  const [previewImgSrc, setPreviewImgSrc] = React.useState<string>("");
+
   /**
    * input 요소에 들어가는 파일
    */
@@ -41,6 +44,15 @@ export default function DragAndDrop(props: IDragAndDropProps) {
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files as FileList);
+
+    const reader = new FileReader();
+    if (e.target.files && e.target.files.length > 0) {
+      reader.readAsDataURL(e.target.files[0]);
+
+      reader.onloadend = () => {
+        setPreviewImgSrc(reader.result as string);
+      };
+    }
     handleFiles(files);
   };
 
@@ -52,24 +64,31 @@ export default function DragAndDrop(props: IDragAndDropProps) {
     <div
       onDragOver={handleDragOver}
       onDrop={handleDrop}
-      className="w-[600px] h-[400px] border-dotted border-sky-400 border-4"
+      className="w-[600px] h-[400px]"
     >
-      <label
-        htmlFor="drag-and-drop"
-        className="w-full h-full flex flex-col justify-center items-center gap-3 bg-white"
-      >
-        <input
-          id="drag-and-drop"
-          type="file"
-          accept="image/*"
-          multiple
-          style={{ display: "none" }}
-          onChange={handleFileInputChange}
-          ref={inputRef}
+      {selectedFiles.length === 0 ? (
+        <div className="w-full h-full flex flex-col justify-center items-center gap-3 bg-white border-dotted border-sky-400 border-4">
+          <input
+            id="drag-and-drop"
+            type="file"
+            accept="image/*"
+            multiple
+            style={{ display: "none" }}
+            onChange={handleFileInputChange}
+            ref={inputRef}
+          />
+          <FaPhotoVideo className="w-[30%] h-[30%]" color="#ced4da" />
+          Drag and Drop your image here or click
+        </div>
+      ) : (
+        <Image
+          src={previewImgSrc}
+          alt="profile-image"
+          width={100}
+          height={100}
+          className="w-full h-full object-contain"
         />
-        <FaPhotoVideo className="w-[30%] h-[30%]" color="#ced4da" />
-        Drag and Drop your image here or click
-      </label>
+      )}
       <div>
         {selectedFiles.map((file, index) => (
           <div key={index}>{file.name}</div>
