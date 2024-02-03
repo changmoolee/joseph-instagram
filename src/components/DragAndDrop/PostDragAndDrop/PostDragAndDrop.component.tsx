@@ -29,7 +29,11 @@ export default function PostDragAndDrop(props: IPostDragAndDropProps) {
 
   return (
     <>
-      <DragAndDrop isDelete={isDelete} onChange={onChange}>
+      <DragAndDrop
+        isDelete={isDelete}
+        className="w-full h-[250px]"
+        onChange={onChange}
+      >
         <div className="w-full h-full flex flex-col justify-center items-center gap-3 bg-white border-dotted border-sky-400 border-4">
           <FaPhotoVideo className="w-[30%] h-[30%]" color="#ced4da" />
           Drag and Drop your image here or click

@@ -9,6 +9,10 @@ interface IDragAndDropProps {
    */
   isDelete?: boolean;
   /**
+   * className
+   */
+  className?: string;
+  /**
    * textarea 요소에 입력되는 텍스트를 체크하는 파라미터
    */
   onChange?: (file: File[]) => void;
@@ -23,7 +27,12 @@ interface IDragAndDropProps {
  */
 export default function DragAndDrop(props: IDragAndDropProps) {
   // props
-  const { isDelete, onChange = (file) => console.log(file), children } = props;
+  const {
+    isDelete,
+    className,
+    onChange = (file) => console.log(file),
+    children,
+  } = props;
 
   const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
   const [previewImgSrc, setPreviewImgSrc] = React.useState<string>("");
@@ -102,9 +111,12 @@ export default function DragAndDrop(props: IDragAndDropProps) {
     <section
       onDragOver={handleDragOver}
       onDrop={handleDrop}
-      className="w-[600px] h-[300px]"
+      className={className}
     >
-      <label htmlFor="drag-and-drop" className="w-full h-full">
+      <label
+        htmlFor="drag-and-drop"
+        className="w-full h-full flex justify-center items-center"
+      >
         <input
           id="drag-and-drop"
           type="file"
