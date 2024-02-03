@@ -2,13 +2,20 @@
 
 import Image from "next/image";
 import React from "react";
-import { FaPhotoVideo } from "react-icons/fa";
 
 interface IDragAndDropProps {
+  /**
+   * 이미지 삭제 여부
+   */
+  isDelete?: boolean;
   /**
    * textarea 요소에 입력되는 텍스트를 체크하는 파라미터
    */
   onChange?: (file: File[]) => void;
+  /**
+   * children
+   */
+  children?: React.ReactNode;
 }
 
 /**
@@ -16,7 +23,7 @@ interface IDragAndDropProps {
  */
 export default function DragAndDrop(props: IDragAndDropProps) {
   // props
-  const { onChange = (file) => console.log(file) } = props;
+  const { isDelete, onChange = (file) => console.log(file), children } = props;
 
   const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
   const [previewImgSrc, setPreviewImgSrc] = React.useState<string>("");
@@ -38,6 +45,20 @@ export default function DragAndDrop(props: IDragAndDropProps) {
     e.preventDefault();
 
     const files = Array.from(e.dataTransfer.files);
+
+    const reader = new FileReader();
+
+    if (e.dataTransfer.files) {
+      if (e.dataTransfer.files.length !== 1) {
+        alert("이미지는 한가지만 등록 가능합니다.");
+        return;
+      }
+      reader.readAsDataURL(e.dataTransfer.files[0]);
+
+      reader.onloadend = () => {
+        setPreviewImgSrc(reader.result as string);
+      };
+    }
     // Handle the dropped files here
     handleFiles(files);
   };
@@ -46,7 +67,12 @@ export default function DragAndDrop(props: IDragAndDropProps) {
     const files = Array.from(e.target.files as FileList);
 
     const reader = new FileReader();
-    if (e.target.files && e.target.files.length > 0) {
+
+    if (e.target.files) {
+      if (e.target.files.length !== 1) {
+        alert("이미지는 한가지만 등록 가능합니다.");
+        return;
+      }
       reader.readAsDataURL(e.target.files[0]);
 
       reader.onloadend = () => {
@@ -56,12 +82,24 @@ export default function DragAndDrop(props: IDragAndDropProps) {
     handleFiles(files);
   };
 
+  /** 이미지 삭제 */
+  const deleteImage = () => {
+    setSelectedFiles([]);
+    setPreviewImgSrc("");
+  };
+
   React.useEffect(() => {
     onChange(selectedFiles);
   }, [selectedFiles, onChange]);
 
+  React.useEffect(() => {
+    if (isDelete) {
+      deleteImage();
+    }
+  }, [isDelete]);
+
   return (
-    <div
+    <section
       onDragOver={handleDragOver}
       onDrop={handleDrop}
       className="w-[600px] h-[300px]"
@@ -77,10 +115,7 @@ export default function DragAndDrop(props: IDragAndDropProps) {
           ref={inputRef}
         />
         {selectedFiles.length === 0 ? (
-          <div className="w-full h-full flex flex-col justify-center items-center gap-3 bg-white border-dotted border-sky-400 border-4">
-            <FaPhotoVideo className="w-[30%] h-[30%]" color="#ced4da" />
-            Drag and Drop your image here or click
-          </div>
+          <>{children}</>
         ) : (
           <Image
             src={previewImgSrc}
@@ -91,11 +126,6 @@ export default function DragAndDrop(props: IDragAndDropProps) {
           />
         )}
       </label>
-      <div>
-        {selectedFiles.map((file, index) => (
-          <div key={index}>{file.name}</div>
-        ))}
-      </div>
-    </div>
+    </section>
   );
 }
