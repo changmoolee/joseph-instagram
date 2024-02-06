@@ -31,14 +31,14 @@ export default function SignupDragAndDrop(props: ISignupDragAndDropProps) {
     <>
       <DragAndDrop
         isDelete={isDelete}
-        className="w-full h-[100px]"
+        className="w-full h-[200px]"
         onChange={onChange}
       >
-        <div className="w-[150px] h-[150px] flex flex-col justify-center items-center gap-3 bg-white border-dotted border-sky-400 border-4 rounded-full">
+        <div className="w-[200px] h-[200px] flex flex-col justify-center items-center gap-3 bg-white border-dotted border-sky-400 border-4 rounded-full">
           <FaPhotoVideo className="w-[30%] h-[30%]" color="#ced4da" />
         </div>
       </DragAndDrop>
-      <section className="w-full h-[40px] flex justify-end m-4">
+      <section className="w-full h-[40px] flex justify-end m-2">
         <ColorButton
           text="사진 삭제"
           className="w-[100px] h-full bg-sky-400 text-[white] rounded-md"
