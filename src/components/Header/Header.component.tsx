@@ -60,11 +60,13 @@ export default function Header() {
               <FiSearch className="w-[25px] h-[25px]" />
             </Link>
           </li>
-          <li>
-            <Link href={"/post/new"}>
-              <BsPlusSquare className="w-[25px] h-[25px]" />
-            </Link>
-          </li>
+          {isLogin && (
+            <li>
+              <Link href={"/post/new"}>
+                <BsPlusSquare className="w-[25px] h-[25px]" />
+              </Link>
+            </li>
+          )}
           <li>
             <button>Profile Image</button>
           </li>
