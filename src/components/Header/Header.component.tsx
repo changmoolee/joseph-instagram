@@ -67,9 +67,11 @@ export default function Header() {
               </Link>
             </li>
           )}
-          <li>
-            <button>Profile Image</button>
-          </li>
+          {isLogin && (
+            <li>
+              <Link href={"/my-page"}>Profile Image</Link>
+            </li>
+          )}
           <li>
             {isLogin ? (
               <button onClick={signOut}>Sign out</button>
