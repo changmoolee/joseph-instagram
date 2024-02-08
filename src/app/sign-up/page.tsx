@@ -1,7 +1,7 @@
 "use client";
 
 import ColorButton from "@/components/ColorButton/ColorButton.component";
-import SignupDragAndDrop from "@/components/DragAndDrop/SignupDragAndDrop/SingupDragAndDrop.component";
+import SignupDragAndDrop from "@/components/DragAndDrop/SignupDragAndDrop/SignupDragAndDrop.component";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
