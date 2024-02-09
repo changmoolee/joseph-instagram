@@ -33,8 +33,15 @@ export async function POST(request: any) {
       throw new Error("비밀번호가 올바르지 않습니다.");
     }
 
+    /** 비밀번호를 제외한 유저의 프로필 데이터를 분리한다. */
+    const { password: resultPassword, ...rest } = getResult;
+
+    /** 유저 개인 프로필 데이터 */
+    const userProfileData = rest;
+
+    /** 토큰 */
     const token = jwt.sign(
-      { userId: getResult._id }, // Payload (e.g., user ID)
+      userProfileData, // Payload (e.g., user ID)
       JWT_SECRET, // Secret key (store this in your environment variables)
       { expiresIn: "1h" } // Token expiration time
     );
