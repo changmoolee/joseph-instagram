@@ -6,11 +6,17 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
+interface IUserData {
+  _id: string;
+  email: string;
+  name: string;
+}
+
 /**
  * 마이 페이지
  */
 export default function MyPage() {
-  const [userData, setUserData] = React.useState();
+  const [userData, setUserData] = React.useState<IUserData>();
 
   // router
   const router = useRouter();
@@ -21,13 +27,17 @@ export default function MyPage() {
   const getUserData = async () => {
     // 객체분해할당
 
-    const response = await axios.get(`/api/user/my-page`, {
+    const response = await axios.get<{
+      data: IUserData;
+      result: string;
+      message: string;
+    }>(`/api/user/my-page`, {
       withCredentials: true,
     });
 
-    const { result, message } = response.data;
+    const { result, data, message } = response.data;
 
-    setUserData(result);
+    setUserData(data);
 
     if (result === "fail") {
       // 에러메시지
@@ -52,17 +62,20 @@ export default function MyPage() {
             {/* 이메일 */}
             <section className="w-full flex">
               <span className="w-[200px]">이메일</span>
+              <span className="w-full">{userData?.email || ""}</span>
             </section>
           </article>
           <article className="w-full gap-5">
             {/* 이름 */}
             <section className="w-full flex">
               <span className="w-[200px]">이름</span>
+              <span className="w-full">{userData?.name || ""}</span>
             </section>
           </article>
         </section>
         <ColorButton
           text="내정보 수정하기"
+          type="button"
           onClick={() => router.push("/my-page/edit")}
           className="w-full h-[40px] mt-10 bg-sky-400 text-[white]"
         />
