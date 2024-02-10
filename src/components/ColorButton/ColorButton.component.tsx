@@ -1,3 +1,5 @@
+import { buttonClasses } from "@/styles/tailwindUtilities";
+
 interface IButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * 버튼에 들어갈 텍스트
@@ -17,10 +19,7 @@ export default function ColorButton(props: IButtonProps) {
   const { text = "Button", className } = props;
 
   return (
-    <button
-      className={`flex justify-center items-center text-white font-bold ${className}`}
-      {...props}
-    >
+    <button className={`${buttonClasses}${className}`} {...props}>
       {text}
     </button>
   );

@@ -1,8 +1,9 @@
 "use client";
 
-import ColorButton from "@/components/ColorButton/ColorButton.component";
+import { buttonClasses } from "@/styles/tailwindUtilities";
 import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -73,12 +74,22 @@ export default function MyPage() {
             </section>
           </article>
         </section>
-        <ColorButton
-          text="내정보 수정하기"
-          type="button"
-          onClick={() => router.push("/my-page/edit")}
-          className="w-full h-[40px] mt-10 bg-sky-400 text-[white]"
-        />
+
+        {/* 내정보 수정 페이지 이동*/}
+        <Link
+          className={`${buttonClasses} w-full h-[40px] mt-12 bg-sky-400`}
+          href={"/my-page/edit"}
+        >
+          내정보 수정하기
+        </Link>
+
+        {/* 탈퇴 페이지 이동 */}
+        <Link
+          className={`${buttonClasses} w-full h-[40px] mt-2 bg-black`}
+          href={"/my-page/delete"}
+        >
+          회원탈퇴
+        </Link>
       </form>
     </main>
   );
