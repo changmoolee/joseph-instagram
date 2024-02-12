@@ -32,6 +32,5 @@ export async function POST(request: any) {
     });
   } catch (error: any) {
     return Response.json({ result: "fail", message: error.message });
-  } finally {
   }
 }
