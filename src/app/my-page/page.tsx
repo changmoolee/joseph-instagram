@@ -1,5 +1,6 @@
 "use client";
 
+import ColorButton from "@/components/ColorButton/ColorButton.component";
 import { buttonClasses } from "@/styles/tailwindUtilities";
 import axios from "axios";
 import Image from "next/image";
@@ -46,6 +47,33 @@ export default function MyPage() {
     }
   };
 
+  /**
+   * 회원 탈퇴
+   */
+  const deleteUserData = async () => {
+    if (!confirm("회원탈퇴를 진행하시겠습니까?")) {
+      return;
+    }
+
+    const response = await axios.delete(`/api/user/my-page`, {
+      withCredentials: true,
+    });
+
+    const { result, data, message } = response.data;
+
+    if (result === "success") {
+      alert(message);
+
+      // 메인페이지 이동
+      router.push("/");
+    }
+
+    if (result === "fail") {
+      // 에러메시지
+      alert(message);
+    }
+  };
+
   React.useEffect(() => {
     getUserData();
   }, []);
@@ -84,12 +112,12 @@ export default function MyPage() {
         </Link>
 
         {/* 탈퇴 페이지 이동 */}
-        <Link
-          className={`${buttonClasses} w-full h-[40px] mt-2 bg-black`}
-          href={"/my-page/delete"}
-        >
-          회원탈퇴
-        </Link>
+        <ColorButton
+          text="회원탈퇴"
+          type="button"
+          className={`${buttonClasses} w-full h-[40px] mt-2 bg-black text-white`}
+          onClick={deleteUserData}
+        />
       </form>
     </main>
   );
