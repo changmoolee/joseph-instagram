@@ -41,14 +41,20 @@ export default function Search(props: ISearchProps) {
           handleKeyDown={handleKeyDown}
         />
         <section className="w-full h-[auto] flex flex-col p-5 gap-3">
-          {users?.map((user: any) => (
-            <ProfileCard
-              key={user.id}
-              name={user.name}
-              followersNum={user.follwers?.length || 0}
-              followingNum={user.following?.length || 0}
-            />
-          ))}
+          {users?.length > 0 ? (
+            users?.map((user: any) => (
+              <ProfileCard
+                key={user.id}
+                name={user.name}
+                followersNum={user.follwers?.length || 0}
+                followingNum={user.following?.length || 0}
+              />
+            ))
+          ) : (
+            <div className="w-full h-[200px] flex justify-center items-center">
+              검색된 회원이 없습니다.
+            </div>
+          )}
         </section>
       </div>
     </main>
