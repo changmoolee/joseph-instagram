@@ -1,9 +1,46 @@
+"use client";
+
 import ColorButton from "@/components/ColorButton/ColorButton.component";
 import BigProfileImage from "@/components/ProfileImage/BigProfileImage.component";
 import Tab from "@/components/Tab/Tab.component";
+import axios from "axios";
+import React from "react";
 
-export default function User() {
+interface IUserData {
+  _id: string;
+  email: string;
+  name: string;
+}
+
+export default function User({ params }: { params: { userId: string } }) {
   const tabs = ["POSTS", "SAVED", "LIKED"];
+
+  const [userData, setUserData] = React.useState<IUserData>();
+
+  /**
+   * 유저 개인의 포스트 데이터 호출
+   */
+  const getUserData = async (userId: string) => {
+    // 객체분해할당
+    const response = await axios.get<{
+      data: IUserData;
+      result: string;
+      message: string;
+    }>(`/api/user/${userId}`);
+
+    const { result, data, message } = response.data;
+    if (result === "success") {
+      setUserData(data);
+    }
+    if (result === "fail") {
+      // 에러메시지
+      alert(message);
+    }
+  };
+
+  React.useEffect(() => {
+    getUserData(params.userId);
+  }, [params.userId]);
 
   return (
     <main className="w-full h-full flex flex-col items-center">
