@@ -2,14 +2,19 @@ import { ObjectId, Document } from "mongodb";
 import { connectToDatabase } from "../../../../../utils/mongodb";
 import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { userId: string } }
+) {
   const { client } = await connectToDatabase();
 
   const db = client.db("sample_mflix");
 
-  const url = req.nextUrl;
+  const userId = params.userId || "";
 
-  const userId = url.searchParams.get("userId") || "";
+  const searchParams = req.nextUrl.searchParams;
+
+  const postQuery = searchParams.get("post");
 
   try {
     const users = db.collection("users");
@@ -22,8 +27,12 @@ export async function GET(req: NextRequest) {
       throw new Error("회원이 존재하지 않습니다.");
     }
 
+    const postIdsArray = user.post[`${postQuery}`];
+
+    const transformedArray = postIdsArray.map((id: string) => new ObjectId(id));
+
     const userPosts = await posts
-      .find({ userId: user._id.toString() })
+      .find({ _id: { $in: transformedArray } })
       .toArray();
 
     return Response.json({
