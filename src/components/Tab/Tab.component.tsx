@@ -9,7 +9,7 @@ interface ITabProps {
   /**
    * 현재 선택된 탭
    */
-  onChange?: (selectedTab: number) => void;
+  onChange?: (selectedTab: string) => void;
 }
 
 /**
@@ -19,29 +19,31 @@ export default function Tab(props: ITabProps) {
   // props
   const {
     tabArr,
-    onChange = (selectedTab: number) => console.log(selectedTab),
+    onChange = (selectedTab: string) => console.log(selectedTab),
   } = props;
 
   // 클릭한 탭의 index
-  const [clickedTab, setClickedTab] = React.useState<number>(0);
+  const [clickedTab, setClickedTab] = React.useState<string>(tabArr[0]);
 
   React.useEffect(() => {
-    onChange(clickedTab);
+    if (clickedTab) {
+      onChange(clickedTab);
+    }
   }, [clickedTab, onChange]);
 
   return (
     <section className="w-full h-[50px] flex justify-center items-center">
       {tabArr.map((tab: string, index: number) => (
         <button
-          key={tab + index}
+          key={tab}
           className="w-[200px] h-full flex justify-center border-solid border-t-[2px] border-gray"
           onClick={() => {
-            setClickedTab(index);
+            setClickedTab(tab);
           }}
         >
           <div
             className={`w-[100px] h-full flex justify-center items-center border-solid border-t-[1px] ${
-              clickedTab === index
+              clickedTab === tab
                 ? "border-black font-bold"
                 : "border-transparent"
             } `}
