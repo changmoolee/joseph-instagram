@@ -3,6 +3,8 @@ import CommentInput from "@/components/CommentInput/CommentInput.component";
 import Like from "@/components/Like/Like.component";
 import Bookmark from "@/components/Bookmark/Bookmark.component";
 import Image from "next/image";
+import PostModal from "@/components/PostModal/PostModal.component";
+import React from "react";
 
 interface IPostProps {
   data: {
@@ -32,6 +34,8 @@ export default function Post(props: IPostProps) {
   // props
   const { data } = props;
 
+  const [open, setOpen] = React.useState<boolean>(false);
+
   return (
     <div className="w-[500px]">
       <section className="border-solid border-[1px] border-gray-200">
@@ -59,8 +63,10 @@ export default function Post(props: IPostProps) {
             <span className="text-gray-400">{data?.createDate} hours ago</span>
           </div>
         </section>
-        <CommentInput />
+        <CommentInput onClick={() => setOpen(true)} />
       </section>
+
+      <PostModal open={open} onClose={() => setOpen(false)} />
     </div>
   );
 }

@@ -4,6 +4,10 @@ import { BiSmile } from "react-icons/bi";
 
 interface ICommentInputProps {
   /**
+   * CommentInput을 클릭하는 이벤트
+   */
+  onClick?: () => void;
+  /**
    * input에 입력되는 텍스트를 체크하는 파라미터
    */
   onChange?: (comment: string) => void;
@@ -14,7 +18,7 @@ interface ICommentInputProps {
  */
 export default function CommentInput(props: ICommentInputProps) {
   // props
-  const { onChange = (comment) => console.log(comment) } = props;
+  const { onClick, onChange = (comment) => console.log(comment) } = props;
 
   // 입력된 댓글 텍스트
   const [comment, setComment] = React.useState<string>("");
@@ -24,7 +28,10 @@ export default function CommentInput(props: ICommentInputProps) {
   }, [comment, onChange]);
 
   return (
-    <section className="w-full h-[50px] flex border-solid border-[1px] border-gray-200">
+    <section
+      className="w-full h-[50px] flex border-solid border-[1px] border-gray-200"
+      onClick={onClick}
+    >
       <button className="w-[40px] h-full flex justify-center items-center">
         <BiSmile className="w-[25px] h-[25px]" />
       </button>
