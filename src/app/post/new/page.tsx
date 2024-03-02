@@ -7,6 +7,7 @@ import ProfileAndName from "@/components/ProfileAndName/ProfileAndName.component
 import Textarea from "@/components/Textarea/Textarea.component";
 import React from "react";
 import PostDragAndDrop from "@/components/DragAndDrop/PostDragAndDrop/PostDragAndDrop.component";
+import { ImageUpload } from "../../../../utils/upload";
 
 export default function NewPost() {
   /** router */
@@ -20,43 +21,32 @@ export default function NewPost() {
    * 게시물(post) 등록 함수
    */
   const postCreate = async () => {
-    if (!imageFile || imageFile.length === 0) {
-      alert("등록할 이미지가 없습니다.");
-      return;
-    }
+    // 이미지 업 로드
+    if (imageFile) {
+      const result = await ImageUpload(imageFile);
 
-    const response = await axios.post("/api/upload", {
-      imageInfo: JSON.stringify({
-        filename: imageFile[0].name,
-        contentType: imageFile[0].type,
-      }),
-      description,
-    });
+        try {
+          const response =  axios.post("/api/post", {
+          CreateUser: "temp",
+          image: result.url,
+          description,
+        });
 
-    const { result, data, message } = response.data;
+        const { result, message } = response.data;
 
-    if (result === "success") {
-      const { url, fields } = data;
+        if (result === "success") {
+          // 메인페이지로 이동
+          router.push("/");
+        }
 
-      const formData = new FormData();
-      Object.entries(fields).forEach(([key, value]) => {
-        formData.append(key, value as string);
-      });
-      formData.append("file", imageFile[0]);
+        if (result === "fail") {
+          // 에러메시지
+          alert(message);
+        }
+    
 
-      try {
-        await axios.post(url, formData);
 
-        alert("게시물이 정상적으로 업로드되었습니다.");
-        router.push("/");
-      } catch (error: any) {
-        alert(error.message);
       }
-    }
-
-    if (result === "fail") {
-      // 에러메시지
-      alert(message);
     }
   };
 
