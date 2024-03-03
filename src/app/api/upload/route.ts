@@ -6,11 +6,9 @@ import { NextRequest } from "next/server";
 export async function POST(req: NextRequest) {
   const textBody = await new Response(req.body).text();
 
-  const example = await req.body;
-
   const parsedBody = JSON.parse(textBody);
 
-  const { imageInfo, description } = parsedBody;
+  const { imageInfo } = parsedBody;
 
   const { filename, contentType } = JSON.parse(imageInfo);
 
@@ -36,6 +34,10 @@ export async function POST(req: NextRequest) {
       message: "",
     });
   } catch (error: any) {
-    return Response.json({ error: error.message });
+    return Response.json({
+      data: null,
+      result: "fail",
+      message: error.message,
+    });
   }
 }
