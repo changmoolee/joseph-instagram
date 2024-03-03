@@ -6,6 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { ICommonResponse } from "../../../../typescript/common/response.interface";
 
 interface IUserData {
   _id: string;
@@ -36,13 +37,12 @@ export default function MyPageEdit() {
   const getUserData = async () => {
     // 객체분해할당
 
-    const response = await axios.get<{
-      data: IUserData;
-      result: string;
-      message: string;
-    }>(`/api/user/my-page`, {
-      withCredentials: true,
-    });
+    const response: ICommonResponse<IUserData> = await axios.get(
+      `/api/user/my-page`,
+      {
+        withCredentials: true,
+      }
+    );
 
     const { result, data, message } = response.data;
 
@@ -62,7 +62,7 @@ export default function MyPageEdit() {
     // 객체분해할당
     const { email, name, password } = params;
 
-    const response = await axios.patch("/api/user/edit", {
+    const response: ICommonResponse = await axios.patch("/api/user/edit", {
       email,
       name,
       password,

@@ -6,6 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { ICommonResponse } from "../../../typescript/common/response.interface";
 
 /**
  * 회원가입 페이지
@@ -31,7 +32,7 @@ export default function SignUp() {
     // 객체분해할당
     const { email, name, password } = params;
 
-    const response = await axios.post("/api/auth/sign-up", {
+    const response: ICommonResponse = await axios.post("/api/auth/sign-up", {
       email,
       name,
       password,

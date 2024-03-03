@@ -7,6 +7,7 @@ import { BsPlusSquare } from "react-icons/bs";
 import { useLoginStateStore } from "@/app/login/page";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { ICommonResponse } from "../../../typescript/common/response.interface";
 
 /**
  * 헤더 컴포넌트
@@ -23,7 +24,7 @@ export default function Header() {
    * 로그아웃 함수
    */
   const signOut = async () => {
-    const response = await axios.post("/api/auth/sign-out");
+    const response: ICommonResponse = await axios.post("/api/auth/sign-out");
 
     const { result, message } = response.data;
 

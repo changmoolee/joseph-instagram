@@ -7,6 +7,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import { ICommonResponse } from "../../../typescript/common/response.interface";
 
 interface LoginState {
   isLogin: boolean;
@@ -55,7 +56,7 @@ export default function Login() {
     // 객체분해할당
     const { email, password } = data;
 
-    const response = await axios.post("/api/auth/sign-in", {
+    const response: ICommonResponse = await axios.post("/api/auth/sign-in", {
       email,
       password,
     });

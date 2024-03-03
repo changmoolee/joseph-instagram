@@ -8,6 +8,7 @@ import Textarea from "@/components/Textarea/Textarea.component";
 import React from "react";
 import PostDragAndDrop from "@/components/DragAndDrop/PostDragAndDrop/PostDragAndDrop.component";
 import { ImageUpload } from "../../../../utils/upload";
+import { ICommonResponse } from "../../../../typescript/common/response.interface";
 
 export default function NewPost() {
   /** router */
@@ -23,29 +24,29 @@ export default function NewPost() {
   const postCreate = async () => {
     // 이미지 업 로드
     if (imageFile) {
-      const result = await ImageUpload(imageFile);
+      const imageUploadResponse = await ImageUpload(imageFile);
 
-        try {
-          const response =  axios.post("/api/post", {
-          CreateUser: "temp",
-          image: result.url,
+      const { result, data } = imageUploadResponse;
+
+      if (result === "success") {
+        const postResponse: ICommonResponse = await axios.post("/api/post", {
+          image: data,
           description,
         });
 
-        const { result, message } = response.data;
+        const { result, message } = postResponse.data;
 
         if (result === "success") {
           // 메인페이지로 이동
-          router.push("/");
+          alert(message);
         }
 
         if (result === "fail") {
           // 에러메시지
           alert(message);
         }
-    
-
-
+      } else {
+        alert("게시물 업로드에 실패했습니다.");
       }
     }
   };

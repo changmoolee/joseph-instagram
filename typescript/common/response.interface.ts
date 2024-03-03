@@ -21,4 +21,5 @@ export interface ICommonReturn<T = null> {
 /**
  * 백엔드 api return 인터페이스
  */
-export interface ICommonResponse extends AxiosResponse<ICommonReturn> {}
+export interface ICommonResponse<T = null>
+  extends AxiosResponse<ICommonReturn<T>> {}

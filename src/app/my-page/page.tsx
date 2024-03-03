@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { ICommonResponse } from "../../../typescript/common/response.interface";
 
 interface IUserData {
   _id: string;
@@ -29,17 +30,17 @@ export default function MyPage() {
   const getUserData = async () => {
     // 객체분해할당
 
-    const response = await axios.get<{
-      data: IUserData;
-      result: string;
-      message: string;
-    }>(`/api/user/my-page`, {
-      withCredentials: true,
-    });
+    const response: ICommonResponse<IUserData> = await axios.get(
+      `/api/user/my-page`,
+      {
+        withCredentials: true,
+      }
+    );
 
     const { result, data, message } = response.data;
-
-    setUserData(data);
+    if (result === "success" && data) {
+      setUserData(data);
+    }
 
     if (result === "fail") {
       // 에러메시지
@@ -55,7 +56,7 @@ export default function MyPage() {
       return;
     }
 
-    const response = await axios.delete(`/api/user/my-page`, {
+    const response: ICommonResponse = await axios.delete(`/api/user/my-page`, {
       withCredentials: true,
     });
 
