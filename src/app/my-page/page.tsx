@@ -10,6 +10,7 @@ import React from "react";
 import { ICommonResponse } from "../../../typescript/common/response.interface";
 
 interface IUserData {
+  image: string;
   _id: string;
   email: string;
   name: string;
@@ -85,9 +86,16 @@ export default function MyPage() {
         <section className="w-full flex justify-center my-10">
           <span className="text-xl font-[600]">마이 페이지</span>
         </section>
+        <section className="w-full flex justify-center">
+          <Image
+            src={userData?.image || "/images/user.png"}
+            width={150}
+            height={150}
+            alt="my-page-profile-image"
+          />
+        </section>
 
-        <Image src="/" width={100} height={100} alt="my-page-profile-image" />
-        <section className="w-full flex flex-col gap-10">
+        <section className="w-full flex flex-col gap-10 my-10">
           <article className="w-full gap-5">
             {/* 이메일 */}
             <section className="w-full flex">
@@ -106,7 +114,7 @@ export default function MyPage() {
 
         {/* 내정보 수정 페이지 이동*/}
         <Link
-          className={`${buttonClasses} w-full h-[40px] mt-12 bg-sky-400`}
+          className={`${buttonClasses} w-full h-[40px] mt-10 bg-sky-400`}
           href={"/my-page/edit"}
         >
           내정보 수정하기
