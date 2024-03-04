@@ -7,13 +7,8 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { ICommonResponse } from "../../../../typescript/common/response.interface";
+import { IUserData } from "../../../../typescript/user.interface";
 
-interface IUserData {
-  image: string;
-  _id: string;
-  email: string;
-  name: string;
-}
 /**
  * 마이 페이지 수정
  */

@@ -8,13 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { ICommonResponse } from "../../../typescript/common/response.interface";
-
-interface IUserData {
-  image: string;
-  _id: string;
-  email: string;
-  name: string;
-}
+import { IUserData } from "../../../typescript/user.interface";
 
 /**
  * 마이 페이지
