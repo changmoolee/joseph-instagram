@@ -5,6 +5,10 @@ import React from "react";
 
 interface IDragAndDropProps {
   /**
+   * 수정 전 이미지 소스
+   */
+  prevSrc?: string;
+  /**
    * 이미지 삭제 여부
    */
   isDelete?: boolean;
@@ -28,6 +32,7 @@ interface IDragAndDropProps {
 export default function DragAndDrop(props: IDragAndDropProps) {
   // props
   const {
+    prevSrc,
     isDelete,
     className,
     onChange = (file) => console.log(file),
@@ -35,7 +40,9 @@ export default function DragAndDrop(props: IDragAndDropProps) {
   } = props;
 
   const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
-  const [previewImgSrc, setPreviewImgSrc] = React.useState<string>("");
+  const [previewImgSrc, setPreviewImgSrc] = React.useState<string>(
+    prevSrc || ""
+  );
 
   /**
    * input 요소에 들어가는 파일
@@ -126,9 +133,7 @@ export default function DragAndDrop(props: IDragAndDropProps) {
           onChange={handleFileInputChange}
           ref={inputRef}
         />
-        {selectedFiles.length === 0 ? (
-          <>{children}</>
-        ) : (
+        {selectedFiles.length !== 0 || previewImgSrc ? (
           <Image
             src={previewImgSrc}
             alt="profile-image"
@@ -136,6 +141,8 @@ export default function DragAndDrop(props: IDragAndDropProps) {
             height={100}
             className="w-full h-full object-contain"
           />
+        ) : (
+          <>{children}</>
         )}
       </label>
     </section>

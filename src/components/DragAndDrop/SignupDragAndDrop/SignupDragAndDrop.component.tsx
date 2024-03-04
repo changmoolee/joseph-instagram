@@ -7,6 +7,10 @@ import { FaPhotoVideo } from "react-icons/fa";
 
 interface ISignupDragAndDropProps {
   /**
+   * 수정 전 이미지 소스
+   */
+  prevSrc?: string;
+  /**
    * textarea 요소에 입력되는 텍스트를 체크하는 파라미터
    */
   onChange?: (file: File[]) => void;
@@ -20,7 +24,7 @@ export default function SignupDragAndDrop(props: ISignupDragAndDropProps) {
   const [isDelete, setIsDelete] = React.useState<boolean>(false);
 
   // props
-  const { onChange = (file) => console.log(file) } = props;
+  const { prevSrc, onChange = (file) => console.log(file) } = props;
 
   /** 업로드된 이미지 삭제 */
   const deleteImage = () => {
@@ -30,6 +34,7 @@ export default function SignupDragAndDrop(props: ISignupDragAndDropProps) {
   return (
     <>
       <DragAndDrop
+        prevSrc={prevSrc}
         isDelete={isDelete}
         className="w-full h-[200px]"
         onChange={onChange}

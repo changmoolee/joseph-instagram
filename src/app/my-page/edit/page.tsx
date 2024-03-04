@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { ICommonResponse } from "../../../../typescript/common/response.interface";
 
 interface IUserData {
+  image: string;
   _id: string;
   email: string;
   name: string;
@@ -48,6 +49,7 @@ export default function MyPageEdit() {
 
     setValue("email", data?.email);
     setValue("name", data?.name);
+    setValue("image", data?.image);
 
     if (result === "fail") {
       // 에러메시지
@@ -89,7 +91,6 @@ export default function MyPageEdit() {
 
   React.useEffect(() => {
     getUserData();
-    console.log("render");
   }, []);
 
   return (
@@ -102,6 +103,7 @@ export default function MyPageEdit() {
           <span className="text-xl font-[600]">내정보 수정</span>
         </section>
         <SignupDragAndDrop
+          prevSrc={watch("image") || "/images/user.png"}
           onChange={(file) => {
             setImageFile(file);
           }}
