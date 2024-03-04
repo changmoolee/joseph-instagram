@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 interface IProfileImageProps {
-  src: string;
+  src?: string;
 }
 
 /**
