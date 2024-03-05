@@ -6,7 +6,7 @@ export async function POST(request: any) {
 
   const parsedBody = JSON.parse(textBody);
 
-  const { email, name, password } = parsedBody;
+  const { image, email, name, password } = parsedBody;
 
   const { client } = await connectToDatabase();
 
@@ -21,6 +21,7 @@ export async function POST(request: any) {
   try {
     // 데이터 추가
     await db.collection("users").insertOne({
+      image,
       email,
       name,
       password: hashedPassword,
