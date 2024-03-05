@@ -8,40 +8,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { ICommonResponse } from "../../../typescript/common/response.interface";
-import { IUserData } from "../../../typescript/user.interface";
+import { useLoginStateStore } from "@/app/login/page";
 
 /**
  * 마이 페이지
  */
 export default function MyPage() {
-  const [userData, setUserData] = React.useState<IUserData>();
-
   // router
   const router = useRouter();
-
-  /**
-   * 유저 개인 데이터 호출
-   */
-  const getUserData = async () => {
-    // 객체분해할당
-
-    const response: ICommonResponse<IUserData> = await axios.get(
-      `/api/user/my-page`,
-      {
-        withCredentials: true,
-      }
-    );
-
-    const { result, data, message } = response.data;
-    if (result === "success" && data) {
-      setUserData(data);
-    }
-
-    if (result === "fail") {
-      // 에러메시지
-      alert(message);
-    }
-  };
 
   /**
    * 회원 탈퇴
@@ -70,9 +44,7 @@ export default function MyPage() {
     }
   };
 
-  React.useEffect(() => {
-    getUserData();
-  }, []);
+  const userInfo = useLoginStateStore((state) => state.userInfo);
 
   return (
     <main className="w-full flex justify-center">
@@ -82,7 +54,7 @@ export default function MyPage() {
         </section>
         <section className="w-full flex justify-center">
           <Image
-            src={userData?.image || "/images/user.png"}
+            src={userInfo?.image || "/images/user.png"}
             width={150}
             height={150}
             alt="my-page-profile-image"
@@ -94,14 +66,14 @@ export default function MyPage() {
             {/* 이메일 */}
             <section className="w-full flex">
               <span className="w-[200px]">이메일</span>
-              <span className="w-full">{userData?.email || ""}</span>
+              <span className="w-full">{userInfo?.email || ""}</span>
             </section>
           </article>
           <article className="w-full gap-5">
             {/* 이름 */}
             <section className="w-full flex">
               <span className="w-[200px]">이름</span>
-              <span className="w-full">{userData?.name || ""}</span>
+              <span className="w-full">{userInfo?.name || ""}</span>
             </section>
           </article>
         </section>
