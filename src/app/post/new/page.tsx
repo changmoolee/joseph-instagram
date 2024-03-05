@@ -37,8 +37,9 @@ export default function NewPost() {
         const { result, message } = postResponse.data;
 
         if (result === "success") {
-          // 메인페이지로 이동
           alert(message);
+          // 메인페이지로 이동
+          router.push("/");
         }
 
         if (result === "fail") {
