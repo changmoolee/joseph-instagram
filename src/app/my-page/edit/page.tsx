@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { ICommonResponse } from "../../../../typescript/common/response.interface";
+import { ImageUpload } from "../../../../utils/upload";
 import { IUserData } from "../../../../typescript/user.interface";
 
 /**
@@ -56,27 +57,39 @@ export default function MyPageEdit() {
    * 유저 데이터 수정
    */
   const updateUser = async (params: any) => {
-    // 객체분해할당
-    const { email, name, password } = params;
+    // 이미지 업 로드
+    if (imageFile) {
+      const imageUploadResponse = await ImageUpload(imageFile);
 
-    const response: ICommonResponse = await axios.patch("/api/user/edit", {
-      email,
-      name,
-      password,
-    });
+      const { result, data } = imageUploadResponse;
 
-    const { result, message } = response.data;
+      if (result === "success") {
+        // 객체분해할당
+        const { email, name, password } = params;
 
-    if (result === "success") {
-      alert(message);
+        const response: ICommonResponse = await axios.patch("/api/user/edit", {
+          image: data,
+          email,
+          name,
+          password,
+        });
 
-      // 메인페이지 이동
-      router.push("/");
-    }
+        const { result, message } = response.data;
 
-    if (result === "fail") {
-      // 에러메시지
-      alert(message);
+        if (result === "success") {
+          alert(message);
+
+          // 메인페이지 이동
+          router.push("/");
+        }
+
+        if (result === "fail") {
+          // 에러메시지
+          alert(message);
+        }
+      } else {
+        alert("게시물 업로드에 실패했습니다.");
+      }
     }
   };
 

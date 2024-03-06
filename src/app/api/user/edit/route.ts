@@ -29,7 +29,7 @@ export async function PATCH(req: NextRequest) {
 
     const parsedBody = JSON.parse(textBody);
 
-    const { email, name, password } = parsedBody;
+    const { image, email, name, password } = parsedBody;
 
     const getResult = await db.collection("users").findOne({ email });
 
@@ -48,6 +48,7 @@ export async function PATCH(req: NextRequest) {
       { _id: getResult._id },
       {
         $set: {
+          image,
           email,
           name,
           password: hashedPassword,
