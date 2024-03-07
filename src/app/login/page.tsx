@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import { IUserData } from "@/typescript/user.interface";
-import { getUserData } from "@/utils/user";
+import { getUserData } from "@/utils/services/user";
 
 interface LoginState {
   isLogin: boolean;

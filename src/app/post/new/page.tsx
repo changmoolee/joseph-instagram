@@ -7,7 +7,7 @@ import ProfileAndName from "@/components/ProfileAndName/ProfileAndName.component
 import Textarea from "@/components/Textarea/Textarea.component";
 import React from "react";
 import PostDragAndDrop from "@/components/DragAndDrop/PostDragAndDrop/PostDragAndDrop.component";
-import { ImageUpload } from "@/utils/upload";
+import { ImageUpload } from "@/utils/services/upload";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 
 export default function NewPost() {

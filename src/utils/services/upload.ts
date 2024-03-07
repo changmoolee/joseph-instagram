@@ -2,7 +2,7 @@ import axios from "axios";
 import {
   ICommonResponse,
   ICommonReturn,
-} from "../typescript/common/response.interface";
+} from "../../typescript/common/response.interface";
 
 interface IUploadData {
   url: string;

@@ -1,5 +1,5 @@
-import { ICommonResponse } from "../typescript/common/response.interface";
-import { IUserData } from "../typescript/user.interface";
+import { ICommonResponse } from "../../typescript/common/response.interface";
+import { IUserData } from "../../typescript/user.interface";
 import axios from "axios";
 
 /**
