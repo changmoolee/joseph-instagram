@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { ICommonResponse } from "../../../typescript/common/response.interface";
+import { ICommonResponse } from "@/typescript/common/response.interface";
 import { useLoginStateStore } from "@/app/login/page";
 
 /**

@@ -7,7 +7,9 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { ICommonResponse } from "../../../typescript/common/response.interface";
+import { ICommonResponse } from "@/typescript/common/response.interface";
+import { IUserData } from "@/typescript/user.interface";
+import { getUserData } from "@/utils/user";
 
 interface LoginState {
   isLogin: boolean;

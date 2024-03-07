@@ -6,9 +6,9 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { ICommonResponse } from "../../../../typescript/common/response.interface";
-import { ImageUpload } from "../../../../utils/upload";
-import { IUserData } from "../../../../typescript/user.interface";
+import { ICommonResponse } from "@/typescript/common/response.interface";
+import { ImageUpload } from "@/utils/upload";
+import { IUserData } from "@/typescript/user.interface";
 
 /**
  * 마이 페이지 수정

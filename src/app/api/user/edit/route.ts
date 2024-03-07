@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { NextRequest } from "next/server";
-import { connectToDatabase } from "../../../../../utils/mongodb";
+import { connectToDatabase } from "@/utils/mongodb";
 
 export async function PATCH(req: NextRequest) {
   const { client } = await connectToDatabase();

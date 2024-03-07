@@ -6,8 +6,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { ICommonResponse } from "../../../typescript/common/response.interface";
-import { ImageUpload } from "../../../utils/upload";
+import { ICommonResponse } from "@/typescript/common/response.interface";
+import { ImageUpload } from "@/utils/upload";
 
 /**
  * 회원가입 페이지

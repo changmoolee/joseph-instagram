@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { connectToDatabase } from "../../../../../utils/mongodb";
+import { connectToDatabase } from "@/utils/mongodb";
 
 export async function POST(request: any) {
   const textBody = await new Response(request.body).text();

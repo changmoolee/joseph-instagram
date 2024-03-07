@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { connectToDatabase } from "../../../../../utils/mongodb";
+import { connectToDatabase } from "@/utils/mongodb";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { NextRequest } from "next/server";
-import { connectToDatabase } from "../../../../../utils/mongodb";
+import { connectToDatabase } from "@/utils/mongodb";
 
 export async function GET(req: NextRequest) {
   const JWT_SECRET = process.env.JWT_SECRET || "default_secret";

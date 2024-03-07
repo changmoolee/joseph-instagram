@@ -7,7 +7,7 @@ import { BsPlusSquare } from "react-icons/bs";
 import { useLoginStateStore } from "@/app/login/page";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { ICommonResponse } from "../../../typescript/common/response.interface";
+import { ICommonResponse } from "@/typescript/common/response.interface";
 
 /**
  * 헤더 컴포넌트

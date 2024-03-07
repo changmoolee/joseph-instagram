@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { connectToDatabase } from "../../../../utils/mongodb";
+import { connectToDatabase } from "@/utils/mongodb";
 
 export default async function Post(request: any) {
   const textBody = await new Response(request.body).text();
