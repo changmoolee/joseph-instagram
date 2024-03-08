@@ -14,7 +14,8 @@ import { getUserData } from "@/utils/services/user";
 interface LoginState {
   isLogin: boolean;
   token: string;
-  excuteLogin: () => void;
+  userInfo: IUserData | null;
+  excuteLogin: (data: IUserData) => void;
   excuteLogout: () => void;
 }
 
@@ -24,8 +25,9 @@ export const useLoginStateStore = create<LoginState>()(
     (set) => ({
       isLogin: false,
       token: "",
-      excuteLogin: () => set({ isLogin: true }),
-      excuteLogout: () => set({ isLogin: false }),
+      userInfo: null,
+      excuteLogin: (data) => set({ isLogin: true, userInfo: { ...data } }),
+      excuteLogout: () => set({ isLogin: false, userInfo: null }),
     }),
     {
       name: "user-auth", // 로컬 스토리지에 저장될 때 사용될 키 이름
@@ -58,18 +60,32 @@ export default function Login() {
     // 객체분해할당
     const { email, password } = data;
 
-    const response: ICommonResponse = await axios.post("/api/auth/sign-in", {
-      email,
-      password,
-    });
+    const signInResponse: ICommonResponse = await axios.post(
+      "/api/auth/sign-in",
+      {
+        email,
+        password,
+      }
+    );
 
-    const { result, message } = response.data;
+    const { result, message } = signInResponse.data;
 
     if (result === "success") {
-      // 로그인 전역상태
-      excuteLogin();
-      // 메인페이지로 이동
-      router.push("/");
+      const userProfileResponse = await getUserData();
+
+      const { result: userProfileResult, data: userProfileData } =
+        userProfileResponse;
+
+      if (userProfileResult === "success" && userProfileData) {
+        // 로그인 전역상태
+        excuteLogin(userProfileData);
+        // 메인페이지로 이동
+        router.push("/");
+      } else {
+        alert(
+          "유저의 프로필 데이터를 불러오는데 실패하였습니다. 관리자에게 문의해주세요."
+        );
+      }
     }
 
     if (result === "fail") {
