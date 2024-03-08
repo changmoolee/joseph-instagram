@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/mongodb";
 
 export async function GET(req: NextRequest) {
@@ -22,13 +22,13 @@ export async function GET(req: NextRequest) {
 
     const { iat, exp, ...userProfileData } = decoded;
 
-    return Response.json({
+    return NextResponse.json({
       data: userProfileData,
       result: "success",
       message: "",
     });
   } catch (error: any) {
-    return Response.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "fail", message: error.message });
   }
 }
 
@@ -58,11 +58,11 @@ export async function DELETE(req: NextRequest) {
       .collection("users")
       .deleteOne({ _id: decoded._id });
 
-    return Response.json({
+    return NextResponse.json({
       result: "success",
       message: `${decoded.name}님의 회원탈퇴가 완료되었습니다.`,
     });
   } catch (error: any) {
-    return Response.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "fail", message: error.message });
   }
 }

@@ -1,6 +1,6 @@
-import { ObjectId, Document } from "mongodb";
+import { ObjectId } from "mongodb";
 import { connectToDatabase } from "@/utils/mongodb";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
@@ -35,12 +35,12 @@ export async function GET(
       .find({ _id: { $in: transformedArray } })
       .toArray();
 
-    return Response.json({
+    return NextResponse.json({
       data: userPosts,
       result: "success",
       message: "",
     });
   } catch (error: any) {
-    return Response.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "fail", message: error.message });
   }
 }

@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/mongodb";
 
 export async function PATCH(req: NextRequest) {
@@ -56,16 +56,16 @@ export async function PATCH(req: NextRequest) {
       }
     );
 
-    return Response.json({
+    return NextResponse.json({
       result: "success",
       message: `${getResult.name}님의 정보 수정이 완료되었습니다.`,
     });
   } catch (error: any) {
-    return Response.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "fail", message: error.message });
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(req: NextRequest) {
   const { client } = await connectToDatabase();
 
   const db = client.db("sample_mflix");
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
       `A document was inserted with the _id: ${insertResult.insertedId}`
     );
 
-    return Response.json("ok");
+    return NextResponse.json("ok");
   } finally {
     await client.close();
   }

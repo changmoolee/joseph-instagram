@@ -1,8 +1,9 @@
 import dayjs from "dayjs";
 import { connectToDatabase } from "@/utils/mongodb";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function Post(request: any) {
-  const textBody = await new Response(request.body).text();
+export async function POST(req: NextRequest) {
+  const textBody = await new Response(req.body).text();
 
   const parsedBody = JSON.parse(textBody);
 
@@ -21,11 +22,11 @@ export default async function Post(request: any) {
       description,
     });
 
-    return Response.json({
+    return NextResponse.json({
       result: "success",
       message: "게시물 등록을 성공하였습니다.",
     });
   } catch (error: any) {
-    return Response.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "fail", message: error.message });
   }
 }

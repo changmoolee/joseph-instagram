@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt";
 import { connectToDatabase } from "@/utils/mongodb";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: any) {
-  const textBody = await new Response(request.body).text();
+export async function POST(req: NextRequest) {
+  const textBody = await new Response(req.body).text();
 
   const parsedBody = JSON.parse(textBody);
 
@@ -27,11 +28,11 @@ export async function POST(request: any) {
       password: hashedPassword,
     });
 
-    return Response.json({
+    return NextResponse.json({
       result: "success",
       message: "회원가입을 성공하였습니다.",
     });
   } catch (error: any) {
-    return Response.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "fail", message: error.message });
   }
 }

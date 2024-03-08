@@ -1,7 +1,7 @@
 import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
 import { S3Client } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from "uuid";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const textBody = await new Response(req.body).text();
@@ -28,13 +28,13 @@ export async function POST(req: NextRequest) {
       Expires: 600, // Seconds before the presigned post expires. 3600 by default.
     });
 
-    return Response.json({
+    return NextResponse.json({
       data: { url, fields },
       result: "success",
       message: "",
     });
   } catch (error: any) {
-    return Response.json({
+    return NextResponse.json({
       data: null,
       result: "fail",
       message: error.message,
