@@ -3,11 +3,7 @@ import { connectToDatabase } from "@/utils/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const textBody = await new Response(req.body).text();
-
-  const parsedBody = JSON.parse(textBody);
-
-  const { CreateUser, image, description } = parsedBody;
+  const { image, description } = await req.json();
 
   const { client } = await connectToDatabase();
 

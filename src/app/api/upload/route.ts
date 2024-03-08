@@ -4,13 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const textBody = await new Response(req.body).text();
-
-  const parsedBody = JSON.parse(textBody);
-
-  const { imageInfo } = parsedBody;
-
-  const { filename, contentType } = JSON.parse(imageInfo);
+  const {
+    imageInfo: { filename, contentType },
+  } = await req.json();
 
   try {
     const client = new S3Client({ region: process.env.AWS_REGION });

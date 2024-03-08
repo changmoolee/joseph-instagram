@@ -1,21 +1,17 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { connectToDatabase } from "@/utils/mongodb";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-export async function POST(request: any) {
+export async function POST(req: NextRequest) {
   const { client } = await connectToDatabase();
 
   const db = client.db("sample_mflix");
 
   const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
 
-  const textBody = await new Response(request.body).text();
-
-  const parsedBody = JSON.parse(textBody);
-
-  const { email, password } = parsedBody;
+  const { email, password } = await req.json();
 
   try {
     const getResult = await db.collection("users").findOne({ email });

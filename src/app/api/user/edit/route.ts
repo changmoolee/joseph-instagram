@@ -25,11 +25,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const textBody = await new Response(req.body).text();
-
-    const parsedBody = JSON.parse(textBody);
-
-    const { image, email, name, password } = parsedBody;
+    const { image, email, name, password } = await req.json();
 
     const getResult = await db.collection("users").findOne({ email });
 
