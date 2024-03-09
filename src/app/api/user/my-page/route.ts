@@ -1,24 +1,21 @@
 import jwt from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/mongodb";
+import * as jose from "jose";
 
 export async function GET(req: NextRequest) {
-  const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
+  const JWT_SECRET = process.env.JWT_SECRET as string;
 
+  /** 토큰 */
   const token = req.cookies.get("token")?.value;
-
   try {
     if (!token) {
       throw new Error("로그인이 되어있지 않습니다.");
     }
-
-    const decoded = jwt.verify(token, JWT_SECRET);
-
-    if (typeof decoded === "string") {
-      throw new Error(
-        "프로필 데이터가 존재하지 않습니다. 관리자에게 문의하세요."
-      );
-    }
+    const { payload: decoded } = await jose.jwtVerify(
+      token,
+      new TextEncoder().encode(JWT_SECRET)
+    );
 
     const { iat, exp, ...userProfileData } = decoded;
 

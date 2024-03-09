@@ -1,8 +1,8 @@
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { connectToDatabase } from "@/utils/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import * as jose from "jose";
 
 export async function POST(req: NextRequest) {
   const { client } = await connectToDatabase();
@@ -36,11 +36,11 @@ export async function POST(req: NextRequest) {
     const userProfileData = rest;
 
     /** 토큰 */
-    const token = jwt.sign(
-      userProfileData, // Payload (e.g., user ID)
-      JWT_SECRET, // Secret key (store this in your environment variables)
-      { expiresIn: "1h" } // Token expiration time
-    );
+    const token = await new jose.SignJWT(userProfileData)
+      .setProtectedHeader({ alg: "HS256" })
+      .setIssuedAt()
+      .setExpirationTime("2h")
+      .sign(new TextEncoder().encode(JWT_SECRET));
 
     // https://nextjs.org/docs/app/api-reference/functions/cookies
     cookies().set("token", token);

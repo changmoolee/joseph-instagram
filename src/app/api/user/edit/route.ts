@@ -1,5 +1,4 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/mongodb";
 
@@ -8,23 +7,7 @@ export async function PATCH(req: NextRequest) {
 
   const db = client.db("sample_mflix");
 
-  const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
-
-  const token = req.cookies.get("token")?.value;
-
   try {
-    if (!token) {
-      throw new Error("로그인이 되어있지 않습니다.");
-    }
-
-    const decoded = jwt.verify(token, JWT_SECRET);
-
-    if (typeof decoded === "string") {
-      throw new Error(
-        "프로필 데이터가 존재하지 않습니다. 관리자에게 문의하세요."
-      );
-    }
-
     const { image, email, name, password } = await req.json();
 
     const getResult = await db.collection("users").findOne({ email });
