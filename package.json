@@ -22,6 +22,7 @@
     "dayjs": "^1.11.10",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
+    "jose": "^5.2.3",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.3.0",
     "next": "13.4.19",
