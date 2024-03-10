@@ -7,7 +7,7 @@ import * as jose from "jose";
 export default async function middleware(req: NextRequest) {
   const JWT_SECRET = process.env.JWT_SECRET as string;
 
-  /** 토큰 */
+  /** 토큰 추출 */
   const token = req.cookies.get("token")?.value;
 
   const response = NextResponse.next();
@@ -17,6 +17,7 @@ export default async function middleware(req: NextRequest) {
       throw new Error("로그인이 되어있지 않습니다.");
     }
 
+    /** 토큰 검증 */
     const { payload: decoded } = await jose.jwtVerify(
       token,
       new TextEncoder().encode(JWT_SECRET)
@@ -27,6 +28,14 @@ export default async function middleware(req: NextRequest) {
         "프로필 데이터가 존재하지 않습니다. 관리자에게 문의하세요."
       );
     }
+    const { iat, exp, ...userData } = decoded;
+
+    /** 토큰에서 정보 추출 */
+    const stringifiedUserData = Buffer.from(JSON.stringify(userData)).toString(
+      "base64"
+    );
+    /** 응답객체 헤더에 정보를 할당하여 라우트 핸들러에서 사용할 수 있도록 함. */
+    response.headers.set("userId", stringifiedUserData);
 
     return response;
   } catch (error: any) {
