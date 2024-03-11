@@ -4,10 +4,10 @@ import Link from "next/link";
 import { AiOutlineHome } from "react-icons/ai";
 import { FiSearch } from "react-icons/fi";
 import { BsPlusSquare } from "react-icons/bs";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import { useLoginStore } from "@/store/useLoginStore";
+import apiClient from "@/utils/axios";
 
 /**
  * 헤더 컴포넌트
@@ -24,7 +24,9 @@ export default function Header() {
    * 로그아웃 함수
    */
   const signOut = async () => {
-    const response: ICommonResponse = await axios.post("/api/auth/sign-out");
+    const response: ICommonResponse = await apiClient.post(
+      "/api/auth/sign-out"
+    );
 
     const { result, message } = response.data;
 

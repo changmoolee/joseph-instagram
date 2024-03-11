@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import ColorButton from "@/components/ColorButton/ColorButton.component";
 import ProfileAndName from "@/components/ProfileAndName/ProfileAndName.component";
 import Textarea from "@/components/Textarea/Textarea.component";
@@ -10,6 +9,7 @@ import PostDragAndDrop from "@/components/DragAndDrop/PostDragAndDrop/PostDragAn
 import { ImageUpload } from "@/utils/services/upload";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import { useLoginStore } from "@/store/useLoginStore";
+import apiClient from "@/utils/axios";
 
 export default function NewPost() {
   /** router */
@@ -39,10 +39,13 @@ export default function NewPost() {
       const { result, data } = imageUploadResponse;
 
       if (result === "success") {
-        const postResponse: ICommonResponse = await axios.post("/api/post", {
-          image: data,
-          description,
-        });
+        const postResponse: ICommonResponse = await apiClient.post(
+          "/api/post",
+          {
+            image: data,
+            description,
+          }
+        );
 
         const { result, message } = postResponse.data;
 

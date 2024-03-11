@@ -2,13 +2,13 @@
 
 import ColorButton from "@/components/ColorButton/ColorButton.component";
 import SignupDragAndDrop from "@/components/DragAndDrop/SignupDragAndDrop/SignupDragAndDrop.component";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import { ImageUpload } from "@/utils/services/upload";
 import { IUserData } from "@/typescript/user.interface";
+import apiClient from "@/utils/axios";
 
 /**
  * 마이 페이지 수정
@@ -34,7 +34,7 @@ export default function MyPageEdit() {
   const getUserData = async () => {
     // 객체분해할당
 
-    const response: ICommonResponse<IUserData> = await axios.get(
+    const response: ICommonResponse<IUserData> = await apiClient.get(
       `/api/user/my-page`,
       {
         withCredentials: true,
@@ -67,12 +67,15 @@ export default function MyPageEdit() {
         // 객체분해할당
         const { email, name, password } = params;
 
-        const response: ICommonResponse = await axios.patch("/api/user/edit", {
-          image: data,
-          email,
-          name,
-          password,
-        });
+        const response: ICommonResponse = await apiClient.patch(
+          "/api/user/edit",
+          {
+            image: data,
+            email,
+            name,
+            password,
+          }
+        );
 
         const { result, message } = response.data;
 

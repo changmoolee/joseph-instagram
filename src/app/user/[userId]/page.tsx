@@ -3,7 +3,7 @@
 import ColorButton from "@/components/ColorButton/ColorButton.component";
 import BigProfileImage from "@/components/ProfileImage/BigProfileImage.component";
 import Tab from "@/components/Tab/Tab.component";
-import axios from "axios";
+import apiClient from "@/utils/axios";
 import Image from "next/image";
 import React from "react";
 
@@ -29,7 +29,7 @@ export default function User({ params }: { params: { userId: string } }) {
    */
   const getPostData = async (userId: string, clickedTab: string) => {
     // 객체분해할당
-    const response = await axios.get<{
+    const response = await apiClient.get<{
       data: IPostData[];
       result: string;
       message: string;

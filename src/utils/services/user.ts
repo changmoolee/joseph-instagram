@@ -1,6 +1,6 @@
+import apiClient from "@/utils/axios";
 import { ICommonResponse } from "../../typescript/common/response.interface";
 import { IUserData } from "../../typescript/user.interface";
-import axios from "axios";
 
 /**
  * 유저 개인 데이터 호출
@@ -8,7 +8,7 @@ import axios from "axios";
 export const getUserData = async () => {
   // 객체분해할당
 
-  const response: ICommonResponse<IUserData> = await axios.get(
+  const response: ICommonResponse<IUserData> = await apiClient.get(
     `/api/user/my-page`,
     {
       withCredentials: true,

@@ -2,13 +2,13 @@
 
 import ColorButton from "@/components/ColorButton/ColorButton.component";
 import { buttonClasses } from "@/styles/tailwindUtilities";
-import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import { useLoginStore } from "@/store/useLoginStore";
+import apiClient from "@/utils/axios";
 
 /**
  * 마이 페이지
@@ -25,9 +25,12 @@ export default function MyPage() {
       return;
     }
 
-    const response: ICommonResponse = await axios.delete(`/api/user/my-page`, {
-      withCredentials: true,
-    });
+    const response: ICommonResponse = await apiClient.delete(
+      `/api/user/my-page`,
+      {
+        withCredentials: true,
+      }
+    );
 
     const { result, data, message } = response.data;
 

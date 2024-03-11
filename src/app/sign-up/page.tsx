@@ -2,12 +2,12 @@
 
 import ColorButton from "@/components/ColorButton/ColorButton.component";
 import SignupDragAndDrop from "@/components/DragAndDrop/SignupDragAndDrop/SignupDragAndDrop.component";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import { ImageUpload } from "@/utils/services/upload";
+import apiClient from "@/utils/axios";
 
 /**
  * 회원가입 페이지
@@ -40,7 +40,7 @@ export default function SignUp() {
         // 객체분해할당
         const { email, name, password } = params;
 
-        const response: ICommonResponse = await axios.post(
+        const response: ICommonResponse = await apiClient.post(
           "/api/auth/sign-up",
           {
             image: data,

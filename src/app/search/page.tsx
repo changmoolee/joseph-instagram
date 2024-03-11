@@ -2,7 +2,7 @@
 
 import ProfileCard from "@/components/ProfileCard/ProfileCard.component";
 import SearchInput from "@/components/SearchInput/SearchInput.component";
-import axios from "axios";
+import apiClient from "@/utils/axios";
 import React from "react";
 
 interface ISearchProps {
@@ -20,7 +20,7 @@ export default function Search(props: ISearchProps) {
   const getUsers = async () => {
     const lowerWord = searchWord.toLowerCase();
 
-    const response = await axios.get("/api/user/search", {
+    const response = await apiClient.get("/api/user/search", {
       params: { searchWord: lowerWord },
     });
 

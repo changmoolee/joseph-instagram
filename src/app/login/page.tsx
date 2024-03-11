@@ -2,12 +2,12 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import { getUserData } from "@/utils/services/user";
 import { useLoginStore } from "@/store/useLoginStore";
+import apiClient from "@/utils/axios";
 
 /**
  * 로그인 페이지
@@ -32,7 +32,7 @@ export default function Login() {
     // 객체분해할당
     const { email, password } = data;
 
-    const signInResponse: ICommonResponse = await axios.post(
+    const signInResponse: ICommonResponse = await apiClient.post(
       "/api/auth/sign-in",
       {
         email,

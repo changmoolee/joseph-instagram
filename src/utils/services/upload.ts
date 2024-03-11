@@ -1,8 +1,8 @@
-import axios from "axios";
 import {
   ICommonResponse,
   ICommonReturn,
 } from "../../typescript/common/response.interface";
+import apiClient from "@/utils/axios";
 
 interface IUploadData {
   url: string;
@@ -20,7 +20,7 @@ export const ImageUpload = async (
     return { result: "fail" };
   }
 
-  const response: ICommonResponse<IUploadData> = await axios.post(
+  const response: ICommonResponse<IUploadData> = await apiClient.post(
     "/api/upload",
     {
       imageInfo: JSON.stringify({
@@ -42,7 +42,7 @@ export const ImageUpload = async (
     formData.append("file", imageFile[0]);
 
     try {
-      await axios.post(url, formData);
+      await apiClient.post(url, formData);
 
       return { result: "success", data: url + fields.key };
     } catch (error: any) {
