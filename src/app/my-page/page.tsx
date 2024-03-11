@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { ICommonResponse } from "@/typescript/common/response.interface";
-import { useLoginStateStore } from "@/app/login/page";
+import { useLoginStore } from "@/store/useLoginStore";
 
 /**
  * 마이 페이지
@@ -45,7 +45,7 @@ export default function MyPage() {
   };
 
   /** 유저 개인 프로필 전역 상태 데이터 */
-  const userInfo = useLoginStateStore((state) => state.userInfo);
+  const userInfo = useLoginStore((state) => state.userInfo);
 
   // 프로필 데이터 체크
   if (!userInfo) {

@@ -9,7 +9,7 @@ import React from "react";
 import PostDragAndDrop from "@/components/DragAndDrop/PostDragAndDrop/PostDragAndDrop.component";
 import { ImageUpload } from "@/utils/services/upload";
 import { ICommonResponse } from "@/typescript/common/response.interface";
-import { useLoginStateStore } from "@/app/login/page";
+import { useLoginStore } from "@/store/useLoginStore";
 
 export default function NewPost() {
   /** router */
@@ -20,7 +20,7 @@ export default function NewPost() {
   const [description, setDescription] = React.useState("");
 
   /** 유저 개인 프로필 전역 상태 데이터 */
-  const userInfo = useLoginStateStore((state) => state.userInfo);
+  const userInfo = useLoginStore((state) => state.userInfo);
 
   // 프로필 데이터 체크
   if (!userInfo) {

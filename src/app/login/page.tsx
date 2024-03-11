@@ -3,39 +3,11 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { ICommonResponse } from "@/typescript/common/response.interface";
-import { IUserData } from "@/typescript/user.interface";
 import { getUserData } from "@/utils/services/user";
-
-interface LoginState {
-  isLogin: boolean;
-  token: string;
-  userInfo: IUserData | null;
-  excuteLogin: (data: IUserData) => void;
-  excuteLogout: () => void;
-}
-
-/** 로그인 전역상태 */
-export const useLoginStateStore = create<LoginState>()(
-  persist(
-    (set) => ({
-      isLogin: false,
-      token: "",
-      userInfo: null,
-      excuteLogin: (data) => set({ isLogin: true, userInfo: { ...data } }),
-      excuteLogout: () => set({ isLogin: false, userInfo: null }),
-    }),
-    {
-      name: "user-auth", // 로컬 스토리지에 저장될 때 사용될 키 이름
-      storage: createJSONStorage(() => localStorage), // 사용할 스토리지 종류를 지정 (여기서는 localStorage)
-    }
-  )
-);
-// zustand middleware 사용하기
+import { useLoginStore } from "@/store/useLoginStore";
 
 /**
  * 로그인 페이지
@@ -51,7 +23,7 @@ export default function Login() {
     handleSubmit,
   } = useForm();
 
-  const excuteLogin = useLoginStateStore((state) => state.excuteLogin);
+  const excuteLogin = useLoginStore((state) => state.excuteLogin);
 
   /**
    * 로그인 함수

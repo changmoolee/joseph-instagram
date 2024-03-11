@@ -3,8 +3,12 @@
 import Post from "@/components/Post/Post.component";
 import ProfileAboveName from "@/components/ProfileAboveName/ProfileAboveName.component";
 import ProfileAndName from "@/components/ProfileAndName/ProfileAndName.component";
+import { useLoginStore } from "@/store/useLoginStore";
 
 export default function Home() {
+  /** 유저 개인 프로필 전역 상태 데이터 */
+  const userInfo = useLoginStore((state) => state.userInfo);
+
   return (
     <main className="w-full h-full flex justify-center">
       <section className="w-[500px] h-full">

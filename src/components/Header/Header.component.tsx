@@ -4,10 +4,10 @@ import Link from "next/link";
 import { AiOutlineHome } from "react-icons/ai";
 import { FiSearch } from "react-icons/fi";
 import { BsPlusSquare } from "react-icons/bs";
-import { useLoginStateStore } from "@/app/login/page";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { ICommonResponse } from "@/typescript/common/response.interface";
+import { useLoginStore } from "@/store/useLoginStore";
 
 /**
  * 헤더 컴포넌트
@@ -16,9 +16,9 @@ export default function Header() {
   /** router */
   const router = useRouter();
 
-  const isLogin = useLoginStateStore((state) => state.isLogin);
+  const isLogin = useLoginStore((state) => state.isLogin);
 
-  const excuteLogout = useLoginStateStore((state) => state.excuteLogout);
+  const excuteLogout = useLoginStore((state) => state.excuteLogout);
 
   /**
    * 로그아웃 함수
