@@ -153,7 +153,7 @@ export default function MyPageEdit() {
                 className="w-full"
                 type="password"
                 placeholder="password"
-                {...register("password", { required: true })}
+                {...register("password", { required: false })}
               />
             </section>
             {errors.password && (
@@ -168,8 +168,8 @@ export default function MyPageEdit() {
                 type="password"
                 placeholder="verify password"
                 {...register("verifyPassword", {
-                  required: true,
                   validate: (v) => watch("password") == v,
+                  disabled: !watch("password"),
                 })}
               />
             </section>
