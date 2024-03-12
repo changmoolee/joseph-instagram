@@ -4,10 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const {
-    imageInfo: { filename, contentType },
-  } = await req.json();
+  const { imageInfo } = await req.json();
 
+  const { filename, contentType } = JSON.parse(imageInfo);
   try {
     const client = new S3Client({ region: process.env.AWS_REGION });
     const { url, fields } = await createPresignedPost(client, {
