@@ -5,6 +5,11 @@ import * as jose from "jose";
  * 쿠키 인증 미들웨어
  */
 export default async function middleware(req: NextRequest) {
+  // api/post 경로는 인증 검사 제외
+  if (req.nextUrl.pathname === "/api/post") {
+    return NextResponse.next();
+  }
+
   const JWT_SECRET = process.env.JWT_SECRET as string;
 
   /** 토큰 추출 */
