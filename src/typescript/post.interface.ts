@@ -2,6 +2,7 @@
 export interface IPostData {
   _id: string | null;
   CreateUser: string | null;
+  name: string | null;
   like_user: string[] | null;
   description: string | null;
   image: string | null;

@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
       await db.collection("posts").insertOne({
         CreateUser: userData._id,
         CreateDate: dayjs().format(),
+        username: userData.name,
         image,
         description,
       });
