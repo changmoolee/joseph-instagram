@@ -8,12 +8,8 @@ export async function GET(req: NextRequest) {
 
   const db = client.db("sample_mflix");
 
-  const { skip } = await req.json();
-
   /** 한 번에 가져올 데이터 개수 */
-  const pageSize = 10;
-
-  const currentSkip = parseInt(skip) || 0;
+  // const pageSize = 10;
 
   // 데이터 추가
   const postsData = await db
@@ -22,15 +18,14 @@ export async function GET(req: NextRequest) {
     .sort({
       CreateDate: -1, // 내림차순(최신)
     })
-    .skip(currentSkip)
-    .limit(pageSize)
+    // .skip(currentSkip)
+    // .limit(pageSize)
     .toArray();
 
   try {
     return NextResponse.json({
       data: postsData,
       result: "success",
-      message: "게시물 등록을 성공하였습니다.",
     });
   } catch (error: any) {
     return NextResponse.json({
