@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { connectToDatabase } from "@/utils/mongodb";
 import { NextRequest, NextResponse } from "next/server";
+import { ObjectId } from "mongodb";
 
 /** 게시물 조회 */
 export async function GET(req: NextRequest) {
@@ -14,10 +15,18 @@ export async function GET(req: NextRequest) {
   // 데이터 추가
   const postsData = await db
     .collection("posts")
-    .find()
-    .sort({
-      CreateDate: -1, // 내림차순(최신)
-    })
+    .aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "CreateUser",
+          foreignField: "_id",
+          as: "userDetails",
+        },
+      },
+      { $sort: { createdAt: -1 } },
+      { $limit: 10 },
+    ])
     // .skip(currentSkip)
     // .limit(pageSize)
     .toArray();
@@ -54,9 +63,8 @@ export async function POST(req: NextRequest) {
 
       // 데이터 추가
       await db.collection("posts").insertOne({
-        CreateUser: userData._id,
+        CreateUser: new ObjectId(userData._id),
         CreateDate: dayjs().format(),
-        username: userData.name,
         image,
         description,
       });
