@@ -6,7 +6,7 @@ import * as jose from "jose";
  */
 export default async function middleware(req: NextRequest) {
   // api/post 경로는 인증 검사 제외
-  if (req.nextUrl.pathname === "/api/post") {
+  if (req.nextUrl.pathname === "/api/post" && req.method === "GET") {
     return NextResponse.next();
   }
 
