@@ -9,6 +9,7 @@ import { ICommonResponse } from "@/typescript/common/response.interface";
 import { ImageUpload } from "@/utils/services/upload";
 import { IUserData } from "@/typescript/user.interface";
 import apiClient from "@/utils/axios";
+import { useLoginStore } from "@/store/useLoginStore";
 
 /**
  * 마이 페이지 수정
@@ -53,6 +54,12 @@ export default function MyPageEdit() {
     }
   };
 
+  /** 유저 개인 프로필 전역 상태 데이터 */
+  const userInfo = useLoginStore((state) => state.userInfo);
+
+  /** 로그인 전역 상태 데이터 */
+  const excuteLogin = useLoginStore((state) => state.excuteLogin);
+
   /**
    * 유저 데이터 수정
    */
@@ -81,6 +88,10 @@ export default function MyPageEdit() {
 
         if (result === "success") {
           alert(message);
+
+          // 로컬스토리지 및 전역상태에 저장되어 있는 프로필 데이터도 변경
+          userInfo &&
+            excuteLogin({ ...userInfo, name, ...(data && { image: data }) });
 
           // 메인페이지 이동
           router.push("/");

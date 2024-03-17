@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/mongodb";
+import { ObjectId } from "mongodb";
 
 export async function PATCH(req: NextRequest) {
   const { client } = await connectToDatabase();
@@ -8,37 +9,45 @@ export async function PATCH(req: NextRequest) {
   const db = client.db("sample_mflix");
 
   try {
-    const { image, email, name, password } = await req.json();
+    const encodedUserData = req.headers.get("userId");
 
-    const getResult = await db.collection("users").findOne({ email });
+    if (encodedUserData) {
+      const decodedUserData = Buffer.from(encodedUserData, "base64").toString(
+        "utf8"
+      );
+      const userData = JSON.parse(decodedUserData);
 
-    // cost 10
-    const saltRounds = 10;
+      const { image, email, name, password } = await req.json();
 
-    /** 해싱처리한 패스워드 */
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+      const getResult = await db.collection("users").findOne({ email });
 
-    // 이메일 검증
-    if (!getResult?.email) {
-      throw new Error("아이디가 존재하지 않습니다.");
-    }
-
-    const updateResult = await db.collection("users").updateOne(
-      { _id: getResult._id },
-      {
-        $set: {
-          image,
-          email,
-          name,
-          password: hashedPassword,
-        },
+      // 이메일 검증
+      if (!getResult?.email) {
+        throw new Error("아이디(이메일)가 존재하지 않습니다.");
       }
-    );
 
-    return NextResponse.json({
-      result: "success",
-      message: `${getResult.name}님의 정보 수정이 완료되었습니다.`,
-    });
+      // cost 10
+      const saltRounds = 10;
+
+      /** 해싱처리한 패스워드 */
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+      const updateResult = await db.collection("users").updateOne(
+        { _id: new ObjectId(userData._id) },
+        {
+          $set: {
+            image,
+            name,
+            ...(hashedPassword && { password: hashedPassword }),
+          },
+        }
+      );
+
+      return NextResponse.json({
+        result: "success",
+        message: `${userData.name}님의 정보 수정이 완료되었습니다.`,
+      });
+    }
   } catch (error: any) {
     return NextResponse.json({ result: "fail", message: error.message });
   }
