@@ -40,9 +40,7 @@ export default function DragAndDrop(props: IDragAndDropProps) {
   } = props;
 
   const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
-  const [previewImgSrc, setPreviewImgSrc] = React.useState<string>(
-    prevSrc || ""
-  );
+  const [previewImgSrc, setPreviewImgSrc] = React.useState<string>("");
 
   /**
    * input 요소에 들어가는 파일
@@ -113,6 +111,12 @@ export default function DragAndDrop(props: IDragAndDropProps) {
       deleteImage();
     }
   }, [isDelete]);
+
+  React.useEffect(() => {
+    if (prevSrc) {
+      setPreviewImgSrc(prevSrc);
+    }
+  }, [prevSrc]);
 
   return (
     <section
