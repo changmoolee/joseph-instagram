@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       data: usersData || [],
-      result: "successs",
+      result: "success",
       message: "",
     });
   } catch (error: any) {
