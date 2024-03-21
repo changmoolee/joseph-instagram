@@ -6,7 +6,7 @@ import Image from "next/image";
 import PostModal from "@/components/PostModal/PostModal.component";
 import React from "react";
 
-interface IPostProps {
+export interface IPostProps {
   /** 프로필 이미지 */
   profileSrc?: string;
   /** 작성자 이름 */

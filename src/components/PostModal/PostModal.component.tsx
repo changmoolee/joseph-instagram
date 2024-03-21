@@ -3,7 +3,8 @@ import Comment from "@/components/Comment/Comment.component";
 import CommentInput from "@/components/CommentInput/CommentInput.component";
 import Like from "@/components/Like/Like.component";
 import Modal from "@/components/Modal/Modal.component";
-import ProfileImage from "@/components/ProfileImage/ProfileImage.component";
+import { IPostProps } from "@/components/Post/Post.component";
+import ProfileAndName from "@/components/ProfileAndName/ProfileAndName.component";
 import Image from "next/image";
 
 interface IPostModalProps {
@@ -15,6 +16,10 @@ interface IPostModalProps {
    * PostModal 닫는 함수
    */
   onClose: () => void;
+  /**
+   * Post 컴포넌트의 props
+   */
+  PostProps: IPostProps;
 }
 
 /**
@@ -23,17 +28,20 @@ interface IPostModalProps {
  */
 export default function PostModal(props: IPostModalProps) {
   // props
-  const { open, onClose } = props;
+  const { open, onClose, PostProps } = props;
 
   return (
     <Modal open={open} onClose={onClose}>
       <section className="w-[800px] h-[500px] flex bg-white">
-        <div className="w-[60%] h-full bg-black">
-          <Image src="/" width={100} height={100} alt="post-image" />
+        <div className="relative w-[60%] h-full bg-black">
+          <Image src={PostProps.postSrc || "/"} alt="post-image" fill />
         </div>
         <div className="relative w-[40%] h-full">
-          <section>
-            <ProfileImage src="/" />
+          <section className="flex">
+            <ProfileAndName
+              src={PostProps.profileSrc}
+              name={PostProps.username}
+            />
           </section>
           <section>
             <Comment />
@@ -46,8 +54,8 @@ export default function PostModal(props: IPostModalProps) {
               <Bookmark checked />
             </div>
             <div className="flex flex-col">
-              <span>0 Like</span>
-              <span>23 hours ago</span>
+              <span>{PostProps.likeNumber} Like</span>
+              <span>{PostProps.createDate} hours ago</span>
             </div>
             <CommentInput />
           </section>
