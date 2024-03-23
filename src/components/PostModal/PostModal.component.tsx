@@ -6,6 +6,11 @@ import Modal from "@/components/Modal/Modal.component";
 import { IPostProps } from "@/components/Post/Post.component";
 import ProfileAndName from "@/components/ProfileAndName/ProfileAndName.component";
 import Image from "next/image";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+// dayjs의 RelativeTime 플러그인 추가
+dayjs.extend(relativeTime);
 
 interface IPostModalProps {
   /**
@@ -55,7 +60,9 @@ export default function PostModal(props: IPostModalProps) {
             </div>
             <div className="flex flex-col">
               <span>{PostProps.likeNumber} Like</span>
-              <span>{PostProps.createDate} hours ago</span>
+              <span className="text-gray-400">
+                {dayjs(PostProps.createDate).fromNow()}
+              </span>
             </div>
             <CommentInput />
           </section>
