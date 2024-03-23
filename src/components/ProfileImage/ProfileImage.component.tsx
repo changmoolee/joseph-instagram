@@ -14,9 +14,8 @@ export default function ProfileImage({ src }: IProfileImageProps) {
         <Image
           src={src ? src : "/images/user.png"}
           alt="profile-image"
-          width={43}
-          height={43}
-          className="rounded-full"
+          fill
+          className="rounded-full object-cover"
         />
       </div>
     </section>

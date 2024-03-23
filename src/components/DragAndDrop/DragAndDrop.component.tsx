@@ -5,6 +5,10 @@ import React from "react";
 
 interface IDragAndDropProps {
   /**
+   * 이미지 둥금 여부
+   */
+  rounded: Boolean;
+  /**
    * 수정 전 이미지 소스
    */
   prevSrc?: string;
@@ -32,12 +36,16 @@ interface IDragAndDropProps {
 export default function DragAndDrop(props: IDragAndDropProps) {
   // props
   const {
+    rounded,
     prevSrc,
     isDelete,
     className,
     onChange = (file) => console.log(file),
     children,
   } = props;
+
+  const roundedStyle =
+    "relative w-[300px] h-[300px] rounded-full overflow-hidden";
 
   const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
   const [previewImgSrc, setPreviewImgSrc] = React.useState<string>("");
@@ -138,13 +146,14 @@ export default function DragAndDrop(props: IDragAndDropProps) {
           ref={inputRef}
         />
         {selectedFiles.length !== 0 || previewImgSrc ? (
-          <Image
-            src={previewImgSrc}
-            alt="profile-image"
-            width={100}
-            height={100}
-            className="w-full h-full object-contain"
-          />
+          <div className={rounded ? roundedStyle : "relative w-full h-full"}>
+            <Image
+              src={previewImgSrc}
+              alt="profile-image"
+              fill
+              className="object-cover"
+            />
+          </div>
         ) : (
           <>{children}</>
         )}

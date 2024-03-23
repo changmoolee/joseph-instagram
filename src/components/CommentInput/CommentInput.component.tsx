@@ -32,12 +32,12 @@ export default function CommentInput(props: ICommentInputProps) {
       className="w-full h-[50px] flex border-solid border-[1px] border-gray-200"
       onClick={onClick}
     >
-      <button className="w-[40px] h-full flex justify-center items-center">
+      <button className="w-[50px] h-full flex justify-center items-center">
         <BiSmile className="w-[25px] h-[25px]" />
       </button>
       <input
         placeholder="Add a comment..."
-        className="w-[400px]"
+        className="w-full px-2"
         value={comment}
         onChange={(e) => {
           setComment(e.target.value);

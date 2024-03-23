@@ -39,7 +39,12 @@ export default function PostModal(props: IPostModalProps) {
     <Modal open={open} onClose={onClose}>
       <section className="w-[800px] h-[500px] flex bg-white">
         <div className="relative w-[60%] h-full bg-black">
-          <Image src={PostProps.postSrc || "/"} alt="post-image" fill />
+          <Image
+            src={PostProps.postSrc || "/"}
+            alt="post-image"
+            className="object-cover"
+            fill
+          />
         </div>
         <div className="relative w-[40%] h-full">
           <section className="flex">
@@ -54,11 +59,11 @@ export default function PostModal(props: IPostModalProps) {
             <Comment />
           </section>
           <section className="absolute bottom-0 w-full flex-col">
-            <div className="flex justify-between">
-              <Like checked />
-              <Bookmark checked />
+            <div className="flex justify-between px-2 py-1">
+              <Like checked size={20} />
+              <Bookmark checked size={20} />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-2 p-2">
               <span>{PostProps.likeNumber} Like</span>
               <span className="text-gray-400">
                 {dayjs(PostProps.createDate).fromNow()}

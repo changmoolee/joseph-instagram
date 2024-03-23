@@ -61,7 +61,7 @@ export default function Post(props: IPostProps) {
         <ProfileAndName src={profileSrc} name={username} />
       </section>
       {postSrc && (
-        <div className="relative w-full h-[400px] object-cover">
+        <div className="relative w-full h-[400px]">
           <Image src={postSrc} alt="" className="object-cover" fill />
         </div>
       )}

@@ -34,6 +34,7 @@ export default function SignupDragAndDrop(props: ISignupDragAndDropProps) {
   return (
     <>
       <DragAndDrop
+        rounded
         prevSrc={prevSrc}
         isDelete={isDelete}
         className="w-full h-[200px]"
