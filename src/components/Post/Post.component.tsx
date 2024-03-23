@@ -5,7 +5,11 @@ import Bookmark from "@/components/Bookmark/Bookmark.component";
 import Image from "next/image";
 import PostModal from "@/components/PostModal/PostModal.component";
 import React from "react";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
+// dayjs의 RelativeTime 플러그인 추가
+dayjs.extend(relativeTime);
 export interface IPostProps {
   /** 프로필 이미지 */
   profileSrc?: string;
@@ -57,13 +61,9 @@ export default function Post(props: IPostProps) {
         <ProfileAndName src={profileSrc} name={username} />
       </section>
       {postSrc && (
-        <Image
-          src={postSrc}
-          alt=""
-          className="w-full h-[400px]"
-          width={100}
-          height={100}
-        />
+        <div className="relative w-full h-[400px] object-cover">
+          <Image src={postSrc} alt="" className="object-cover" fill />
+        </div>
       )}
       <section>
         <section className="w-full flex flex-col gap-2 p-2 border-solid border-[1px] border-gray-200">
@@ -73,17 +73,19 @@ export default function Post(props: IPostProps) {
           </div>
           <div className="flex flex-col gap-2">
             <span>{likeNumber} Like</span>
-            <div className="flex gap-2">
-              <span>{username}</span>
+            <p>
+              <span className="min-w-[80px] max-w-[200px] font-bold mr-5">
+                {username}
+              </span>
               <span>{description}</span>
-            </div>
-            <span className="text-gray-400">{createDate} hours ago</span>
+            </p>
+            <span className="text-gray-400">{dayjs(createDate).fromNow()}</span>
           </div>
         </section>
         <CommentInput onClick={() => setOpen(true)} />
       </section>
 
-      <PostModal open={open} onClose={() => setOpen(false)} />
+      <PostModal open={open} onClose={() => setOpen(false)} PostProps={props} />
     </div>
   );
 }
