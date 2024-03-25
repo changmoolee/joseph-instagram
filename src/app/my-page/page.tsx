@@ -64,12 +64,14 @@ export default function MyPage() {
             <span className="text-xl font-[600]">마이 페이지</span>
           </section>
           <section className="w-full flex justify-center">
-            <Image
-              src={userInfo.image || "/images/user.png"}
-              width={150}
-              height={150}
-              alt="my-page-profile-image"
-            />
+            <div className="relative w-[300px] h-[300px] rounded-full overflow-hidden">
+              <Image
+                src={userInfo.image || "/images/user.png"}
+                alt="my-page-profile-image"
+                fill
+                className="object-cover"
+              />
+            </div>
           </section>
 
           <section className="w-full flex flex-col gap-10 my-10">
