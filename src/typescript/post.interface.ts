@@ -9,4 +9,12 @@ export interface IPostData {
   image: string | null;
   CreateDate: string | null;
   userDetails: IUserData[];
+  likeDetails: ILikeData[];
+}
+/** 좋아요 데이터 */
+export interface ILikeData {
+  _id: string | null;
+  userId: string | null;
+  postId: string | null;
+  CreateDate: string | null;
 }
