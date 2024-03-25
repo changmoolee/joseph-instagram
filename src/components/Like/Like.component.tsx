@@ -1,7 +1,7 @@
 import { AiOutlineHeart } from "react-icons/ai";
 import { AiFillHeart } from "react-icons/ai";
 
-interface ILikeProps {
+interface ILikeProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * 좋아요 체크 유무
    */
@@ -17,10 +17,10 @@ interface ILikeProps {
  */
 export default function Like(props: ILikeProps) {
   // props
-  const { checked, size } = props;
+  const { checked, size, onClick } = props;
 
   return (
-    <button>
+    <button onClick={onClick}>
       {checked ? <AiFillHeart size={size} /> : <AiOutlineHeart size={size} />}
     </button>
   );
