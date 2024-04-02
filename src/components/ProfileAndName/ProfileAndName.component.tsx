@@ -4,7 +4,7 @@ interface IProfileAndNameProps {
   /**
    * 프로필 이미지 소스
    */
-  src: string;
+  src?: string;
   /**
    * 프로필 이름
    */

@@ -1,12 +1,9 @@
 import bcrypt from "bcrypt";
-import { connectToDatabase } from "../../../../../utils/mongodb";
+import { connectToDatabase } from "@/utils/mongodb";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: any) {
-  const textBody = await new Response(request.body).text();
-
-  const parsedBody = JSON.parse(textBody);
-
-  const { email, name, password } = parsedBody;
+export async function POST(req: NextRequest) {
+  const { image, email, name, password } = await req.json();
 
   const { client } = await connectToDatabase();
 
@@ -21,16 +18,17 @@ export async function POST(request: any) {
   try {
     // 데이터 추가
     await db.collection("users").insertOne({
+      image,
       email,
       name,
       password: hashedPassword,
     });
 
-    return Response.json({
+    return NextResponse.json({
       result: "success",
       message: "회원가입을 성공하였습니다.",
     });
   } catch (error: any) {
-    return Response.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "fail", message: error.message });
   }
 }

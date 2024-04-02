@@ -1,5 +1,5 @@
-import { connectToDatabase } from "../../../../../utils/mongodb";
-import { NextRequest } from "next/server";
+import { connectToDatabase } from "@/utils/mongodb";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const { client } = await connectToDatabase();
@@ -26,12 +26,12 @@ export async function GET(req: NextRequest) {
       .limit(10)
       .toArray();
 
-    return Response.json({
+    return NextResponse.json({
       data: usersData || [],
-      result: "successs",
+      result: "success",
       message: "",
     });
   } catch (error: any) {
-    return Response.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "fail", message: error.message });
   }
 }

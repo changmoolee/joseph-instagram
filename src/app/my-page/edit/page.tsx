@@ -2,16 +2,15 @@
 
 import ColorButton from "@/components/ColorButton/ColorButton.component";
 import SignupDragAndDrop from "@/components/DragAndDrop/SignupDragAndDrop/SignupDragAndDrop.component";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { ICommonResponse } from "@/typescript/common/response.interface";
+import { ImageUpload } from "@/utils/services/upload";
+import { IUserData } from "@/typescript/user.interface";
+import apiClient from "@/utils/axios";
+import { useLoginStore } from "@/store/useLoginStore";
 
-interface IUserData {
-  _id: string;
-  email: string;
-  name: string;
-}
 /**
  * 마이 페이지 수정
  */
@@ -36,18 +35,18 @@ export default function MyPageEdit() {
   const getUserData = async () => {
     // 객체분해할당
 
-    const response = await axios.get<{
-      data: IUserData;
-      result: string;
-      message: string;
-    }>(`/api/user/my-page`, {
-      withCredentials: true,
-    });
+    const response: ICommonResponse<IUserData> = await apiClient.get(
+      `/api/user/my-page`,
+      {
+        withCredentials: true,
+      }
+    );
 
     const { result, data, message } = response.data;
 
     setValue("email", data?.email);
     setValue("name", data?.name);
+    setValue("image", data?.image);
 
     if (result === "fail") {
       // 에러메시지
@@ -55,31 +54,56 @@ export default function MyPageEdit() {
     }
   };
 
+  /** 유저 개인 프로필 전역 상태 데이터 */
+  const userInfo = useLoginStore((state) => state.userInfo);
+
+  /** 로그인 전역 상태 데이터 */
+  const excuteLogin = useLoginStore((state) => state.excuteLogin);
+
   /**
    * 유저 데이터 수정
    */
   const updateUser = async (params: any) => {
-    // 객체분해할당
-    const { email, name, password } = params;
+    // 이미지 업 로드
+    if (imageFile) {
+      const imageUploadResponse = await ImageUpload(imageFile);
 
-    const response = await axios.patch("/api/user/edit", {
-      email,
-      name,
-      password,
-    });
+      const { result, data } = imageUploadResponse;
 
-    const { result, message } = response.data;
+      if (result === "success") {
+        // 객체분해할당
+        const { email, name, password } = params;
 
-    if (result === "success") {
-      alert(message);
+        const response: ICommonResponse = await apiClient.patch(
+          "/api/user/edit",
+          {
+            image: data,
+            email,
+            name,
+            password,
+          }
+        );
 
-      // 메인페이지 이동
-      router.push("/");
-    }
+        const { result, message } = response.data;
 
-    if (result === "fail") {
-      // 에러메시지
-      alert(message);
+        if (result === "success") {
+          alert(message);
+
+          // 로컬스토리지 및 전역상태에 저장되어 있는 프로필 데이터도 변경
+          userInfo &&
+            excuteLogin({ ...userInfo, name, ...(data && { image: data }) });
+
+          // 메인페이지 이동
+          router.push("/");
+        }
+
+        if (result === "fail") {
+          // 에러메시지
+          alert(message);
+        }
+      } else {
+        alert("게시물 업로드에 실패했습니다.");
+      }
     }
   };
 
@@ -89,7 +113,6 @@ export default function MyPageEdit() {
 
   React.useEffect(() => {
     getUserData();
-    console.log("render");
   }, []);
 
   return (
@@ -102,6 +125,7 @@ export default function MyPageEdit() {
           <span className="text-xl font-[600]">내정보 수정</span>
         </section>
         <SignupDragAndDrop
+          prevSrc={watch("image") || "/images/user.png"}
           onChange={(file) => {
             setImageFile(file);
           }}
@@ -140,7 +164,7 @@ export default function MyPageEdit() {
                 className="w-full"
                 type="password"
                 placeholder="password"
-                {...register("password", { required: true })}
+                {...register("password", { required: false })}
               />
             </section>
             {errors.password && (
@@ -155,8 +179,8 @@ export default function MyPageEdit() {
                 type="password"
                 placeholder="verify password"
                 {...register("verifyPassword", {
-                  required: true,
                   validate: (v) => watch("password") == v,
+                  disabled: !watch("password"),
                 })}
               />
             </section>

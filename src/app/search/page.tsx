@@ -2,7 +2,9 @@
 
 import ProfileCard from "@/components/ProfileCard/ProfileCard.component";
 import SearchInput from "@/components/SearchInput/SearchInput.component";
-import axios from "axios";
+import { ICommonResponse } from "@/typescript/common/response.interface";
+import { IUserData } from "@/typescript/user.interface";
+import apiClient from "@/utils/axios";
 import React from "react";
 
 interface ISearchProps {
@@ -13,20 +15,29 @@ interface ISearchProps {
  * 검색 페이지
  */
 export default function Search(props: ISearchProps) {
-  const [users, setUsers] = React.useState<any[]>([]);
+  const [users, setUsers] = React.useState<IUserData[]>([]);
 
   const [searchWord, setSearchWord] = React.useState<string>("");
 
   const getUsers = async () => {
     const lowerWord = searchWord.toLowerCase();
 
-    const response = await axios.get("/api/user/search", {
-      params: { searchWord: lowerWord },
-    });
+    const response: ICommonResponse<IUserData[]> = await apiClient.get(
+      "/api/user/search",
+      {
+        params: { searchWord: lowerWord },
+      }
+    );
 
-    const { data } = response.data;
+    const { data, result, message } = response.data;
 
-    setUsers(data);
+    if (result === "success" && data) {
+      setUsers(data);
+    }
+
+    if (result === "fail") {
+      alert(message);
+    }
   };
 
   const handleKeyDown = () => {
@@ -42,12 +53,13 @@ export default function Search(props: ISearchProps) {
         />
         <section className="w-full h-[auto] flex flex-col p-5 gap-3">
           {users?.length > 0 ? (
-            users?.map((user: any) => (
+            users?.map((user: IUserData) => (
               <ProfileCard
-                key={user.id}
+                key={user._id}
                 name={user.name}
-                followersNum={user.follwers?.length || 0}
-                followingNum={user.following?.length || 0}
+                image={user.image}
+                // followersNum={user.follwers?.length || 0}
+                // followingNum={user.following?.length || 0}
               />
             ))
           ) : (

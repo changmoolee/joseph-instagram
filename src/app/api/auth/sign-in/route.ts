@@ -1,21 +1,17 @@
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { connectToDatabase } from "../../../../../utils/mongodb";
-import { NextResponse } from "next/server";
+import { connectToDatabase } from "@/utils/mongodb";
+import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import * as jose from "jose";
 
-export async function POST(request: any) {
+export async function POST(req: NextRequest) {
   const { client } = await connectToDatabase();
 
   const db = client.db("sample_mflix");
 
   const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
 
-  const textBody = await new Response(request.body).text();
-
-  const parsedBody = JSON.parse(textBody);
-
-  const { email, password } = parsedBody;
+  const { email, password } = await req.json();
 
   try {
     const getResult = await db.collection("users").findOne({ email });
@@ -40,11 +36,11 @@ export async function POST(request: any) {
     const userProfileData = rest;
 
     /** 토큰 */
-    const token = jwt.sign(
-      userProfileData, // Payload (e.g., user ID)
-      JWT_SECRET, // Secret key (store this in your environment variables)
-      { expiresIn: "1h" } // Token expiration time
-    );
+    const token = await new jose.SignJWT(userProfileData)
+      .setProtectedHeader({ alg: "HS256" })
+      .setIssuedAt()
+      .setExpirationTime("2h")
+      .sign(new TextEncoder().encode(JWT_SECRET));
 
     // https://nextjs.org/docs/app/api-reference/functions/cookies
     cookies().set("token", token);

@@ -2,35 +2,12 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
-import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-
-interface LoginState {
-  isLogin: boolean;
-  token: string;
-  excuteLogin: () => void;
-  excuteLogout: () => void;
-}
-
-/** 로그인 전역상태 */
-export const useLoginStateStore = create<LoginState>()(
-  persist(
-    (set) => ({
-      isLogin: false,
-      token: "",
-      excuteLogin: () => set({ isLogin: true }),
-      excuteLogout: () => set({ isLogin: false }),
-    }),
-    {
-      name: "user-auth", // 로컬 스토리지에 저장될 때 사용될 키 이름
-      storage: createJSONStorage(() => localStorage), // 사용할 스토리지 종류를 지정 (여기서는 localStorage)
-    }
-  )
-);
-// zustand middleware 사용하기
+import { ICommonResponse } from "@/typescript/common/response.interface";
+import { getUserData } from "@/utils/services/user";
+import { useLoginStore } from "@/store/useLoginStore";
+import apiClient from "@/utils/axios";
 
 /**
  * 로그인 페이지
@@ -46,7 +23,7 @@ export default function Login() {
     handleSubmit,
   } = useForm();
 
-  const excuteLogin = useLoginStateStore((state) => state.excuteLogin);
+  const excuteLogin = useLoginStore((state) => state.excuteLogin);
 
   /**
    * 로그인 함수
@@ -55,18 +32,32 @@ export default function Login() {
     // 객체분해할당
     const { email, password } = data;
 
-    const response = await axios.post("/api/auth/sign-in", {
-      email,
-      password,
-    });
+    const signInResponse: ICommonResponse = await apiClient.post(
+      "/api/auth/sign-in",
+      {
+        email,
+        password,
+      }
+    );
 
-    const { result, message } = response.data;
+    const { result, message } = signInResponse.data;
 
     if (result === "success") {
-      // 로그인 전역상태
-      excuteLogin();
-      // 메인페이지로 이동
-      router.push("/");
+      const userProfileResponse = await getUserData();
+
+      const { result: userProfileResult, data: userProfileData } =
+        userProfileResponse;
+
+      if (userProfileResult === "success" && userProfileData) {
+        // 로그인 전역상태
+        excuteLogin(userProfileData);
+        // 메인페이지로 이동
+        router.push("/");
+      } else {
+        alert(
+          "유저의 프로필 데이터를 불러오는데 실패하였습니다. 관리자에게 문의해주세요."
+        );
+      }
     }
 
     if (result === "fail") {

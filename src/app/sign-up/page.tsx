@@ -2,10 +2,12 @@
 
 import ColorButton from "@/components/ColorButton/ColorButton.component";
 import SignupDragAndDrop from "@/components/DragAndDrop/SignupDragAndDrop/SignupDragAndDrop.component";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { ICommonResponse } from "@/typescript/common/response.interface";
+import { ImageUpload } from "@/utils/services/upload";
+import apiClient from "@/utils/axios";
 
 /**
  * 회원가입 페이지
@@ -28,27 +30,44 @@ export default function SignUp() {
    * 회원가입 함수
    */
   const signUp = async (params: any) => {
-    // 객체분해할당
-    const { email, name, password } = params;
+    // 이미지 업 로드
+    if (imageFile) {
+      const imageUploadResponse = await ImageUpload(imageFile);
 
-    const response = await axios.post("/api/auth/sign-up", {
-      email,
-      name,
-      password,
-    });
+      const { result, data } = imageUploadResponse;
 
-    const { result, message } = response.data;
+      if (result === "success") {
+        // 객체분해할당
+        const { email, name, password } = params;
 
-    if (result === "success") {
-      alert("회원가입에 성공하였습니다. 서비스 이용을 원할시 로그인해주세요.");
+        const response: ICommonResponse = await apiClient.post(
+          "/api/auth/sign-up",
+          {
+            image: data,
+            email,
+            name,
+            password,
+          }
+        );
 
-      // 메인페이지 이동
-      router.push("/");
-    }
+        const { result, message } = response.data;
 
-    if (result === "fail") {
-      // 에러메시지
-      alert(message);
+        if (result === "success") {
+          alert(
+            "회원가입에 성공하였습니다. 서비스 이용을 원할시 로그인해주세요."
+          );
+
+          // 메인페이지 이동
+          router.push("/");
+        }
+
+        if (result === "fail") {
+          // 에러메시지
+          alert(message);
+        }
+      } else {
+        alert("유저 이미지 업로드에 실패했습니다. 관리자에게 문의해 주세요.");
+      }
     }
   };
 
