@@ -45,15 +45,7 @@ export default function Home() {
         <section className="w-full flex gap-5 border-[2px] p-5 border-gray-100 border-box"></section>
         {/* 친구들이 올린 post 데이터 내림차순 */}
         {postData.map((post) => (
-          <Post
-            key={post._id}
-            postSrc={post.image || ""}
-            profileSrc={post.userDetails.at(0)?.image}
-            username={post.userDetails.at(0)?.name || ""}
-            description={post.description || ""}
-            likeNumber={post.like_user?.length || 0}
-            createDate={post.CreateDate || ""}
-          />
+          <Post key={post._id} {...post} />
         ))}
       </section>
       <section className="w-[200px] h-full flex flex-col gap-5 p-5">
