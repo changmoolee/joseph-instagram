@@ -1,7 +1,7 @@
 import { BsBookmark } from "react-icons/bs";
 import { BsFillBookmarkFill } from "react-icons/bs";
 
-interface IBookmarkProps {
+interface IBookmarkProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * 북마크 체크 유무
    */
@@ -17,10 +17,10 @@ interface IBookmarkProps {
  */
 export default function Bookmark(props: IBookmarkProps) {
   // props
-  const { checked, size } = props;
+  const { checked, size, onClick } = props;
 
   return (
-    <button>
+    <button onClick={onClick}>
       {checked ? (
         <BsFillBookmarkFill size={size} />
       ) : (
