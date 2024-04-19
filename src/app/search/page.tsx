@@ -7,14 +7,10 @@ import { IUserData } from "@/typescript/user.interface";
 import apiClient from "@/utils/axios";
 import React from "react";
 
-interface ISearchProps {
-  datalist: [];
-}
-
 /**
  * 검색 페이지
  */
-export default function Search(props: ISearchProps) {
+export default function Search() {
   const [users, setUsers] = React.useState<IUserData[]>([]);
 
   const [searchWord, setSearchWord] = React.useState<string>("");

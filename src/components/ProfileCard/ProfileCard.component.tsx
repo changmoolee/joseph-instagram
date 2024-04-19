@@ -16,7 +16,7 @@ interface IProfileCardProps {
  */
 export default function ProfileCard(props: IProfileCardProps) {
   // props
-  const { image, name, followersNum, followingNum } = props;
+  const { image, name, followersNum = 0, followingNum = 0 } = props;
 
   return (
     <article className="flex items-center gap-3 p-5 border-solid border-[2px] border-gray-200">

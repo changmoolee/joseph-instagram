@@ -125,7 +125,7 @@ export default function MyPageEdit() {
           <span className="text-xl font-[600]">내정보 수정</span>
         </section>
         <SignupDragAndDrop
-          prevSrc={watch("image") || "/images/user.png"}
+          prevSrc={watch("image")}
           onChange={(file) => {
             setImageFile(file);
           }}
