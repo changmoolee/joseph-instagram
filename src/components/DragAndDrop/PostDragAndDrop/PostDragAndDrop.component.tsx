@@ -30,6 +30,7 @@ export default function PostDragAndDrop(props: IPostDragAndDropProps) {
   return (
     <>
       <DragAndDrop
+        rounded={false}
         isDelete={isDelete}
         className="w-full h-[250px]"
         onChange={onChange}
