@@ -7,8 +7,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { ICommonResponse } from "@/typescript/common/response.interface";
-import { useLoginStore } from "@/store/useLoginStore";
 import apiClient from "@/utils/axios";
+import { useGetMyData } from "@/hooks/user/useGetMyData";
 
 /**
  * 마이 페이지
@@ -47,14 +47,14 @@ export default function MyPage() {
     }
   };
 
-  /** 유저 개인 프로필 전역 상태 데이터 */
-  const userInfo = useLoginStore((state) => state.userInfo);
+  const { data: userInfo, error, message } = useGetMyData();
 
-  // 프로필 데이터 체크
-  if (!userInfo) {
-    alert("로그인이 되어있지 않습니다.");
-    router.push("/");
-  }
+  React.useEffect(() => {
+    if (error) {
+      alert(message);
+      router.push("/");
+    }
+  }, [error, message, router]);
 
   return (
     userInfo && (

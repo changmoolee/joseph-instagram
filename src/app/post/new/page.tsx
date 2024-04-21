@@ -23,10 +23,12 @@ export default function NewPost() {
   const userInfo = useLoginStore((state) => state.userInfo);
 
   // 프로필 데이터 체크
-  if (!userInfo) {
-    alert("로그인이 되어있지 않습니다.");
-    router.push("/");
-  }
+  React.useEffect(() => {
+    if (!userInfo) {
+      alert("로그인이 되어있지 않습니다.");
+      router.push("/");
+    }
+  }, [userInfo, router]);
 
   /**
    * 게시물(post) 등록 함수

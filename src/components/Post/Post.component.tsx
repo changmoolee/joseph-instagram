@@ -68,15 +68,35 @@ export default function Post(props: IPostProps) {
                 !!likeDetails.find((like) => like.userId === userInfo?._id)
               }
               size={20}
-              onClick={() =>
-                excuteLike({
-                  likeDetails,
-                  userId: userInfo?._id || null,
-                  postId,
-                })
-              }
+              onClick={() => {
+                // 로그인 정보가 있다면
+                if (userInfo?._id) {
+                  excuteLike({
+                    likeDetails,
+                    userId: userInfo?._id || null,
+                    postId,
+                  });
+                } else {
+                  alert("로그인이 필요합니다.");
+                }
+              }}
             />
-            <Bookmark checked size={20} />
+            <Bookmark
+              checked
+              size={20}
+              onClick={() => {
+                // 로그인 정보가 있다면
+                if (userInfo?._id) {
+                  excuteLike({
+                    likeDetails,
+                    userId: userInfo?._id || null,
+                    postId,
+                  });
+                } else {
+                  alert("로그인이 필요합니다.");
+                }
+              }}
+            />
           </div>
           <div className="flex flex-col gap-2">
             <span>{likeDetails.length} Like</span>
