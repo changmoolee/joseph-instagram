@@ -18,10 +18,9 @@ export function useGetUser(searchWord: string) {
     mutate,
   } = useSWR<ICommonResponse<IUserData[]>>(urlKey, fetcher);
 
-  // api 호출 성공시
-  if (userResponse?.data) {
-    const { data, message } = userResponse.data;
+  const { data, result, message } = userResponse?.data || {};
 
+  if (result === "success") {
     return {
       data,
       isLoading,
@@ -32,9 +31,11 @@ export function useGetUser(searchWord: string) {
 
   return {
     data: [],
-    error,
+    error: error || result === "fail",
     isLoading,
-    message: error?.message || "나의 프로필 데이터를 불러오지 못했습니다.",
+    message: error
+      ? "네트워크 연결 상태 등의 원인으로 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요."
+      : message,
     mutate,
   };
 }
