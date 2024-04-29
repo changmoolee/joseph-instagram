@@ -7,9 +7,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import { ImageUpload } from "@/utils/services/upload";
-import { IUserData } from "@/typescript/user.interface";
 import apiClient from "@/utils/axios";
 import { useLoginStore } from "@/store/useLoginStore";
+import { useGetMyData } from "@/hooks/user/useGetMyData";
 
 /**
  * 마이 페이지 수정
@@ -28,34 +28,6 @@ export default function MyPageEdit() {
     formState: { errors },
     handleSubmit,
   } = useForm();
-
-  /**
-   * 유저 개인 데이터 호출
-   */
-  const getUserData = async () => {
-    // 객체분해할당
-
-    const response: ICommonResponse<IUserData> = await apiClient.get(
-      `/api/user/my-page`,
-      {
-        withCredentials: true,
-      }
-    );
-
-    const { result, data, message } = response.data;
-
-    setValue("email", data?.email);
-    setValue("name", data?.name);
-    setValue("image", data?.image);
-
-    if (result === "fail") {
-      // 에러메시지
-      alert(message);
-    }
-  };
-
-  /** 유저 개인 프로필 전역 상태 데이터 */
-  const userInfo = useLoginStore((state) => state.userInfo);
 
   /** 로그인 전역 상태 데이터 */
   const excuteLogin = useLoginStore((state) => state.excuteLogin);
@@ -111,9 +83,19 @@ export default function MyPageEdit() {
     updateUser(data);
   };
 
+  // 유저 프로필 데이터 호출
+  const { data: userInfo, error, message } = useGetMyData();
+
   React.useEffect(() => {
-    getUserData();
-  }, []);
+    // 에러시
+    if (error) {
+      alert(message);
+    }
+
+    setValue("email", userInfo?.email);
+    setValue("name", userInfo?.name);
+    setValue("image", userInfo?.image);
+  }, [userInfo, setValue, error, message]);
 
   return (
     <main className="w-full flex justify-center">

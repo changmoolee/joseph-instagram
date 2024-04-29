@@ -1,6 +1,6 @@
 # joseph-instagram
 
-배포 url(개발): https://joseph-instagram-git-development-changmoolees-projects.vercel.app/
+배포 url: https://joseph-instagram.vercel.app/
 <br><br>
 
 #### 아직 해당 애플리케이션은 개발중에 있습니다.

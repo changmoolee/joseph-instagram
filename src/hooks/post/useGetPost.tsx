@@ -14,11 +14,11 @@ export function useGetPost() {
     isLoading,
   } = useSWR<ICommonResponse<IPostData[]>>(urlKey, fetcher);
 
-  if (postResponse) {
-    const { data, result, message } = postResponse.data;
+  const { data, result, message } = postResponse?.data || {};
 
+  if (result === "success") {
     return {
-      data: data || [],
+      data,
       isLoading,
       message,
     };
@@ -26,7 +26,10 @@ export function useGetPost() {
 
   return {
     data: [],
-    error,
+    error: error || result === "fail",
     isLoading,
+    message: error
+      ? "네트워크 연결 상태 등의 원인으로 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요."
+      : message,
   };
 }

@@ -1,20 +1,23 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
-import { IUserData } from "@/typescript/user.interface";
 import useSWR from "swr";
+import { IPostData } from "@/typescript/post.interface";
 
-export function useGetMyData() {
-  const urlKey = "/api/user/my-page";
-  //
-  const fetcher = async () => await apiClient.get(urlKey);
+export function useGetMyPost(userId: string, clickedTab: string) {
+  const urlKey = `/api/post/${userId}`;
+
+  const fetcher = async () =>
+    await apiClient.get(urlKey, {
+      params: { post: clickedTab.toLocaleLowerCase() },
+    });
 
   const {
-    data: userResponse,
+    data: postResponse,
     error,
     isLoading,
-  } = useSWR<ICommonResponse<IUserData>>(urlKey, fetcher);
+  } = useSWR<ICommonResponse<IPostData[]>>(urlKey, fetcher);
 
-  const { data, result, message } = userResponse?.data || {};
+  const { data, result, message } = postResponse?.data || {};
 
   if (result === "success") {
     return {
@@ -25,7 +28,7 @@ export function useGetMyData() {
   }
 
   return {
-    data,
+    data: [],
     error: error || result === "fail",
     isLoading,
     message: error

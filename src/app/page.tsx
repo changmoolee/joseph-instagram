@@ -19,7 +19,7 @@ export default function Home() {
       <section className="w-[500px] h-full">
         <section className="w-full flex gap-5 border-[2px] p-5 border-gray-100 border-box"></section>
         {/* 친구들이 올린 post 데이터 내림차순 */}
-        {postData.length > 0 ? (
+        {postData && postData.length > 0 ? (
           postData.map((post) => <Post key={post._id} {...post} />)
         ) : (
           <span>게시물이 없습니다.</span>
