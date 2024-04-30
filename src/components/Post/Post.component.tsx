@@ -10,6 +10,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { IPostData } from "@/typescript/post.interface";
 import { useLoginStore } from "@/store/useLoginStore";
 import { excuteLike } from "@/utils/services/like";
+import Link from "next/link";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -49,12 +50,14 @@ export default function Post(props: IPostProps) {
 
   return (
     <div className="w-[500px]">
-      <section className="border-solid border-[1px] border-gray-200">
-        <ProfileAndName
-          src={userDetails.at(0)?.image}
-          name={userDetails.at(0)?.name || ""}
-        />
-      </section>
+      <Link href={`/user/${userDetails[0]._id}`}>
+        <section className="border-solid border-[1px] border-gray-200">
+          <ProfileAndName
+            src={userDetails.at(0)?.image}
+            name={userDetails.at(0)?.name || ""}
+          />
+        </section>
+      </Link>
       {postSrc && (
         <div className="relative w-full h-[400px]">
           <Image src={postSrc} alt="" className="object-cover" fill />
