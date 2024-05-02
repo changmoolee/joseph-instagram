@@ -60,5 +60,6 @@ export const config = {
     "/api/user/:path",
     "/api/user/edit",
     "/api/user/my-page",
+    "/api/comments/:path*",
   ],
 };
