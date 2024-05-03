@@ -108,7 +108,14 @@ export default function PostModal(props: IPostModalProps) {
             <p className="px-5 py-2">{description}</p>
           </section>
           <section className="h-[260px] p-2 overflow-y-auto">
-            <Comment />
+            {commentDetails.map((comment) => (
+              <Comment
+                key={comment._id}
+                imageUrl=""
+                nickName=""
+                commentContent={comment.text || ""}
+              />
+            ))}
           </section>
           <section className="absolute bottom-0 w-full flex-col">
             <div className="flex justify-between px-2 py-1">
