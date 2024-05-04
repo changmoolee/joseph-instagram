@@ -110,7 +110,7 @@ export default function PostModal(props: IPostModalProps) {
           <section className="h-[260px] p-2 overflow-y-auto">
             {commentDetails.map((comment) => (
               <Comment
-                key={comment._id}
+                key={comment._id.toString()}
                 imageUrl=""
                 nickName=""
                 commentContent={comment.text || ""}

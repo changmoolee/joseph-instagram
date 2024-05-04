@@ -1,18 +1,19 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
 import useSWR from "swr";
-import { IPostData } from "@/typescript/post.interface";
+import { IPostUnifiedData } from "@/typescript/post.interface";
+import { ObjectId } from "mongodb";
 
-export function useGetPost() {
-  const urlKey = "/api/post";
-  //
+export function useGetPost(postId: ObjectId) {
+  const urlKey = `/api/post/${postId}`;
+
   const fetcher = async () => await apiClient.get(urlKey);
 
   const {
     data: postResponse,
     error,
     isLoading,
-  } = useSWR<ICommonResponse<IPostData[]>>(urlKey, fetcher);
+  } = useSWR<ICommonResponse<IPostUnifiedData[]>>(urlKey, fetcher);
 
   const { data, result, message } = postResponse?.data || {};
 

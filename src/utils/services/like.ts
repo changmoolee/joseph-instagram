@@ -1,11 +1,12 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import { ILikeData } from "@/typescript/post.interface";
 import apiClient from "@/utils/axios";
+import { ObjectId } from "mongodb";
 
 interface IExcuteLikeProps {
   likeDetails: ILikeData[];
-  userId: string | null;
-  postId: string | null;
+  userId: ObjectId;
+  postId: ObjectId;
 }
 
 /** 좋아요 실행 api 함수 */
