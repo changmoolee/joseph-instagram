@@ -15,6 +15,7 @@ import { excuteLike } from "@/utils/services/like";
 import { IUserData } from "@/typescript/user.interface";
 import useSWRMutation from "swr/mutation";
 import apiClient from "@/utils/axios";
+import { useGetPost } from "@/hooks/post/useGetPost";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -69,6 +70,8 @@ export default function PostModal(props: IPostModalProps) {
     commentDetails,
   } = PostProps;
 
+  const { data: postData } = useGetPost(postId);
+
   const { trigger } = useSWRMutation(
     `/api/comments/${postId}`,
     () =>
@@ -86,7 +89,6 @@ export default function PostModal(props: IPostModalProps) {
       },
     }
   );
-
 
   return (
     <Modal open={open} onClose={onClose}>
