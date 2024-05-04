@@ -4,7 +4,7 @@ import { ObjectId } from "mongodb";
 /** 게시물 데이터 */
 export interface IPostUnifiedData {
   _id: ObjectId;
-  CreateUser: string | null;
+  CreateUser: ObjectId;
   like_user: string[] | null;
   description: string | null;
   image: string | null;
@@ -17,7 +17,7 @@ export interface IPostUnifiedData {
 /** 게시물 데이터 */
 export interface IPostData {
   _id: ObjectId;
-  CreateUser: string | null;
+  CreateUser: ObjectId;
   like_user: string[] | null;
   description: string | null;
   image: string | null;
@@ -37,7 +37,7 @@ export interface ICommentData {
   _id: ObjectId;
   text: string | null;
   postId: ObjectId;
-  CreateUser: string | null;
+  CreateUser: ObjectId;
   CreateDate: string | null;
   replies: string[] | null;
 }

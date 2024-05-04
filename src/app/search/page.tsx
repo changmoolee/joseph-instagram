@@ -43,7 +43,7 @@ export default function Search() {
           ) : userInfo ? (
             userInfo.map((user: IUserData) => (
               <ProfileCard
-                key={user._id}
+                key={user._id.toString()}
                 name={user.name}
                 image={user.image}
                 // followersNum={user.follwers?.length || 0}
