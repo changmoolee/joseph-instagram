@@ -41,3 +41,15 @@ export interface ICommentData {
   CreateDate: string | null;
   replies: string[] | null;
 }
+
+/** 게시물 댓글 데이터 */
+export interface IPostCommentData {
+  _id: ObjectId;
+  text: string | null;
+  postId: ObjectId;
+  userImage: string | null;
+  username: string | null;
+  CreateUser: ObjectId;
+  CreateDate: string | null;
+  replies: string[] | null;
+}

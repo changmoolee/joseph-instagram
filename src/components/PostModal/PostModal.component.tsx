@@ -15,7 +15,7 @@ import { excuteLike } from "@/utils/services/like";
 import { IUserData } from "@/typescript/user.interface";
 import useSWRMutation from "swr/mutation";
 import apiClient from "@/utils/axios";
-import { useGetPost } from "@/hooks/post/useGetPost";
+import { useGetPostComments } from "@/hooks/post/useGetPostComments";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -70,7 +70,8 @@ export default function PostModal(props: IPostModalProps) {
     commentDetails,
   } = PostProps;
 
-  const { data: postData } = useGetPost(postId);
+  /** 게시물 댓글 조회 */
+  const { isLoading, data: commentsData } = useGetPostComments(postId);
 
   const { trigger } = useSWRMutation(
     `/api/comments/${postId}`,
@@ -110,14 +111,16 @@ export default function PostModal(props: IPostModalProps) {
             <p className="px-5 py-2">{description}</p>
           </section>
           <section className="h-[260px] p-2 overflow-y-auto">
-            {commentDetails.map((comment) => (
-              <Comment
-                key={comment._id.toString()}
-                imageUrl=""
-                nickName=""
-                commentContent={comment.text || ""}
-              />
-            ))}
+            {isLoading
+              ? "Loading..."
+              : commentsData?.map((comment) => (
+                  <Comment
+                    key={comment._id.toString()}
+                    imageUrl={comment.userImage || "/"}
+                    nickName={comment.username || ""}
+                    commentContent={comment.text || ""}
+                  />
+                ))}
           </section>
           <section className="absolute bottom-0 w-full flex-col">
             <div className="flex justify-between px-2 py-1">
