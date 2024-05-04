@@ -4,13 +4,21 @@ import { BiSmile } from "react-icons/bi";
 
 interface ICommentInputProps {
   /**
-   * CommentInput을 클릭하는 이벤트
+   * button 내부에 들어갈 텍스트
+   */
+  buttonText?: string;
+  /**
+   * CommentInput을 클릭할 때 실행하는 함수
    */
   onClick?: () => void;
   /**
-   * input에 입력되는 텍스트를 체크하는 파라미터
+   * input에 입력되는 텍스트를 체크하는 함수
    */
   onChange?: (comment: string) => void;
+  /**
+   * 버튼 요소를 클릭할 때 실행하는 함수
+   */
+  onButtonClick?: () => void;
 }
 
 /**
@@ -18,13 +26,13 @@ interface ICommentInputProps {
  */
 export default function CommentInput(props: ICommentInputProps) {
   // props
-  const { onClick, onChange = (comment) => console.log(comment) } = props;
+  const { onClick, onChange, onButtonClick, buttonText = "Post" } = props;
 
   // 입력된 댓글 텍스트
   const [comment, setComment] = React.useState<string>("");
 
   React.useEffect(() => {
-    onChange(comment);
+    onChange && onChange(comment);
   }, [comment, onChange]);
 
   return (
@@ -43,8 +51,11 @@ export default function CommentInput(props: ICommentInputProps) {
           setComment(e.target.value);
         }}
       />
-      <button className="w-[60px] h-full flex justify-center items-center text-[#6cb9d2] font-[600]">
-        Post
+      <button
+        onClick={onButtonClick}
+        className="w-[60px] h-full flex justify-center items-center text-[#6cb9d2] font-[600]"
+      >
+        {buttonText}
       </button>
     </section>
   );

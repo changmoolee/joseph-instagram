@@ -7,14 +7,14 @@ import PostModal from "@/components/PostModal/PostModal.component";
 import React from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { IPostData } from "@/typescript/post.interface";
+import { IPostUnifiedData } from "@/typescript/post.interface";
 import { useLoginStore } from "@/store/useLoginStore";
 import { excuteLike } from "@/utils/services/like";
 import Link from "next/link";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
-export interface IPostProps extends IPostData {
+export interface IPostProps extends IPostUnifiedData {
   /** 북마크 여부 */
   bookmark?: boolean;
   /** 좋아요 개수 */

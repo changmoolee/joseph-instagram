@@ -1,3 +1,6 @@
+"use client";
+
+import React from "react";
 import Bookmark from "@/components/Bookmark/Bookmark.component";
 import Comment from "@/components/Comment/Comment.component";
 import CommentInput from "@/components/CommentInput/CommentInput.component";
@@ -10,6 +13,9 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { excuteLike } from "@/utils/services/like";
 import { IUserData } from "@/typescript/user.interface";
+import useSWRMutation from "swr/mutation";
+import apiClient from "@/utils/axios";
+import { useGetPostComments } from "@/hooks/post/useGetPostComments";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -41,6 +47,9 @@ export default function PostModal(props: IPostModalProps) {
   // props
   const { open, onClose, PostProps, userInfo } = props;
 
+  // 입력된 댓글 텍스트
+  const [comment, setComment] = React.useState<string>("");
+
   // props
   const {
     /** 게시글 Idx */
@@ -57,7 +66,30 @@ export default function PostModal(props: IPostModalProps) {
     userDetails,
     /** 좋아요 정보 */
     likeDetails,
+    /** 댓글 정보 */
+    commentDetails,
   } = PostProps;
+
+  /** 게시물 댓글 조회 */
+  const { isLoading, data: commentsData } = useGetPostComments(postId);
+
+  const { trigger } = useSWRMutation(
+    `/api/comments/${postId}`,
+    () =>
+      apiClient.post<{ result: string; message: string }>(
+        `/api/comments/${postId}`,
+        { text: comment }
+      ),
+    {
+      onSuccess: (data) => {
+        const { result, message } = data.data;
+        alert(message);
+      },
+      onError: (error) => {
+        alert(error.message);
+      },
+    }
+  );
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -79,7 +111,16 @@ export default function PostModal(props: IPostModalProps) {
             <p className="px-5 py-2">{description}</p>
           </section>
           <section className="h-[260px] p-2 overflow-y-auto">
-            <Comment />
+            {isLoading
+              ? "Loading..."
+              : commentsData?.map((comment) => (
+                  <Comment
+                    key={comment._id.toString()}
+                    imageUrl={comment.userImage || "/"}
+                    nickName={comment.username || ""}
+                    commentContent={comment.text || ""}
+                  />
+                ))}
           </section>
           <section className="absolute bottom-0 w-full flex-col">
             <div className="flex justify-between px-2 py-1">
@@ -124,7 +165,13 @@ export default function PostModal(props: IPostModalProps) {
                 {dayjs(createDate).fromNow()}
               </span>
             </div>
-            <CommentInput />
+            <CommentInput
+              onChange={(text) => setComment(text)}
+              onButtonClick={() => {
+                trigger();
+                console.log("등록", comment);
+              }}
+            />
           </section>
         </div>
       </section>

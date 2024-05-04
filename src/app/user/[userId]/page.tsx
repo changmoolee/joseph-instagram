@@ -75,7 +75,10 @@ export default function User({ params }: { params: { userId: string } }) {
       <ul className="max-w-[1000px] w-full h-full grid grid-cols-3 gap-4">
         {postData ? (
           postData.map((data) => (
-            <li key={data._id} className="relative w-full h-auto aspect-[1/1]">
+            <li
+              key={data._id.toString()}
+              className="relative w-full h-auto aspect-[1/1]"
+            >
               <Image src={data.image || "/"} alt="post-image" fill />
             </li>
           ))

@@ -32,6 +32,14 @@ export async function GET(req: NextRequest) {
           as: "likeDetails",
         },
       },
+      {
+        $lookup: {
+          from: "comments",
+          localField: "_id",
+          foreignField: "postId",
+          as: "commentDetails",
+        },
+      },
       { $sort: { createdAt: -1 } },
       { $limit: 10 },
     ])
