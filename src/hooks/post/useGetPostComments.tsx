@@ -1,21 +1,25 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
 import useSWR from "swr";
-import { IPostUnifiedData } from "@/typescript/post.interface";
+import { IPostCommentData } from "@/typescript/post.interface";
 import { ObjectId } from "mongodb";
 
-export function useGetPost(postId: ObjectId) {
+/**
+ * 게시물 댓글 GET 커스텀 훅
+ * @param postId
+ */
+export function useGetPostComments(postId: ObjectId) {
   const urlKey = `/api/post/${postId}`;
 
   const fetcher = async () => await apiClient.get(urlKey);
 
   const {
-    data: postResponse,
+    data: commentResponse,
     error,
     isLoading,
-  } = useSWR<ICommonResponse<IPostUnifiedData[]>>(urlKey, fetcher);
+  } = useSWR<ICommonResponse<IPostCommentData[]>>(urlKey, fetcher);
 
-  const { data, result, message } = postResponse?.data || {};
+  const { data, result, message } = commentResponse?.data || {};
 
   if (result === "success") {
     return {
