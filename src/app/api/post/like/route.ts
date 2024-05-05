@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 
 /** 좋아요 실행 */
 export async function POST(req: NextRequest) {
-  const { likeId, postId, createUser } = await req.json();
+  const { postId, createUser } = await req.json();
 
   const { client } = await connectToDatabase();
 
@@ -21,11 +21,10 @@ export async function POST(req: NextRequest) {
     /** 게시물 posts 데이터 (좋아요 요청이 온 게시물) */
     const postData = await db.collection("posts").findOne({
       _id: new ObjectId(postId),
-      CreateUser: new ObjectId(createUser),
     });
 
     // 게시물 posts 검증
-    if (postData?._idl) {
+    if (!postData?._id) {
       throw new Error("좋아요를 실행할 게시물이 존재하지 않습니다.");
     }
 
