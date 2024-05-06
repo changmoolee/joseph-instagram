@@ -75,7 +75,6 @@ export default function Post(props: IPostProps) {
                 // 로그인 정보가 있다면
                 if (userInfo?._id) {
                   excuteLike({
-                    likeDetails,
                     userId: userInfo?._id || null,
                     postId,
                   });

@@ -4,7 +4,6 @@ import apiClient from "@/utils/axios";
 import { ObjectId } from "mongodb";
 
 interface IExcuteLikeProps {
-  likeDetails: ILikeData[];
   userId: ObjectId;
   postId: ObjectId;
 }
@@ -12,10 +11,9 @@ interface IExcuteLikeProps {
 /** 좋아요 실행 api 함수 */
 export const excuteLike = async (props: IExcuteLikeProps) => {
   // props
-  const { likeDetails, userId, postId } = props;
+  const { userId, postId } = props;
 
   const response: ICommonResponse = await apiClient.post("/api/post/like", {
-    likeId: likeDetails.find((like) => like.userId === userId)?._id || "",
     postId: postId,
     createUser: userId,
   });
