@@ -3,7 +3,7 @@
 import ColorButton from "@/components/ColorButton/ColorButton.component";
 import BigProfileImage from "@/components/ProfileImage/BigProfileImage.component";
 import Tab from "@/components/Tab/Tab.component";
-import { useGetMyPost } from "@/hooks/post/useGetMyPost";
+import { useGetUserPost } from "@/hooks/post/useGetUserPost";
 import Image from "next/image";
 import React from "react";
 
@@ -28,13 +28,13 @@ export default function User({ params }: { params: { userId: string } }) {
 
   const {
     data: postData,
-    error,
-    message,
-  } = useGetMyPost(params.userId, clickedTab);
+    error: postError,
+    message: postMessage,
+  } = useGetUserPost(params.userId, clickedTab);
 
   React.useEffect(() => {
-    if (error) {
-      alert(message);
+    if (postError) {
+      alert(postMessage);
     }
   }, [error, message]);
 

@@ -3,7 +3,7 @@ import apiClient from "@/utils/axios";
 import useSWR from "swr";
 import { IPostData } from "@/typescript/post.interface";
 
-export function useGetMyPost(userId: string, clickedTab: string) {
+export function useGetUserPost(userId: string, clickedTab: string) {
   const urlKey = `/api/post/user/${userId}`;
 
   const fetcher = async () =>
