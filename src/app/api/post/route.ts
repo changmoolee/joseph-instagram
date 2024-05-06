@@ -34,6 +34,14 @@ export async function GET(req: NextRequest) {
       },
       {
         $lookup: {
+          from: "bookmarks",
+          localField: "_id",
+          foreignField: "postId",
+          as: "bookmarkDetails",
+        },
+      },
+      {
+        $lookup: {
           from: "comments",
           localField: "_id",
           foreignField: "postId",

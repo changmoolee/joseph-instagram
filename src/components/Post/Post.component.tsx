@@ -11,6 +11,7 @@ import { IPostUnifiedData } from "@/typescript/post.interface";
 import { useLoginStore } from "@/store/useLoginStore";
 import { excuteLike } from "@/utils/services/like";
 import Link from "next/link";
+import { excuteBookmark } from "@/utils/services/bookmark";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -41,6 +42,10 @@ export default function Post(props: IPostProps) {
     userDetails,
     /** 좋아요 정보 */
     likeDetails,
+    /** 북마크 정보 */
+    bookmarkDetails,
+    /** 댓글 정보 */
+    commentDetails,
   } = props;
 
   const [open, setOpen] = React.useState<boolean>(false);
@@ -84,13 +89,16 @@ export default function Post(props: IPostProps) {
               }}
             />
             <Bookmark
-              checked
+              checked={
+                !!bookmarkDetails.find(
+                  (bookmark) => bookmark.userId === userInfo?._id
+                )
+              }
               size={20}
               onClick={() => {
                 // 로그인 정보가 있다면
                 if (userInfo?._id) {
-                  excuteLike({
-                    likeDetails,
+                  excuteBookmark({
                     userId: userInfo?._id || null,
                     postId,
                   });
@@ -114,12 +122,14 @@ export default function Post(props: IPostProps) {
         <CommentInput onClick={() => setOpen(true)} />
       </section>
 
-      <PostModal
-        open={open}
-        onClose={() => setOpen(false)}
-        PostProps={props}
-        userInfo={userInfo}
-      />
+      {open && (
+        <PostModal
+          open={open}
+          onClose={() => setOpen(false)}
+          PostProps={props}
+          userInfo={userInfo}
+        />
+      )}
     </div>
   );
 }
