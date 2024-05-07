@@ -3,8 +3,13 @@ import apiClient from "@/utils/axios";
 import useSWR from "swr";
 import { IPostData } from "@/typescript/post.interface";
 
+/**
+ * 회원의 게시물 데이터 GET 커스텀 훅
+ * @param userId
+ * @param clickedTab
+ */
 export function useGetUserPost(userId: string, clickedTab: string) {
-  const urlKey = `/api/post/user/${userId}`;
+  const urlKey = `/api/post/user/${userId}?post=${clickedTab}`;
 
   const fetcher = async () =>
     await apiClient.get(urlKey, {
