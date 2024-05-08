@@ -14,9 +14,8 @@ export default function BigProfileImage({ src }: IProfileImageProps) {
         <Image
           src={src ? src : "/images/user.png"}
           alt="profile-image"
-          width={43}
-          height={43}
-          className="rounded-full"
+          fill
+          className="object-cover"
         />
       </div>
     </section>
