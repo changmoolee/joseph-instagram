@@ -60,6 +60,7 @@ export const config = {
     "/api/user/:path",
     "/api/user/edit",
     "/api/user/my-page",
+    "/api/user/follow",
     "/api/comments/:path*",
   ],
 };
