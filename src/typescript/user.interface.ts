@@ -7,3 +7,11 @@ export interface IUserData {
   email: string;
   name: string;
 }
+
+/** 팔로우 데이터 */
+export interface IFollowData {
+  _id: ObjectId;
+  followerId: ObjectId;
+  followingId: ObjectId;
+  CreatedAt: string;
+}
