@@ -77,16 +77,10 @@ export default function User({ params }: { params: { userId: string } }) {
               <span className="font-bold">{postData?.length}</span> Posts
             </span>
             <span>
-              <span className="font-bold">
-                {/* {userData?.followers?.length || 0} */}
-              </span>{" "}
-              followers
+              <span className="font-bold">{userData?.followers}</span> followers
             </span>
             <span>
-              <span className="font-bold">
-                {/* {userData?.following?.length || 0} */}
-              </span>{" "}
-              following
+              <span className="font-bold">{userData?.following}</span> following
             </span>
           </article>
           <article>

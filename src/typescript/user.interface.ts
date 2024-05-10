@@ -15,3 +15,15 @@ export interface IFollowData {
   followingId: ObjectId;
   CreatedAt: string;
 }
+
+/** 유저 + 팔로우 데이터 */
+export interface IRefinedUserData {
+  // 유저 데이터
+  _id: ObjectId;
+  image: string;
+  email: string;
+  name: string;
+  // 팔로우 데이터
+  followers: number;
+  following: number;
+}

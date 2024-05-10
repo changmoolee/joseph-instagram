@@ -1,7 +1,7 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
-import { IUserData } from "@/typescript/user.interface";
 import useSWR from "swr";
+import { IRefinedUserData } from "@/typescript/user.interface";
 
 /**
  * 회원 데이터 조회 커스텀 훅
@@ -16,7 +16,7 @@ export function useGetUserData(userId: string) {
     data: userResponse,
     error,
     isLoading,
-  } = useSWR<ICommonResponse<IUserData>>(urlKey, fetcher);
+  } = useSWR<ICommonResponse<IRefinedUserData>>(urlKey, fetcher);
 
   const { data, result, message } = userResponse?.data || {};
 
