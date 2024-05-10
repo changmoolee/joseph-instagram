@@ -5,6 +5,8 @@ import BigProfileImage from "@/components/ProfileImage/BigProfileImage.component
 import Tab from "@/components/Tab/Tab.component";
 import { useGetUserPost } from "@/hooks/post/useGetUserPost";
 import { useGetUserData } from "@/hooks/user/useGetUserData";
+import { useLoginStore } from "@/store/useLoginStore";
+import { excuteFollow } from "@/utils/services/follow";
 import Image from "next/image";
 import React from "react";
 
@@ -38,6 +40,8 @@ export default function User({ params }: { params: { userId: string } }) {
     message: userMessage,
   } = useGetUserData(params.userId);
 
+  const { isLogin, userInfo } = useLoginStore();
+
   React.useEffect(() => {
     if (postError) {
       alert(postMessage);
@@ -52,10 +56,21 @@ export default function User({ params }: { params: { userId: string } }) {
         <section className="flex flex-col gap-3">
           <article className="flex gap-5 items-center">
             <span>{userData?.name}</span>
-            <ColorButton
-              text="Follow"
-              className="h-[30px] px-3 bg-sky-400 rounded-md text-white"
-            />
+            {isLogin && userInfo?._id !== userData?._id && (
+              <ColorButton
+                text="Follow"
+                className="h-[30px] px-3 bg-sky-400 rounded-md text-white"
+                onClick={() => {
+                  if (isLogin && userData) {
+                    excuteFollow({
+                      followerId: userData._id,
+                    });
+                  } else {
+                    alert("페이지 오류가 발생하여 팔로우가 불가능합니다.");
+                  }
+                }}
+              />
+            )}
           </article>
           <article className="flex gap-5">
             <span>
