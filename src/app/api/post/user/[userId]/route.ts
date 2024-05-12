@@ -37,6 +37,11 @@ export async function GET(
       throw new Error("회원이 존재하지 않습니다.");
     }
 
+    /** 해당 회원이 작성한 총 게시물 데이터 */
+    const userPosts = await posts
+      .find({ CreateUser: new ObjectId(userId) })
+      .toArray();
+
     // post query 값이 'SAVED' 라면
     if (postQuery === "SAVED") {
       /** 해당 회원이 북마크를 누른 bookmark 도큐먼트 */
@@ -52,12 +57,15 @@ export async function GET(
       );
 
       /** 해당 회원이 북마크를 저장한 게시물 */
-      const bookmakrPosts = await posts
+      const bookmarkPosts = await posts
         .find({ _id: { $in: bookmarksPostId } })
         .toArray();
 
       return NextResponse.json({
-        data: bookmakrPosts,
+        data: {
+          totalPostCount: userPosts.length,
+          posts: bookmarkPosts,
+        },
         result: "success",
         message: "",
       });
@@ -79,21 +87,21 @@ export async function GET(
         .toArray();
 
       return NextResponse.json({
-        data: likePosts,
+        data: {
+          totalPostCount: userPosts.length,
+          posts: likePosts,
+        },
         result: "success",
         message: "",
       });
     }
 
     // 이외의 경우는 해당 회원이 작성한 게시물을 보여준다.
-
-    /** 해당 회원이 작성한 게시물 */
-    const userPosts = await posts
-      .find({ CreateUser: new ObjectId(userId) })
-      .toArray();
-
     return NextResponse.json({
-      data: userPosts,
+      data: {
+        totalPostCount: userPosts.length,
+        posts: userPosts,
+      },
       result: "success",
       message: "",
     });

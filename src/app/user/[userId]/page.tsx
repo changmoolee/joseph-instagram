@@ -74,7 +74,8 @@ export default function User({ params }: { params: { userId: string } }) {
           </article>
           <article className="flex gap-5">
             <span>
-              <span className="font-bold">{postData?.length}</span> Posts
+              <span className="font-bold">{postData?.totalPostCount}</span>{" "}
+              Posts
             </span>
             <span>
               <span className="font-bold">{userData?.followers}</span> followers
@@ -95,14 +96,14 @@ export default function User({ params }: { params: { userId: string } }) {
         }}
       />
       <ul className="max-w-[1000px] w-full h-full grid grid-cols-3 gap-4 mt-5">
-        {postData && postData.length > 0 ? (
-          postData.map((data) => (
+        {postData && postData.posts.length > 0 ? (
+          postData.posts.map((post) => (
             <li
-              key={data._id.toString()}
+              key={post._id.toString()}
               className="relative w-full h-auto aspect-[1/1]"
             >
               <Image
-                src={data.image || "/"}
+                src={post.image || "/"}
                 alt="post-image"
                 fill
                 className="object-cover"

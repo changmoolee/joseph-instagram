@@ -20,7 +20,10 @@ export function useGetUserPost(userId: string, clickedTab: string) {
     data: postResponse,
     error,
     isLoading,
-  } = useSWR<ICommonResponse<IPostData[]>>(urlKey, fetcher);
+  } = useSWR<ICommonResponse<{ totalPostCount: number; posts: IPostData[] }>>(
+    urlKey,
+    fetcher
+  );
 
   const { data, result, message } = postResponse?.data || {};
 
@@ -33,7 +36,7 @@ export function useGetUserPost(userId: string, clickedTab: string) {
   }
 
   return {
-    data: [],
+    data: null,
     error: error || result === "fail",
     isLoading,
     message: error
