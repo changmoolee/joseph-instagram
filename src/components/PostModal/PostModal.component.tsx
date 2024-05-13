@@ -133,7 +133,6 @@ export default function PostModal(props: IPostModalProps) {
                   // 로그인 정보가 있다면
                   if (userInfo?._id) {
                     excuteLike({
-                      likeDetails,
                       userId: userInfo?._id || null,
                       postId,
                     });
@@ -149,7 +148,6 @@ export default function PostModal(props: IPostModalProps) {
                   // 로그인 정보가 있다면
                   if (userInfo?._id) {
                     excuteLike({
-                      likeDetails,
                       userId: userInfo?._id || null,
                       postId,
                     });

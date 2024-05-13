@@ -12,6 +12,7 @@ export interface IPostUnifiedData {
   userDetails: IUserData[];
   likeDetails: ILikeData[];
   commentDetails: ICommentData[];
+  bookmarkDetails: IBookmarkData[];
 }
 
 /** 게시물 데이터 */
@@ -40,6 +41,14 @@ export interface ICommentData {
   CreateUser: ObjectId;
   CreateDate: string | null;
   replies: string[] | null;
+}
+
+/** 북마크 데이터 */
+export interface IBookmarkData {
+  _id: ObjectId;
+  userId: ObjectId;
+  postId: ObjectId;
+  CreateDate: string | null;
 }
 
 /** 게시물 댓글 데이터 */

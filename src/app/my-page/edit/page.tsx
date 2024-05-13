@@ -10,6 +10,7 @@ import { ImageUpload } from "@/utils/services/upload";
 import apiClient from "@/utils/axios";
 import { useLoginStore } from "@/store/useLoginStore";
 import { useGetMyData } from "@/hooks/user/useGetMyData";
+import Loading from "@/components/Loading/Loading.component";
 
 /**
  * 마이 페이지 수정
@@ -84,7 +85,7 @@ export default function MyPageEdit() {
   };
 
   // 유저 프로필 데이터 호출
-  const { data: userInfo, error, message } = useGetMyData();
+  const { isLoading, data: userInfo, error, message } = useGetMyData();
 
   React.useEffect(() => {
     // 에러시
@@ -96,6 +97,11 @@ export default function MyPageEdit() {
     setValue("name", userInfo?.name);
     setValue("image", userInfo?.image);
   }, [userInfo, setValue, error, message]);
+
+  // 로딩일 경우 로딩 컴포넌트
+  if (isLoading) {
+    return <Loading isActive={isLoading} className="mx-auto mt-5" />;
+  }
 
   return (
     <main className="w-full flex justify-center">

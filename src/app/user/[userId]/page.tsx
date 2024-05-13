@@ -3,7 +3,10 @@
 import ColorButton from "@/components/ColorButton/ColorButton.component";
 import BigProfileImage from "@/components/ProfileImage/BigProfileImage.component";
 import Tab from "@/components/Tab/Tab.component";
-import { useGetMyPost } from "@/hooks/post/useGetMyPost";
+import { useGetUserPost } from "@/hooks/post/useGetUserPost";
+import { useGetUserData } from "@/hooks/user/useGetUserData";
+import { useLoginStore } from "@/store/useLoginStore";
+import { excuteFollow } from "@/utils/services/follow";
 import Image from "next/image";
 import React from "react";
 
@@ -25,44 +28,64 @@ export default function User({ params }: { params: { userId: string } }) {
   /**
    * 유저 개인의 포스트 데이터 호출
    */
-
   const {
     data: postData,
-    error,
-    message,
-  } = useGetMyPost(params.userId, clickedTab);
+    error: postError,
+    message: postMessage,
+  } = useGetUserPost(params.userId, clickedTab);
+
+  const {
+    data: userData,
+    error: userError,
+    message: userMessage,
+  } = useGetUserData(params.userId);
+
+  const { isLogin, userInfo } = useLoginStore();
 
   React.useEffect(() => {
-    if (error) {
-      alert(message);
+    if (postError) {
+      alert(postMessage);
     }
-  }, [error, message]);
+    if (userError) alert(userMessage);
+  }, [postError, postMessage, userError, userMessage]);
 
   return (
     <main className="w-full h-full flex flex-col items-center">
       <div className="w-[500px] h-[200px] flex gap-10 p-5">
-        <BigProfileImage src="/" />
+        <BigProfileImage src={userData?.image || "/"} />
         <section className="flex flex-col gap-3">
           <article className="flex gap-5 items-center">
-            <span>name</span>
-            <ColorButton
-              text="Follow"
-              className="h-[30px] p-3 bg-sky-400 rounded-md"
-            />
+            <span>{userData?.name}</span>
+            {isLogin && userInfo?._id !== userData?._id && (
+              <ColorButton
+                text="Follow"
+                className="h-[30px] px-3 bg-sky-400 rounded-md text-white"
+                onClick={() => {
+                  if (isLogin && userData) {
+                    excuteFollow({
+                      followerId: userData._id,
+                    });
+                  } else {
+                    alert("페이지 오류가 발생하여 팔로우가 불가능합니다.");
+                  }
+                }}
+              />
+            )}
           </article>
           <article className="flex gap-5">
             <span>
-              <span className="font-bold">2</span> Posts
+              <span className="font-bold">{postData?.totalPostCount}</span>{" "}
+              Posts
             </span>
             <span>
-              <span className="font-bold">2</span> followers
+              <span className="font-bold">{userData?.followers}</span> followers
             </span>
             <span>
-              <span className="font-bold">1</span> following
+              <span className="font-bold">{userData?.following}</span> following
             </span>
           </article>
           <article>
-            <span className="font-bold">name</span>
+            <span className="font-bold">{userData?.name}</span>
           </article>
         </section>
       </div>
@@ -72,14 +95,19 @@ export default function User({ params }: { params: { userId: string } }) {
           setClickedTab(selectedTab);
         }}
       />
-      <ul className="max-w-[1000px] w-full h-full grid grid-cols-3 gap-4">
-        {postData ? (
-          postData.map((data) => (
+      <ul className="max-w-[1000px] w-full h-full grid grid-cols-3 gap-4 mt-5">
+        {postData && postData.posts.length > 0 ? (
+          postData.posts.map((post) => (
             <li
-              key={data._id.toString()}
+              key={post._id.toString()}
               className="relative w-full h-auto aspect-[1/1]"
             >
-              <Image src={data.image || "/"} alt="post-image" fill />
+              <Image
+                src={post.image || "/"}
+                alt="post-image"
+                fill
+                className="object-cover"
+              />
             </li>
           ))
         ) : (

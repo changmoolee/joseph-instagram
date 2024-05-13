@@ -3,17 +3,17 @@ import { ILikeData } from "@/typescript/post.interface";
 import apiClient from "@/utils/axios";
 import { ObjectId } from "mongodb";
 
-interface IExcuteLikeProps {
+interface IExcuteBookmarkProps {
   userId: ObjectId;
   postId: ObjectId;
 }
 
-/** 좋아요 실행 api 함수 */
-export const excuteLike = async (props: IExcuteLikeProps) => {
+/** 북마크 실행 api 함수 */
+export const excuteBookmark = async (props: IExcuteBookmarkProps) => {
   // props
   const { userId, postId } = props;
 
-  const response: ICommonResponse = await apiClient.post("/api/post/like", {
+  const response: ICommonResponse = await apiClient.post("/api/post/bookmark", {
     postId: postId,
     createUser: userId,
   });
@@ -21,10 +21,10 @@ export const excuteLike = async (props: IExcuteLikeProps) => {
   const { result, message } = response.data;
 
   if (result === "success") {
-    alert("좋아요를 실행하였습니다.");
+    alert("북마크 저장/해제를 실행하였습니다.");
   }
 
   if (result === "fail") {
-    alert(message || "좋아요을 실패하였습니다.");
+    alert(message || "북마크 저장/해제를 실패하였습니다.");
   }
 };
