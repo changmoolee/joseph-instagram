@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import { useLoginStore } from "@/store/useLoginStore";
 import apiClient from "@/utils/axios";
+import { useCheckLogin } from "@/hooks/auth/useCheckLogin";
+import React from "react";
 
 /**
  * 헤더 컴포넌트
@@ -44,6 +46,15 @@ export default function Header() {
       alert(message);
     }
   };
+
+  // 로그인 여부 체크
+  const { data } = useCheckLogin();
+
+  React.useEffect(() => {
+    if (!data.isLogin) {
+      excuteLogout();
+    }
+  }, [data, excuteLogout]);
 
   return (
     <header className="w-full h-[100px] flex justify-center border-solid border-b-[1px] border-black">
