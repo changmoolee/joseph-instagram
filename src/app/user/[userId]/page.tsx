@@ -1,6 +1,7 @@
 "use client";
 
 import ColorButton from "@/components/ColorButton/ColorButton.component";
+import PostModal from "@/components/PostModal/PostModal.component";
 import BigProfileImage from "@/components/ProfileImage/BigProfileImage.component";
 import Tab from "@/components/Tab/Tab.component";
 import { useGetUserPost } from "@/hooks/post/useGetUserPost";
@@ -10,21 +11,20 @@ import { excuteFollow } from "@/utils/services/follow";
 import Image from "next/image";
 import React from "react";
 
-interface IPostData {
-  CreateDate: string;
-  description: string;
-  image: string;
-  like_user: string[];
-  userId: string;
-  _id: string;
-}
-
+/**
+ * 회원 게시물 페이지
+ */
 export default function User({ params }: { params: { userId: string } }) {
   const tabs = ["POSTS", "SAVED", "LIKED"];
 
   // 클릭한 탭의 index
   const [clickedTab, setClickedTab] = React.useState<string>(tabs[0]);
 
+  // 클릭한 Post의 id
+  const [clickedId, setClickedId] = React.useState<string>();
+
+  // PostModal 구현 여부
+  const [open, setOpen] = React.useState<boolean>(false);
   /**
    * 유저 개인의 포스트 데이터 호출
    */
@@ -48,6 +48,16 @@ export default function User({ params }: { params: { userId: string } }) {
     }
     if (userError) alert(userMessage);
   }, [postError, postMessage, userError, userMessage]);
+
+  /**
+   * 클릭한 게시물의 데이터
+   */
+  const clickedPostData = React.useMemo(
+    () =>
+      postData &&
+      postData.posts.filter((post) => post._id.toString() === clickedId).at(0),
+    [postData, clickedId]
+  );
 
   return (
     <main className="w-full h-full flex flex-col items-center">
@@ -102,18 +112,33 @@ export default function User({ params }: { params: { userId: string } }) {
               key={post._id.toString()}
               className="relative w-full h-auto aspect-[1/1]"
             >
-              <Image
-                src={post.image || "/"}
-                alt="post-image"
-                fill
-                className="object-cover"
-              />
+              <button
+                onClick={() => {
+                  setOpen(true);
+                  setClickedId(post._id.toString());
+                }}
+              >
+                <Image
+                  src={post.image || "/"}
+                  alt="post-image"
+                  fill
+                  className="object-cover"
+                />
+              </button>
             </li>
           ))
         ) : (
           <div>데이터가 없습니다.</div>
         )}
       </ul>
+      {open && clickedPostData && (
+        <PostModal
+          open={open}
+          onClose={() => setOpen(false)}
+          PostProps={clickedPostData}
+          userInfo={userInfo}
+        />
+      )}
     </main>
   );
 }
