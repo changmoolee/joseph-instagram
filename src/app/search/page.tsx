@@ -6,6 +6,7 @@ import { useGetUser } from "@/hooks/user/search/useGetUser";
 import { IUserData } from "@/typescript/user.interface";
 import React from "react";
 import Loading from "@/components/Loading/Loading.component";
+import Link from "next/link";
 
 /**
  * 검색 페이지
@@ -43,13 +44,14 @@ export default function Search() {
             <Loading isActive={isLoading} className="mx-auto mt-5" />
           ) : userInfo ? (
             userInfo.map((user: IUserData) => (
-              <ProfileCard
-                key={user._id.toString()}
-                name={user.name}
-                image={user.image}
-                // followersNum={user.follwers?.length || 0}
-                // followingNum={user.following?.length || 0}
-              />
+              <Link key={user._id.toString()} href={`/user/${user._id}`}>
+                <ProfileCard
+                  name={user.name}
+                  image={user.image}
+                  // followersNum={user.follwers?.length || 0}
+                  // followingNum={user.following?.length || 0}
+                />
+              </Link>
             ))
           ) : (
             <div className="w-full h-[200px] flex justify-center items-center">
