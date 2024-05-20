@@ -9,7 +9,7 @@ import React from "react";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
 import { useGetMyData } from "@/hooks/user/useGetMyData";
-import Loading from "@/components/Loading/Loading.component";
+import SkeletonUI from "@/components/SkeletonUI/SkeletonUI.component";
 
 /**
  * 마이 페이지
@@ -58,9 +58,6 @@ export default function MyPage() {
   }, [error, message, router]);
 
   // 로딩일 경우 로딩 컴포넌트
-  if (isLoading) {
-    return <Loading isActive={isLoading} className="mx-auto mt-5" />;
-  }
 
   return (
     <main className="w-full flex justify-center">
@@ -69,31 +66,38 @@ export default function MyPage() {
           <span className="text-xl font-[600]">마이 페이지</span>
         </section>
         <section className="w-full flex justify-center">
-          <div className="relative w-[300px] h-[300px] rounded-full overflow-hidden">
-            <Image
-              src={userInfo?.image || "/images/user.png"}
-              alt="my-page-profile-image"
-              fill
-              className="object-cover"
-            />
-          </div>
+          <SkeletonUI isActive={isLoading} className="rounded-full">
+            <div className="relative w-[300px] h-[300px] rounded-full overflow-hidden">
+              <Image
+                src={userInfo?.image || "/images/user.png"}
+                alt="my-page-profile-image"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </SkeletonUI>
         </section>
 
         <section className="w-full flex flex-col gap-10 my-10">
-          <article className="w-full gap-5">
-            {/* 이메일 */}
-            <section className="w-full flex">
-              <span className="w-[200px]">이메일</span>
-              <span className="w-full">{userInfo?.email || ""}</span>
-            </section>
-          </article>
-          <article className="w-full gap-5">
-            {/* 이름 */}
-            <section className="w-full flex">
-              <span className="w-[200px]">이름</span>
-              <span className="w-full">{userInfo?.name || ""}</span>
-            </section>
-          </article>
+          <SkeletonUI isActive={isLoading}>
+            <article className="w-full gap-5">
+              {/* 이메일 */}
+              <section className="w-full flex">
+                <span className="w-[200px]">이메일</span>
+                <span className="w-full">{userInfo?.email || ""}</span>
+              </section>
+            </article>
+          </SkeletonUI>
+
+          <SkeletonUI isActive={isLoading}>
+            <article className="w-full gap-5">
+              {/* 이름 */}
+              <section className="w-full flex">
+                <span className="w-[200px]">이름</span>
+                <span className="w-full">{userInfo?.name || ""}</span>
+              </section>
+            </article>
+          </SkeletonUI>
         </section>
 
         {/* 내정보 수정 페이지 이동*/}
