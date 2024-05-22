@@ -4,6 +4,10 @@ interface ISkeletonUIProps {
    */
   isActive: boolean;
   /**
+   * 원 모양 유무
+   */
+  isCircle?: boolean;
+  /**
    * className
    */
   className?: string;
@@ -18,15 +22,17 @@ interface ISkeletonUIProps {
  */
 export default function SkeletonUI(props: ISkeletonUIProps) {
   // props
-  const { isActive, className, children } = props;
+  const { isActive, isCircle, className = "", children } = props;
 
-  const skeletonEffect = isActive ? "animate-pulse bg-gray-400" : "";
+  const shape = isCircle ? "rounded-full" : "";
 
-  const invisibleEffect = isActive ? "invisible" : "";
+  const skeletonEffect = isActive
+    ? "animate-pulse bg-gray-400 w-min h-min"
+    : "";
 
   return (
-    <section className={`${skeletonEffect}  ${className}`}>
-      <div className={invisibleEffect}>{children}</div>
+    <section className={`${skeletonEffect} ${shape} ${className}`}>
+      {children}
     </section>
   );
 }
