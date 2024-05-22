@@ -5,8 +5,8 @@ import SearchInput from "@/components/SearchInput/SearchInput.component";
 import { useGetUser } from "@/hooks/user/search/useGetUser";
 import { IUserData } from "@/typescript/user.interface";
 import React from "react";
-import Loading from "@/components/Loading/Loading.component";
 import Link from "next/link";
+import SkeletonCard from "@/components/ProfileCard/SkeletonCard.component";
 
 /**
  * 검색 페이지
@@ -41,7 +41,11 @@ export default function Search() {
         />
         <section className="w-full h-[auto] flex flex-col p-5 gap-3">
           {isLoading ? (
-            <Loading isActive={isLoading} className="mx-auto mt-5" />
+            <>
+              <SkeletonCard isActive={isLoading} />
+              <SkeletonCard isActive={isLoading} />
+              <SkeletonCard isActive={isLoading} />
+            </>
           ) : userInfo ? (
             userInfo.map((user: IUserData) => (
               <Link key={user._id.toString()} href={`/user/${user._id}`}>
