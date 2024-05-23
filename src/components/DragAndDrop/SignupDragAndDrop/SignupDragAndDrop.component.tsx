@@ -41,7 +41,7 @@ export default function SignupDragAndDrop(props: ISignupDragAndDropProps) {
         onChange={onChange}
       >
         <div className="w-[200px] h-[200px] flex flex-col justify-center items-center gap-3 bg-white border-dotted border-sky-400 border-4 rounded-full">
-          <FaPhotoVideo className="w-[30%] h-[30%]" color="#ced4da" />
+          <FaPhotoVideo className="w-[100%] h-[100%]" color="#ced4da" />
         </div>
       </DragAndDrop>
       <section className="w-full h-[40px] flex justify-end m-2">

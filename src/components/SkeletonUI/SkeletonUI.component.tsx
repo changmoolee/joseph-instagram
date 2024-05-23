@@ -26,9 +26,7 @@ export default function SkeletonUI(props: ISkeletonUIProps) {
 
   const shape = isCircle ? "rounded-full" : "";
 
-  const skeletonEffect = isActive
-    ? "animate-pulse bg-gray-400 w-min h-min"
-    : "";
+  const skeletonEffect = isActive ? "animate-pulse bg-gray-400" : "";
 
   return (
     <section className={`${skeletonEffect} ${shape} ${className}`}>

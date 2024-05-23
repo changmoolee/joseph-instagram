@@ -1,4 +1,3 @@
-import ProfileImage from "@/components/ProfileImage/ProfileImage.component";
 import SkeletonUI from "@/components/SkeletonUI/SkeletonUI.component";
 
 interface ISkeletonCardProps {
@@ -9,7 +8,7 @@ interface ISkeletonCardProps {
 }
 
 /**
- * 프로필 카드
+ * 프로필 카드 스켈레톤 UI
  */
 export default function SkeletonCard(props: ISkeletonCardProps) {
   // props
@@ -21,10 +20,10 @@ export default function SkeletonCard(props: ISkeletonCardProps) {
         <div className="w-[50px] h-[50px]" />
       </SkeletonUI>
       <section className="w-full flex flex-col gap-3">
-        <SkeletonUI isActive={isActive}>
+        <SkeletonUI isActive={isActive} className="w-min h-min">
           <div className="w-[100px] h-[15px]" />
         </SkeletonUI>
-        <SkeletonUI isActive={isActive}>
+        <SkeletonUI isActive={isActive} className="w-min h-min">
           <div className="w-[300px] h-[15px]" />
         </SkeletonUI>
       </section>
