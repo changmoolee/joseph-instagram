@@ -10,7 +10,8 @@ import { ImageUpload } from "@/utils/services/upload";
 import apiClient from "@/utils/axios";
 import { useLoginStore } from "@/store/useLoginStore";
 import { useGetMyData } from "@/hooks/user/useGetMyData";
-import Loading from "@/components/Loading/Loading.component";
+import SkeletonUI from "@/components/SkeletonUI/SkeletonUI.component";
+import SignupDragAndDropSkeletonUI from "@/components/DragAndDrop/SignupDragAndDrop/SingupDragAndDropSkeletonUI.component";
 
 /**
  * 마이 페이지 수정
@@ -98,85 +99,124 @@ export default function MyPageEdit() {
     setValue("image", userInfo?.image);
   }, [userInfo, setValue, error, message]);
 
-  // 로딩일 경우 로딩 컴포넌트
-  if (isLoading) {
-    return <Loading isActive={isLoading} className="mx-auto mt-5" />;
-  }
-
   return (
     <main className="w-full flex justify-center">
       <form
-        className="w-[400px] flex flex-col gap-5"
+        className="w-[400px] flex flex-col"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <section className="w-full flex justify-center my-10">
+        <section className="w-full flex justify-center mt-10 mb-20">
           <span className="text-xl font-[600]">내정보 수정</span>
         </section>
-        <SignupDragAndDrop
-          prevSrc={watch("image")}
-          onChange={(file) => {
-            setImageFile(file);
-          }}
-        />
-        <section className="w-full flex flex-col gap-10">
-          <article className="w-full gap-5">
-            <section className="w-full flex">
-              <span className="w-[200px]">이메일</span>
-              <input
-                className="w-full"
-                placeholder="abc1234@gmail.com"
-                {...register("email", { required: true })}
-              />
-            </section>
-            {errors.email && (
-              <span className="text-[red]">이메일을 입력해 주세요.</span>
-            )}
-          </article>
-          <article className="w-full gap-5">
-            <section className="w-full flex">
-              <span className="w-[200px]">이름</span>
-              <input
-                className="w-full"
-                placeholder="홍길동"
-                {...register("name", { required: true })}
-              />
-            </section>
-            {errors.name && (
-              <span className="text-[red]">이름을 입력해 주세요.</span>
-            )}
-          </article>
-          <article className="w-full gap-5">
-            <section className="w-full flex">
-              <span className="w-[200px]">비밀번호</span>
-              <input
-                className="w-full"
-                type="password"
-                placeholder="password"
-                {...register("password", { required: false })}
-              />
-            </section>
-            {errors.password && (
-              <span className="text-[red]">비밀번호를 입력해 주세요.</span>
-            )}
-          </article>
-          <article className="w-full gap-5">
-            <section className="w-full flex">
-              <span className="w-[200px]">비밀번호 확인</span>
-              <input
-                className="w-full"
-                type="password"
-                placeholder="verify password"
-                {...register("verifyPassword", {
-                  validate: (v) => watch("password") == v,
-                  disabled: !watch("password"),
-                })}
-              />
-            </section>
-            {errors.verifyPassword && (
-              <span className="text-[red]">비밀번호가 일치하지 않습니다.</span>
-            )}
-          </article>
+        {/* 프로필 이미지 수정 */}
+        {isLoading ? (
+          <SignupDragAndDropSkeletonUI isActive={isLoading} />
+        ) : (
+          <SignupDragAndDrop
+            prevSrc={watch("image")}
+            onChange={(file) => {
+              setImageFile(file);
+            }}
+          />
+        )}
+
+        <section className="w-full flex flex-col mt-20 gap-10">
+          {isLoading ? (
+            <SkeletonUI
+              isActive={isLoading}
+              isCircle
+              className="w-[400px] h-[24px]"
+            />
+          ) : (
+            <article className="w-full gap-5">
+              <section className="w-full flex">
+                <span className="w-[200px]">이메일</span>
+                <input
+                  className="w-full"
+                  placeholder="abc1234@gmail.com"
+                  {...register("email", { required: true })}
+                />
+              </section>
+              {errors.email && (
+                <span className="text-[red]">이메일을 입력해 주세요.</span>
+              )}
+            </article>
+          )}
+          {/* 이름 수정 */}
+          {isLoading ? (
+            <SkeletonUI
+              isActive={isLoading}
+              isCircle
+              className="w-[400px] h-[24px]"
+            />
+          ) : (
+            <article className="w-full gap-5">
+              <section className="w-full flex">
+                <span className="w-[200px]">이름</span>
+                <input
+                  className="w-full"
+                  placeholder="홍길동"
+                  {...register("name", { required: true })}
+                />
+              </section>
+              {errors.name && (
+                <span className="text-[red]">이름을 입력해 주세요.</span>
+              )}
+            </article>
+          )}
+          {/* 비밀번호 수정 */}
+          {isLoading ? (
+            <SkeletonUI
+              isActive={isLoading}
+              isCircle
+              className="w-[400px] h-[24px]"
+            />
+          ) : (
+            <article className="w-full gap-5">
+              <section className="w-full flex">
+                <span className="w-[200px]">비밀번호</span>
+                <input
+                  className="w-full"
+                  type="password"
+                  placeholder="password"
+                  {...register("password", { required: false })}
+                />
+              </section>
+              {errors.password && (
+                <span className="text-[red]">비밀번호를 입력해 주세요.</span>
+              )}
+            </article>
+          )}
+          {/* 비밀번호 확인 수정 */}
+          {isLoading ? (
+            <SkeletonUI
+              isActive={isLoading}
+              isCircle
+              className="w-[400px] h-[24px]"
+            />
+          ) : (
+            <article className="w-full gap-5">
+              <section className="w-full flex">
+                <span className="w-[200px]">비밀번호 확인</span>
+                <input
+                  className="w-full"
+                  type="password"
+                  placeholder="verify password"
+                  {...register("verifyPassword", {
+                    validate: (v) => watch("password") == v,
+                    disabled: !watch("password"),
+                  })}
+                />
+              </section>
+              {errors.verifyPassword && (
+                <span className="text-[red]">
+                  비밀번호가 일치하지 않습니다.
+                </span>
+              )}
+            </article>
+          )}
         </section>
+
         <ColorButton
           text="수정하기"
           className="w-full h-[40px] mt-10 bg-sky-400 text-[white]"

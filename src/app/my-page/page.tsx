@@ -57,8 +57,6 @@ export default function MyPage() {
     }
   }, [error, message, router]);
 
-  // 로딩일 경우 로딩 컴포넌트
-
   return (
     <main className="w-full flex justify-center">
       <form className="w-[400px] flex flex-col gap-5">
@@ -66,7 +64,14 @@ export default function MyPage() {
           <span className="text-xl font-[600]">마이 페이지</span>
         </section>
         <section className="w-full flex justify-center">
-          <SkeletonUI isActive={isLoading} className="rounded-full">
+          {/* 유저 프로필 이미지 */}
+          {isLoading ? (
+            <SkeletonUI
+              isActive={isLoading}
+              isCircle
+              className="w-[300px] h-[300px]"
+            />
+          ) : (
             <div className="relative w-[300px] h-[300px] rounded-full overflow-hidden">
               <Image
                 src={userInfo?.image || "/images/user.png"}
@@ -75,11 +80,18 @@ export default function MyPage() {
                 className="object-cover"
               />
             </div>
-          </SkeletonUI>
+          )}
         </section>
 
         <section className="w-full flex flex-col gap-10 my-10">
-          <SkeletonUI isActive={isLoading}>
+          {/* 유저 이메일 */}
+          {isLoading ? (
+            <SkeletonUI
+              isActive={isLoading}
+              isCircle
+              className="w-[400px] h-[24px]"
+            />
+          ) : (
             <article className="w-full gap-5">
               {/* 이메일 */}
               <section className="w-full flex">
@@ -87,9 +99,16 @@ export default function MyPage() {
                 <span className="w-full">{userInfo?.email || ""}</span>
               </section>
             </article>
-          </SkeletonUI>
+          )}
 
-          <SkeletonUI isActive={isLoading}>
+          {/* 유저 이름 */}
+          {isLoading ? (
+            <SkeletonUI
+              isActive={isLoading}
+              isCircle
+              className="w-[400px] h-[24px]"
+            />
+          ) : (
             <article className="w-full gap-5">
               {/* 이름 */}
               <section className="w-full flex">
@@ -97,7 +116,7 @@ export default function MyPage() {
                 <span className="w-full">{userInfo?.name || ""}</span>
               </section>
             </article>
-          </SkeletonUI>
+          )}
         </section>
 
         {/* 내정보 수정 페이지 이동*/}
