@@ -20,9 +20,7 @@ export function useGetUserPost(userId: string, clickedTab: string) {
     data: postResponse,
     error,
     isLoading,
-  } = useSWR<
-    ICommonResponse<{ totalPostCount: number; posts: IPostUnifiedData[] }>
-  >(urlKey, fetcher);
+  } = useSWR<ICommonResponse<IPostUnifiedData[]>>(urlKey, fetcher);
 
   const { data, result, message } = postResponse?.data || {};
 

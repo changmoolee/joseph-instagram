@@ -60,7 +60,7 @@ export default function User({ params }: { params: { userId: string } }) {
   const clickedPostData = React.useMemo(
     () =>
       postData &&
-      postData.posts.filter((post) => post._id.toString() === clickedId).at(0),
+      postData.filter((post) => post._id.toString() === clickedId).at(0),
     [postData, clickedId]
   );
 
@@ -112,7 +112,7 @@ export default function User({ params }: { params: { userId: string } }) {
           ) : (
             <article className="flex gap-5">
               <span>
-                <span className="font-bold">{postData?.totalPostCount}</span>{" "}
+                <span className="font-bold">{userData?.totalPostCount}</span>{" "}
                 Posts
               </span>
               <span>
@@ -157,8 +157,8 @@ export default function User({ params }: { params: { userId: string } }) {
               className="w-full h-auto aspect-[1/1]"
             />
           </>
-        ) : postData && postData.posts.length > 0 ? (
-          postData.posts.map((post) => (
+        ) : postData && postData.length > 0 ? (
+          postData.map((post) => (
             <li
               key={post._id.toString()}
               className="relative w-full h-auto aspect-[1/1]"

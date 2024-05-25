@@ -23,6 +23,8 @@ export interface IRefinedUserData {
   image: string;
   email: string;
   name: string;
+  // 게시물 데이터
+  totalPostCount: number;
   // 팔로우 데이터
   followers: number;
   following: number;

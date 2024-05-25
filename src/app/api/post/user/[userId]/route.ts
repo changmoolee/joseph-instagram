@@ -99,10 +99,7 @@ export async function GET(
       );
 
       return NextResponse.json({
-        data: {
-          totalPostCount: userPosts.length,
-          posts: bookmarkPosts,
-        },
+        data: bookmarkPosts,
         result: "success",
         message: "",
       });
@@ -125,10 +122,7 @@ export async function GET(
       );
 
       return NextResponse.json({
-        data: {
-          totalPostCount: userPosts.length,
-          posts: likePosts,
-        },
+        data: likePosts,
         result: "success",
         message: "",
       });
@@ -136,10 +130,7 @@ export async function GET(
 
     // 이외의 경우는 해당 회원이 작성한 게시물을 보여준다.
     return NextResponse.json({
-      data: {
-        totalPostCount: userPosts.length,
-        posts: userPosts,
-      },
+      data: userPosts,
       result: "success",
       message: "",
     });
