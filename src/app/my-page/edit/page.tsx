@@ -17,7 +17,8 @@ import SignupDragAndDropSkeletonUI from "@/components/DragAndDrop/SignupDragAndD
  * 마이 페이지 수정
  */
 export default function MyPageEdit() {
-  const [imageFile, setImageFile] = React.useState<File[]>();
+  // 업로드할 이미지 파일 상태
+  const [imageFile, setImageFile] = React.useState<File[]>([]);
 
   // router
   const router = useRouter();
@@ -38,46 +39,59 @@ export default function MyPageEdit() {
    * 유저 데이터 수정
    */
   const updateUser = async (params: any) => {
-    // 이미지 업 로드
-    if (imageFile) {
+    /** 수정 프로필 이미지 데이터 */
+    let imageData;
+
+    // 수정할 프로필 이미지가 존재할 시
+    if (imageFile.length > 0) {
       const imageUploadResponse = await ImageUpload(imageFile);
 
       const { result, data } = imageUploadResponse;
 
-      if (result === "success") {
-        // 객체분해할당
-        const { email, name, password } = params;
-
-        const response: ICommonResponse = await apiClient.patch(
-          "/api/user/edit",
-          {
-            image: data,
-            email,
-            name,
-            password,
-          }
-        );
-
-        const { result, message } = response.data;
-
-        if (result === "success") {
-          alert(message);
-
-          // 로컬스토리지 및 전역상태에 저장되어 있는 프로필 데이터도 변경
-          userInfo &&
-            excuteLogin({ ...userInfo, name, ...(data && { image: data }) });
-
-          // 메인페이지 이동
-          router.push("/");
-        }
-
-        if (result === "fail") {
-          // 에러메시지
-          alert(message);
-        }
-      } else {
+      if (result === "fail") {
         alert("게시물 업로드에 실패했습니다.");
+        return;
       }
+      // S3에 업로드 된 이미지 데이터를 할당한다.
+      imageData = data;
+    }
+
+    // 이미지 파일을 제외한 데이터
+    const { email, name, password } = params;
+
+    /**
+     * 프로필 데이터 수정 api 호출 결과
+     */
+    const response: ICommonResponse = await apiClient.patch("/api/user/edit", {
+      // 수정할 프로필 이미지가 존재할 시
+      ...(imageData && { image: imageData }),
+      email,
+      name,
+      password,
+    });
+
+    const { result, message } = response.data;
+
+    // 프로필 데이터 수정이 성공적일 경우
+    if (result === "success") {
+      alert(message);
+
+      // 로컬스토리지 및 전역상태에 저장되어 있는 프로필 데이터도 변경
+      userInfo &&
+        excuteLogin({
+          ...userInfo,
+          name,
+          ...(imageData && { image: imageData }),
+        });
+
+      // 메인페이지 이동
+      router.push("/");
+    }
+
+    // 프로필 데이터 수정이 실패했을 경우
+    if (result === "fail") {
+      // 에러메시지
+      alert(message);
     }
   };
 
