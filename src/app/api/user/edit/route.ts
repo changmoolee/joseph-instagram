@@ -30,8 +30,9 @@ export async function PATCH(req: NextRequest) {
       const saltRounds = 10;
 
       /** 해싱처리한 패스워드 */
-      const hashedPassword =
-        password ?? (await bcrypt.hash(password, saltRounds));
+      const hashedPassword = password
+        ? await bcrypt.hash(password, saltRounds)
+        : null;
 
       const updateResult = await db.collection("users").updateOne(
         { _id: new ObjectId(userData._id) },
