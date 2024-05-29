@@ -8,6 +8,12 @@ export interface IUserData {
   name: string;
 }
 
+/** 유저 팔로우 데이터 */
+export interface IUserFollowData {
+  follower: IRefinedUserData[];
+  following: IRefinedUserData[];
+}
+
 /** 팔로우 데이터 */
 export interface IFollowData {
   _id: ObjectId;
