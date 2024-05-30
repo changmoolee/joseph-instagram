@@ -48,13 +48,13 @@ export default function Header() {
   };
 
   // 로그인 여부 체크
-  const { data } = useCheckLogin();
+  // const { data } = useCheckLogin();
 
-  React.useEffect(() => {
-    if (!data.isLogin) {
-      excuteLogout();
-    }
-  }, [data, excuteLogout]);
+  // React.useEffect(() => {
+  //   if (!data.isLogin) {
+  //     excuteLogout();
+  //   }
+  // }, [data, excuteLogout]);
 
   return (
     <header className="w-full h-[100px] flex justify-center border-solid border-b-[1px] border-black">

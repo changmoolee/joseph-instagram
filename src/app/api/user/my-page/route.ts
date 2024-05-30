@@ -1,15 +1,26 @@
-import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/mongodb";
+import { NextRequest, NextResponse } from "next/server";
+import { ObjectId } from "mongodb";
+import { IUserData } from "@/typescript/user.interface";
 
 export async function GET(req: NextRequest) {
   try {
     const encodedUserData = req.headers.get("userId");
 
     if (encodedUserData) {
+      const { client } = await connectToDatabase();
+
+      const db = client.db("sample_mflix");
+
       const decodedUserData = Buffer.from(encodedUserData, "base64").toString(
         "utf8"
       );
-      const userData = JSON.parse(decodedUserData);
+      const parsedUserData = JSON.parse(decodedUserData);
+
+      /** 해당 회원의 회원 데이터 */
+      const userData = await db
+        .collection<IUserData>("users")
+        .findOne<IUserData>({ _id: new ObjectId(parsedUserData._id) });
 
       return NextResponse.json({
         data: userData,

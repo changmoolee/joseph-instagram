@@ -2,6 +2,7 @@ import { connectToDatabase } from "@/utils/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { IFollowData, IUserData } from "@/typescript/user.interface";
+import { IPostData } from "@/typescript/post.interface";
 
 /** 회원 데이터 조회 */
 export async function GET(
@@ -16,8 +17,17 @@ export async function GET(
 
   /** 해당 회원의 회원 데이터 */
   const userData = await db
-    .collection<IUserData>("users")
+    .collection<IUserData[]>("users")
     .findOne<IUserData>({ _id: new ObjectId(userId) });
+
+  /** 해당 회원의 게시물 데이터 */
+  const postData = await db
+    .collection<IPostData>("posts")
+    .find<IPostData>({ CreateUser: new ObjectId(userId) })
+    .toArray();
+
+  /** 작성한 게시물 수 */
+  const postsNumber = postData.length;
 
   /** 해당 회원의 팔로우/팔로잉 데이터 */
   const followData = await db
@@ -43,6 +53,7 @@ export async function GET(
   /** 정제 데이터 */
   const refinedData = {
     ...userData,
+    totalPostCount: postsNumber,
     followers: followersNumber,
     following: followingNumber,
   };

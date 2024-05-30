@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
         // 팔로우 등록 - 팔로우 데이터 추가
         await db.collection("follows").insertOne({
           followerId: new ObjectId(followerId),
-          followingId: new ObjectId(followingId),
+          followingId: new ObjectId(userData._id),
           CreatedAt: dayjs().format(),
         });
       }
