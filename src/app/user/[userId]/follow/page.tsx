@@ -11,13 +11,13 @@ import { useGetFollowUser } from "@/hooks/user/useGetFollowUser";
 /**
  * 회원의 팔로워/팔로잉 유저 확인 페이지
  */
-export default function UserFollow(userId: string) {
+export default function UserFollow({ params }: { params: { userId: string } }) {
   const tabs = ["Follower", "Following"];
 
   // 클릭한 탭의 index
   const [clickedTab, setClickedTab] = React.useState<string>(tabs[0]);
 
-  const { isLoading, data: followInfo } = useGetFollowUser(userId);
+  const { isLoading, data: followInfo } = useGetFollowUser(params.userId);
 
   return (
     <main className="w-full h-full flex justify-center items-center">
