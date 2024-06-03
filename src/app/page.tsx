@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <main className="w-full h-full flex justify-center">
-      <section className="w-[500px] h-full">
+      <section className="max-w-[500px] w-full h-full">
         <section className="w-full flex gap-5 border-[2px] p-5 border-gray-100 border-box"></section>
         {/* 친구들이 올린 post 데이터 내림차순 */}
         {isLoading ? (
@@ -30,7 +30,7 @@ export default function Home() {
           </div>
         )}
       </section>
-      <section className="w-[200px] h-full flex flex-col gap-5 p-5">
+      <section className="w-[200px] h-full hidden flex-col gap-5 p-5 lg:flex">
         {userInfo && (
           <ProfileAndName
             src={userInfo?.image || "/images/user.png"}

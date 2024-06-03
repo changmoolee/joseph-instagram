@@ -54,7 +54,7 @@ export default function Post(props: IPostProps) {
   const userInfo = useLoginStore((state) => state.userInfo);
 
   return (
-    <div className="w-[500px]">
+    <div className="min-w-[320px] w-full ">
       <Link href={`/user/${userDetails[0]._id}`}>
         <section className="border-solid border-[1px] border-gray-200">
           <ProfileAndName
@@ -69,7 +69,7 @@ export default function Post(props: IPostProps) {
         </div>
       )}
       <section>
-        <section className="w-full flex flex-col gap-2 p-2 border-solid border-[1px] border-gray-200">
+        <section className="w-full flex flex-col gap-2 px-4 py-2 border-solid border-[1px] border-gray-200">
           <div className="w-full h-[30px] flex justify-between">
             <Like
               checked={
