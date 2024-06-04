@@ -45,7 +45,7 @@ export default function DragAndDrop(props: IDragAndDropProps) {
   } = props;
 
   const roundedStyle =
-    "relative w-[300px] h-[300px] rounded-full overflow-hidden";
+    "relative aspect-square h-full rounded-full overflow-hidden";
 
   const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
   const [previewImgSrc, setPreviewImgSrc] = React.useState<string>("");
