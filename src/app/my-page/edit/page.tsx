@@ -11,7 +11,7 @@ import apiClient from "@/utils/axios";
 import { useLoginStore } from "@/store/useLoginStore";
 import { useGetMyData } from "@/hooks/user/useGetMyData";
 import SkeletonUI from "@/components/SkeletonUI/SkeletonUI.component";
-import SignupDragAndDropSkeletonUI from "@/components/DragAndDrop/SignupDragAndDrop/SingupDragAndDropSkeletonUI.component";
+import SignupDragAndDropSkeletonUI from "@/components/DragAndDrop/SignupDragAndDrop/SignupDragAndDropSkeletonUI.component";
 
 /**
  * 마이 페이지 수정
