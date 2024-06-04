@@ -78,46 +78,48 @@ export default function Login() {
       <section className="w-full flex justify-center my-10">
         <span className="text-xl font-[600]">로그인</span>
       </section>
-      <form
-        className="w-[400px] flex flex-col gap-5"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <article className="w-full mt-5 gap-5">
-          <section className="w-full flex">
-            <span className="w-[120px]">이메일</span>
-            <input
-              className="w-full"
-              placeholder="abc1234@gmail.com"
-              {...register("email", { required: true })}
-            />
-          </section>
-          {errors.email && (
-            <span className="text-[red]">이메일을 입력해 주세요.</span>
-          )}
-        </article>
-        <article className="w-full mt-5 gap-5">
-          <section className="w-full flex">
-            <span className="w-[120px]">비밀번호</span>
-            <input
-              className="w-full"
-              type="password"
-              placeholder="password"
-              {...register("password", { required: true })}
-            />
-          </section>
-          {errors.password && (
-            <span className="text-[red]">비밀번호를 입력해 주세요.</span>
-          )}
-        </article>
-        <button className="w-full h-[30px] flex justify-center items-center mt-10 text-[#fff] font-[600] bg-blue-500">
-          로그인
-        </button>
-      </form>
-      <Link href="/sign-up">
-        <button className="w-[400px] h-[30px] flex justify-center items-center mt-5 text-[#fff] font-[600] bg-orange-500">
-          회원가입
-        </button>
-      </Link>
+      <div className="max-w-[400px] min-w-[320px] w-full">
+        <form
+          className="w-full flex flex-col gap-5"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <article className="w-full mt-5 gap-5">
+            <section className="w-full flex">
+              <span className="w-[120px]">이메일</span>
+              <input
+                className="w-full"
+                placeholder="abc1234@gmail.com"
+                {...register("email", { required: true })}
+              />
+            </section>
+            {errors.email && (
+              <span className="text-[red]">이메일을 입력해 주세요.</span>
+            )}
+          </article>
+          <article className="w-full mt-5 gap-5">
+            <section className="w-full flex">
+              <span className="w-[120px]">비밀번호</span>
+              <input
+                className="w-full"
+                type="password"
+                placeholder="password"
+                {...register("password", { required: true })}
+              />
+            </section>
+            {errors.password && (
+              <span className="text-[red]">비밀번호를 입력해 주세요.</span>
+            )}
+          </article>
+          <button className="w-full h-[30px] flex justify-center items-center mt-10 text-[#fff] font-[600] bg-blue-500">
+            로그인
+          </button>
+        </form>
+        <Link href="/sign-up">
+          <button className="w-full h-[30px] flex justify-center items-center mt-5 text-[#fff] font-[600] bg-orange-500">
+            회원가입
+          </button>
+        </Link>
+      </div>
     </main>
   );
 }
