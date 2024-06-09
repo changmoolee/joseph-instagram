@@ -11,6 +11,10 @@ interface ISignupDragAndDropProps {
    */
   prevSrc?: string;
   /**
+   * className
+   */
+  className?: string;
+  /**
    * textarea 요소에 입력되는 텍스트를 체크하는 파라미터
    */
   onChange?: (file: File[]) => void;
@@ -24,7 +28,7 @@ export default function SignupDragAndDrop(props: ISignupDragAndDropProps) {
   const [isDelete, setIsDelete] = React.useState<boolean>(false);
 
   // props
-  const { prevSrc, onChange = (file) => console.log(file) } = props;
+  const { prevSrc, className, onChange = (file) => console.log(file) } = props;
 
   /** 업로드된 이미지 삭제 */
   const deleteImage = () => {
@@ -37,14 +41,14 @@ export default function SignupDragAndDrop(props: ISignupDragAndDropProps) {
         rounded
         prevSrc={prevSrc}
         isDelete={isDelete}
-        className="w-full h-[200px]"
+        className={className}
         onChange={onChange}
       >
-        <div className="w-[200px] h-[200px] flex flex-col justify-center items-center gap-3 bg-white border-dotted border-sky-400 border-4 rounded-full">
-          <FaPhotoVideo className="w-[100%] h-[100%]" color="#ced4da" />
+        <div className="aspect-square h-full flex flex-col justify-center items-center gap-3 bg-white border-dotted border-sky-400 border-4 rounded-full">
+          <FaPhotoVideo className="w-[70%] h-[70%]" color="#ced4da" />
         </div>
       </DragAndDrop>
-      <section className="w-full h-[40px] flex justify-end m-2">
+      <section className="w-full h-[40px] flex justify-end px-10 m-2">
         <ColorButton
           text="사진 삭제"
           className="w-[100px] h-full bg-sky-400 text-[white] rounded-md"

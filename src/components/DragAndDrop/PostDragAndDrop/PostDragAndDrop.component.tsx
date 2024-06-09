@@ -7,6 +7,10 @@ import { FaPhotoVideo } from "react-icons/fa";
 
 interface IPostDragAndDropProps {
   /**
+   * className
+   */
+  className?: string;
+  /**
    * textarea 요소에 입력되는 텍스트를 체크하는 파라미터
    */
   onChange?: (file: File[]) => void;
@@ -20,7 +24,7 @@ export default function PostDragAndDrop(props: IPostDragAndDropProps) {
   const [isDelete, setIsDelete] = React.useState<boolean>(false);
 
   // props
-  const { onChange = (file) => console.log(file) } = props;
+  const { className, onChange = (file) => console.log(file) } = props;
 
   /** 업로드된 이미지 삭제 */
   const deleteImage = () => {
@@ -32,7 +36,7 @@ export default function PostDragAndDrop(props: IPostDragAndDropProps) {
       <DragAndDrop
         rounded={false}
         isDelete={isDelete}
-        className="w-full h-[250px]"
+        className={className}
         onChange={onChange}
       >
         <div className="w-full h-full flex flex-col justify-center items-center gap-3 bg-white border-dotted border-sky-400 border-4">

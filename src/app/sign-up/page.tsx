@@ -78,18 +78,19 @@ export default function SignUp() {
   return (
     <main className="w-full flex justify-center">
       <form
-        className="w-[400px] flex flex-col gap-5"
+        className="max-w-[400px] min-w-[320px] w-full h-full flex flex-col gap-5"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <section className="w-full flex justify-center my-10">
+        <section className="w-full flex justify-center  mt-10 mb-10 lg:mb-20">
           <span className="text-xl font-[600]">회원가입</span>
         </section>
         <SignupDragAndDrop
+          className="h-[200px] lg:h-[300px]"
           onChange={(file) => {
             setImageFile(file);
           }}
         />
-        <section className="w-full flex flex-col gap-10">
+        <section className="w-full flex flex-col mt-10 gap-10">
           <article className="w-full gap-5">
             <section className="w-full flex">
               <span className="w-[200px]">이메일</span>

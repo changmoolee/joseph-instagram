@@ -3,13 +3,17 @@ import React from "react";
 
 interface ITextareaProps {
   /**
-   * textarea 요소에 입력되는 텍스트를 체크하는 파라미터
-   */
-  onChange?: (text: string) => void;
-  /**
    * placeholder
    */
   placeholder?: string;
+  /**
+   * className
+   */
+  className?: string;
+  /**
+   * textarea 요소에 입력되는 텍스트를 체크하는 파라미터
+   */
+  onChange?: (text: string) => void;
 }
 
 /**
@@ -17,7 +21,11 @@ interface ITextareaProps {
  */
 export default function Textarea(props: ITextareaProps) {
   // props
-  const { onChange = (text) => console.log(text), placeholder } = props;
+  const {
+    placeholder,
+    className = "w-[600px] h-[300px]",
+    onChange = (text) => console.log(text),
+  } = props;
 
   // textarea에 입력된 텍스트
   const [text, setText] = React.useState<string>("");
@@ -28,7 +36,7 @@ export default function Textarea(props: ITextareaProps) {
 
   return (
     <textarea
-      className="w-[600px] h-[300px] p-1 rounded-lg border-2 border-gray-200 border-solid resize-none bg-white box-border"
+      className={`p-1 rounded-lg border-2 border-gray-200 border-solid resize-none bg-white box-border ${className}`}
       placeholder={placeholder}
       onChange={(e) => setText(e.target.value)}
     />

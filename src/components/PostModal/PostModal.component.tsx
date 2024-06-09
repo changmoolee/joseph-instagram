@@ -16,6 +16,7 @@ import { IUserData } from "@/typescript/user.interface";
 import useSWRMutation from "swr/mutation";
 import apiClient from "@/utils/axios";
 import { useGetPostComments } from "@/hooks/post/useGetPostComments";
+import { IoMdClose } from "react-icons/io";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -95,8 +96,13 @@ export default function PostModal(props: IPostModalProps) {
 
   return (
     <Modal open={open} onClose={onClose}>
-      <section className="w-[800px] h-[500px] flex bg-white">
-        <div className="relative w-[60%] h-full bg-black">
+      <section className="max-w-[500px] min-w-[320px] w-full max-h-[100vh] h-fit flex flex-col lg:max-w-none lg:min-w-none lg:w-[800px] lg:h-[500px] lg:flex-row bg-white overflow-y-auto">
+        <div className="w-full flex justify-end p-2 lg:hidden">
+          <button onClick={onClose}>
+            <IoMdClose className="w-[20px] h-[20px]" />
+          </button>
+        </div>
+        <div className="relative w-full h-[300px] lg:w-[60%] lg:h-full bg-black">
           <Image
             src={postSrc || "/"}
             alt="post-image"
@@ -104,15 +110,17 @@ export default function PostModal(props: IPostModalProps) {
             fill
           />
         </div>
-        <div className="relative w-[40%] h-full">
+        <div className="relative w-full h-auto lg:w-[40%]">
           <section className="flex flex-col">
             <ProfileAndName
               src={userDetails.at(0)?.image}
               name={userDetails.at(0)?.name || ""}
             />
-            <p className="px-5 py-2">{description}</p>
+            <p className="max-h-[200px] px-5 py-2 overflow-y-auto">
+              {description}
+            </p>
           </section>
-          <section className="h-[260px] p-2 overflow-y-auto">
+          <section className="h-[200px] p-2 overflow-y-auto">
             {isLoading
               ? "Loading..."
               : commentsData?.map((comment) => (
@@ -124,7 +132,7 @@ export default function PostModal(props: IPostModalProps) {
                   />
                 ))}
           </section>
-          <section className="absolute bottom-0 w-full flex-col">
+          <section className="lg:absolute bottom-0 w-full flex-col mt-5">
             <div className="flex justify-between px-2 py-1">
               <Like
                 checked={

@@ -11,7 +11,7 @@ import apiClient from "@/utils/axios";
 import { useLoginStore } from "@/store/useLoginStore";
 import { useGetMyData } from "@/hooks/user/useGetMyData";
 import SkeletonUI from "@/components/SkeletonUI/SkeletonUI.component";
-import SignupDragAndDropSkeletonUI from "@/components/DragAndDrop/SignupDragAndDrop/SingupDragAndDropSkeletonUI.component";
+import SignupDragAndDropSkeletonUI from "@/components/DragAndDrop/SignupDragAndDrop/SignupDragAndDropSkeletonUI.component";
 
 /**
  * 마이 페이지 수정
@@ -116,10 +116,10 @@ export default function MyPageEdit() {
   return (
     <main className="w-full flex justify-center">
       <form
-        className="w-[400px] flex flex-col"
+        className="max-w-[400px] min-w-[320px] w-full h-full flex flex-col"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <section className="w-full flex justify-center mt-10 mb-20">
+        <section className="w-full flex justify-center mt-10 mb-10 lg:mb-20">
           <span className="text-xl font-[600]">내정보 수정</span>
         </section>
         {/* 프로필 이미지 수정 */}
@@ -127,6 +127,7 @@ export default function MyPageEdit() {
           <SignupDragAndDropSkeletonUI isActive={isLoading} />
         ) : (
           <SignupDragAndDrop
+            className="h-[200px] lg:h-[300px]"
             prevSrc={watch("image")}
             onChange={(file) => {
               setImageFile(file);
@@ -134,12 +135,12 @@ export default function MyPageEdit() {
           />
         )}
 
-        <section className="w-full flex flex-col mt-20 gap-10">
+        <section className="w-full flex flex-col mt-10 gap-10">
           {isLoading ? (
             <SkeletonUI
               isActive={isLoading}
               isCircle
-              className="w-[400px] h-[24px]"
+              className="w-full h-[24px]"
             />
           ) : (
             <article className="w-full gap-5">
@@ -161,7 +162,7 @@ export default function MyPageEdit() {
             <SkeletonUI
               isActive={isLoading}
               isCircle
-              className="w-[400px] h-[24px]"
+              className="w-full h-[24px]"
             />
           ) : (
             <article className="w-full gap-5">
@@ -183,7 +184,7 @@ export default function MyPageEdit() {
             <SkeletonUI
               isActive={isLoading}
               isCircle
-              className="w-[400px] h-[24px]"
+              className="w-full h-[24px]"
             />
           ) : (
             <article className="w-full gap-5">
@@ -206,7 +207,7 @@ export default function MyPageEdit() {
             <SkeletonUI
               isActive={isLoading}
               isCircle
-              className="w-[400px] h-[24px]"
+              className="w-full h-[24px]"
             />
           ) : (
             <article className="w-full gap-5">

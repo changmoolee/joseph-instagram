@@ -3,6 +3,10 @@ import React from "react";
 
 interface ITabProps {
   /**
+   * className
+   */
+  className?: string;
+  /**
    * 각 탭의 이름이 담긴 배열
    */
   tabArr: string[];
@@ -18,6 +22,7 @@ interface ITabProps {
 export default function Tab(props: ITabProps) {
   // props
   const {
+    className,
     tabArr,
     onChange = (selectedTab: string) => console.log(selectedTab),
   } = props;
@@ -32,17 +37,19 @@ export default function Tab(props: ITabProps) {
   }, [clickedTab, onChange]);
 
   return (
-    <section className="w-full h-[50px] flex justify-center items-center">
+    <section
+      className={`min-w-[320px] w-full h-[50px] flex justify-center items-center ${className}`}
+    >
       {tabArr.map((tab: string, index: number) => (
         <button
           key={tab}
-          className="w-[200px] h-full flex justify-center border-solid border-t-[2px] border-gray"
+          className="w-full h-full flex justify-center border-solid border-t-[2px] border-gray"
           onClick={() => {
             setClickedTab(tab);
           }}
         >
           <div
-            className={`w-[100px] h-full flex justify-center items-center border-solid border-t-[1px] ${
+            className={`w-auto h-full flex justify-center items-center border-solid border-t-[1px] ${
               clickedTab === tab
                 ? "border-black font-bold"
                 : "border-transparent"

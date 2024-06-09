@@ -28,7 +28,9 @@ export async function GET(
   /**
    * 회원을 팔로우하고 있는 유저의 userId
    */
-  const followerUserId = followerData.map((filtered) => filtered.followingId);
+  const followerUserId = followerData.map((filtered) =>
+    filtered.followingId.toString()
+  );
 
   /**
    * 회원의 팔로우 데이터
@@ -42,17 +44,26 @@ export async function GET(
   /**
    * 회원이 팔로우 하고 있는 유저의 userId
    */
-  const followingUserId = followingData.map((filtered) => filtered.followerId);
+  const followingUserId = followingData.map((filtered) =>
+    filtered.followerId.toString()
+  );
 
   /**
-   * 조회가 필요한 userId 데이터
+   * 조회가 필요한 userId 데이터들의 중복되는 데이터를 제거한다. (문자열로 타입 변경 후 중복 제거)
    */
-  const userIds = [...followerUserId, ...followingUserId];
+  const SetUserIds = new Set([...followerUserId, ...followingUserId]);
+
+  /**
+   * 조회가 필요한 userId 데이터 (문자열로 변환된 것을 다시 ObjectId 로 원복)
+   */
+  const uniqueUserIds = Array.from(SetUserIds).map(
+    (userId) => new ObjectId(userId)
+  );
 
   /** 팔로워/팔로잉 유저 데이터 */
   const findUserData = await db
     .collection<IUserData>("users")
-    .find<IUserData>({ _id: { $in: userIds } })
+    .find<IUserData>({ _id: { $in: uniqueUserIds } })
     .toArray();
 
   const unifiedData = [];
@@ -110,9 +121,22 @@ export async function GET(
     unifiedData.push(refinedData);
   }
 
+  /** 해당 회원의 팔로워 회원 데이터 */
+  const followerUnifiedData = unifiedData.filter((data) =>
+    followerUserId.includes(data._id.toString())
+  );
+
+  /** 해당 회원의 팔로잉 회원 데이터 */
+  const followingUnifiedData = unifiedData.filter((data) =>
+    followingUserId.includes(data._id.toString())
+  );
+
   try {
     return NextResponse.json({
-      data: unifiedData,
+      data: {
+        follower: followerUnifiedData,
+        following: followingUnifiedData,
+      },
       result: "success",
     });
   } catch (error: any) {

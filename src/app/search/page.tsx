@@ -34,12 +34,12 @@ export default function Search() {
 
   return (
     <main className="w-full h-full flex justify-center items-center">
-      <div className="w-[600px] h-full flex flex-col items-center mt-5">
+      <div className="max-w-[600px] min-w-[320px] w-full h-full flex flex-col items-center px-5 mt-5">
         <SearchInput
           onChange={(word) => setSearchWord(word)}
           handleKeyDown={handleKeyDown}
         />
-        <section className="w-full h-[auto] flex flex-col p-5 gap-3">
+        <section className="w-full h-[auto] flex flex-col gap-3 mt-5">
           {isLoading ? (
             <>
               <SkeletonCard isActive={isLoading} />
@@ -52,7 +52,7 @@ export default function Search() {
                 <ProfileCard
                   name={user.name}
                   image={user.image}
-                  // followersNum={user.follwers?.length || 0}
+                  // followersNum={user.followers?.length || 0}
                   // followingNum={user.following?.length || 0}
                 />
               </Link>

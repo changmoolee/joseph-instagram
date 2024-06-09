@@ -57,8 +57,8 @@ export default function Header() {
   // }, [data, excuteLogout]);
 
   return (
-    <header className="w-full h-[100px] flex justify-center border-solid border-b-[1px] border-black">
-      <section className="w-[1200px] h-full flex justify-between">
+    <header className="w-full h-[100px] flex justify-center px-5 border-solid border-b-[1px] border-black">
+      <section className="w-full h-full flex justify-between">
         <Link href={"/"} className="h-full flex justify-center items-center">
           Instargram
         </Link>
