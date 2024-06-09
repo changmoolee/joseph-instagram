@@ -126,7 +126,7 @@ export async function GET(
     followerUserId.includes(data._id.toString())
   );
 
-  /** 해당 회원의 팔로워 회원 데이터 */
+  /** 해당 회원의 팔로잉 회원 데이터 */
   const followingUnifiedData = unifiedData.filter((data) =>
     followingUserId.includes(data._id.toString())
   );
