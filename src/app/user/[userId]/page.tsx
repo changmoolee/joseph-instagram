@@ -10,6 +10,7 @@ import { useGetUserData } from "@/hooks/user/useGetUserData";
 import { useLoginStore } from "@/store/useLoginStore";
 import { excuteFollow } from "@/utils/services/follow";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 /**
@@ -67,7 +68,7 @@ export default function User({ params }: { params: { userId: string } }) {
   );
 
   return (
-    <main className="w-full h-full">
+    <main className="w-full h-full flex justify-center">
       <div className="max-w-[1000px] min-w-[320px] flex flex-col items-center">
         <div className="w-full h-[200px] flex justify-center gap-5 items-center lg:gap-10 p-5">
           {/* 유저 프로필 이미지 */}
@@ -125,12 +126,27 @@ export default function User({ params }: { params: { userId: string } }) {
                   Posts
                 </span>
                 <span>
-                  <span className="font-bold">{userData?.followers}</span>{" "}
-                  followers
+                  <Link
+                    href={{
+                      pathname: `/user/${params.userId}/follow`,
+                      query: { type: "follower" },
+                    }}
+                  >
+                    <span className="font-bold">{userData?.followers}</span>{" "}
+                    followers
+                  </Link>
                 </span>
+
                 <span>
-                  <span className="font-bold">{userData?.following}</span>{" "}
-                  following
+                  <Link
+                    href={{
+                      pathname: `/user/${params.userId}/follow`,
+                      query: { type: "following" },
+                    }}
+                  >
+                    <span className="font-bold">{userData?.following}</span>{" "}
+                    following
+                  </Link>
                 </span>
               </article>
             )}

@@ -14,11 +14,17 @@ import ProfileAndName from "@/components/ProfileAndName/ProfileAndName.component
 /**
  * 회원의 팔로워/팔로잉 유저 확인 페이지
  */
-export default function UserFollow({ params }: { params: { userId: string } }) {
-  const tabs = ["Follower", "Following"];
+export default function UserFollow({
+  params,
+  searchParams,
+}: {
+  params: { userId: string };
+  searchParams: { type: string };
+}) {
+  const tabs = ["follower", "following"];
 
   // 클릭한 탭의 index
-  const [clickedTab, setClickedTab] = React.useState<string>(tabs[0]);
+  const [clickedTab, setClickedTab] = React.useState<string>(searchParams.type);
 
   const { isLoading, data: followInfo } = useGetFollowUser(params.userId);
 
@@ -49,6 +55,7 @@ export default function UserFollow({ params }: { params: { userId: string } }) {
         <Tab
           className="mt-5"
           tabArr={tabs}
+          defaultTab={searchParams.type}
           onChange={(selectedTab) => {
             setClickedTab(selectedTab);
           }}
@@ -60,7 +67,7 @@ export default function UserFollow({ params }: { params: { userId: string } }) {
               <SkeletonCard isActive={isLoading} />
               <SkeletonCard isActive={isLoading} />
             </>
-          ) : clickedTab === "Follower" ? (
+          ) : clickedTab === "follower" ? (
             followInfo?.follower.map((user: IRefinedUserData) => (
               <Link key={user._id.toString()} href={`/user/${user._id}`}>
                 <ProfileCard
@@ -71,7 +78,7 @@ export default function UserFollow({ params }: { params: { userId: string } }) {
                 />
               </Link>
             ))
-          ) : clickedTab === "Following" ? (
+          ) : clickedTab === "following" ? (
             followInfo?.following.map((user: IRefinedUserData) => (
               <Link key={user._id.toString()} href={`/user/${user._id}`}>
                 <ProfileCard
