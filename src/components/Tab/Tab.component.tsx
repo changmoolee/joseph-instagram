@@ -11,6 +11,10 @@ interface ITabProps {
    */
   tabArr: string[];
   /**
+   * 탭 초기값
+   */
+  defaultTab?: string;
+  /**
    * 현재 선택된 탭
    */
   onChange?: (selectedTab: string) => void;
@@ -28,7 +32,9 @@ export default function Tab(props: ITabProps) {
   } = props;
 
   // 클릭한 탭의 index
-  const [clickedTab, setClickedTab] = React.useState<string>(tabArr[0]);
+  const [clickedTab, setClickedTab] = React.useState<string>(
+    props.defaultTab || tabArr[0]
+  );
 
   React.useEffect(() => {
     if (clickedTab) {
