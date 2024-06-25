@@ -180,8 +180,12 @@ export default function PostModal(props: IPostModalProps) {
             <CommentInput
               onChange={(text) => setComment(text)}
               onButtonClick={() => {
-                trigger();
-                console.log("등록", comment);
+                if (userInfo?._id) {
+                  trigger();
+                  console.log("등록", comment);
+                } else {
+                  alert("로그인이 필요합니다.");
+                }
               }}
             />
           </section>
