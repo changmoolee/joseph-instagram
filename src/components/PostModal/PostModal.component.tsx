@@ -17,6 +17,7 @@ import useSWRMutation from "swr/mutation";
 import apiClient from "@/utils/axios";
 import { useGetPostComments } from "@/hooks/post/useGetPostComments";
 import { IoMdClose } from "react-icons/io";
+import SkeletonComment from "@/components/Comment/SkeletonComment.component";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -121,16 +122,21 @@ export default function PostModal(props: IPostModalProps) {
             </p>
           </section>
           <section className="h-[200px] p-2 overflow-y-auto">
-            {isLoading
-              ? "Loading..."
-              : commentsData?.map((comment) => (
-                  <Comment
-                    key={comment._id.toString()}
-                    imageUrl={comment.userImage || "/"}
-                    nickName={comment.username || ""}
-                    commentContent={comment.text || ""}
-                  />
-                ))}
+            {isLoading ? (
+              <>
+                <SkeletonComment isActive={isLoading} />
+                <SkeletonComment isActive={isLoading} />
+              </>
+            ) : (
+              commentsData?.map((comment) => (
+                <Comment
+                  key={comment._id.toString()}
+                  imageUrl={comment.userImage || "/"}
+                  nickName={comment.username || ""}
+                  commentContent={comment.text || ""}
+                />
+              ))
+            )}
           </section>
           <section className="lg:absolute bottom-0 w-full flex-col mt-5">
             <div className="flex justify-between px-2 py-1">
