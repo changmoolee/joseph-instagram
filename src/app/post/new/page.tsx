@@ -69,20 +69,20 @@ export default function NewPost() {
 
   return (
     userInfo && (
-      <main className="w-full flex justify-center">
-        <section className="w-[320px] flex flex-col items-center mt-5 lg:w-[500px]">
+      <main className="flex w-full justify-center">
+        <section className="mt-5 flex w-[320px] flex-col items-center lg:w-[500px]">
           <ProfileAndName
             src={userInfo.image || "/images/user.png"}
             name={userInfo.name || "error"}
           />
           <PostDragAndDrop
-            className="w-full h-[200px] lg:h-[250px] mt-5"
+            className="mt-5 h-[200px] w-full lg:h-[250px]"
             onChange={(file) => {
               setImageFile(file);
             }}
           />
           <Textarea
-            className="w-full h-[300px]"
+            className="h-[300px] w-full"
             placeholder="Write a capiton..."
             onChange={(text) => {
               setDescription(text);
@@ -90,7 +90,7 @@ export default function NewPost() {
           />
           <ColorButton
             text="Publish"
-            className="w-full h-[40px] mt-5 bg-sky-400"
+            className="mt-5 h-[40px] w-full bg-sky-400"
             onClick={() => {
               postCreate();
             }}

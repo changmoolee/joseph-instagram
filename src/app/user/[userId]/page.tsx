@@ -68,26 +68,26 @@ export default function User({ params }: { params: { userId: string } }) {
   );
 
   return (
-    <main className="w-full h-full flex justify-center">
-      <div className="max-w-[1000px] min-w-[320px] flex flex-col items-center">
-        <div className="w-full h-[200px] flex justify-center gap-5 items-center lg:gap-10 p-5">
+    <main className="flex h-full w-full justify-center">
+      <div className="flex min-w-[320px] max-w-[1000px] flex-col items-center">
+        <div className="flex h-[200px] w-full items-center justify-center gap-5 p-5 lg:gap-10">
           {/* 유저 프로필 이미지 */}
           {userLoading ? (
             <SkeletonUI
               isActive={userLoading}
               isCircle
-              className="w-[100px] h-[100px]"
+              className="h-[100px] w-[100px]"
             />
           ) : (
             <BigProfileImage src={userData?.image || "/"} />
           )}
           <section className="flex flex-col gap-2 lg:gap-3">
-            <article className="flex gap-5 lg:gap-5 items-center">
+            <article className="flex items-center gap-5 lg:gap-5">
               {/* 유저 이름 및 팔로우 버튼 */}
               {userLoading ? (
                 <SkeletonUI
                   isActive={userLoading}
-                  className="w-[100px] h-[25px]"
+                  className="h-[25px] w-[100px]"
                 />
               ) : (
                 <>
@@ -96,7 +96,7 @@ export default function User({ params }: { params: { userId: string } }) {
                     <ColorButton
                       // TODO:  !!followDetails.find((followingId) => followingId.userId === followingId?._id)
                       text="Follow"
-                      className="h-[30px] px-3 bg-sky-400 rounded-md text-white"
+                      className="h-[30px] rounded-md bg-sky-400 px-3 text-white"
                       onClick={() => {
                         if (isLogin && userData) {
                           excuteFollow({
@@ -117,7 +117,7 @@ export default function User({ params }: { params: { userId: string } }) {
             {userLoading ? (
               <SkeletonUI
                 isActive={userLoading}
-                className="w-[300px] h-[25px]"
+                className="h-[25px] w-[300px]"
               />
             ) : (
               <article className="flex flex-col gap-1 lg:flex-row lg:gap-5">
@@ -155,10 +155,10 @@ export default function User({ params }: { params: { userId: string } }) {
               {userLoading ? (
                 <SkeletonUI
                   isActive={userLoading}
-                  className="w-[100px] h-[25px]"
+                  className="h-[25px] w-[100px]"
                 />
               ) : (
-                <span className="font-bold hidden lg:inline">
+                <span className="hidden font-bold lg:inline">
                   {userData?.name}
                 </span>
               )}
@@ -173,28 +173,28 @@ export default function User({ params }: { params: { userId: string } }) {
         />
         {!postData ||
           (postData?.length === 0 && (
-            <div className="w-full h-[100px] flex justify-center items-center">
+            <div className="flex h-[100px] w-full items-center justify-center">
               데이터가 없습니다.
             </div>
           ))}
-        <ul className="w-full h-full grid grid-cols-3 gap-1 lg:gap-4 mt-5">
+        <ul className="mt-5 grid h-full w-full grid-cols-3 gap-1 lg:gap-4">
           {/* 유저 게시물 이미지 */}
           {postLoading ? (
             <>
               <SkeletonUI
                 isActive={postLoading}
-                className="w-full h-auto aspect-[1/1]"
+                className="aspect-[1/1] h-auto w-full"
               />
               <SkeletonUI
                 isActive={postLoading}
-                className="w-full h-auto aspect-[1/1]"
+                className="aspect-[1/1] h-auto w-full"
               />
             </>
           ) : postData && postData.length > 0 ? (
             postData.map((post) => (
               <li
                 key={post._id.toString()}
-                className="relative w-full h-auto aspect-[1/1]"
+                className="relative aspect-[1/1] h-auto w-full"
               >
                 <button
                   onClick={() => {

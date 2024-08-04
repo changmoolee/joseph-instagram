@@ -39,12 +39,12 @@ export default function UserFollow({
   } = useGetUserData(params.userId);
 
   return (
-    <main className="w-full h-full flex justify-center items-center">
-      <div className="w-[600px] h-full flex flex-col items-center">
-        <div className="w-[300px] h-[100px] flex justify-center items-center">
+    <main className="flex h-full w-full items-center justify-center">
+      <div className="flex h-full w-[600px] flex-col items-center">
+        <div className="flex h-[100px] w-[300px] items-center justify-center">
           {/* 유저 프로필 이미지 */}
           {userLoading ? (
-            <SkeletonUI isActive={userLoading} className="w-[120px] h-[60px]" />
+            <SkeletonUI isActive={userLoading} className="h-[60px] w-[120px]" />
           ) : (
             <ProfileAndName
               src={userData?.image || "/"}
@@ -60,7 +60,7 @@ export default function UserFollow({
             setClickedTab(selectedTab);
           }}
         />
-        <section className="w-full h-[auto] flex flex-col p-5 gap-3">
+        <section className="flex h-[auto] w-full flex-col gap-3 p-5">
           {isLoading ? (
             <>
               <SkeletonCard isActive={isLoading} />
@@ -90,7 +90,7 @@ export default function UserFollow({
               </Link>
             ))
           ) : (
-            <div className="w-full h-[200px] flex justify-center items-center">
+            <div className="flex h-[200px] w-full items-center justify-center">
               {(clickedTab === "Follower"
                 ? "해당 회원의 팔로워가"
                 : "해당 회원이 팔로우하는 회원이") + " 없습니다."}

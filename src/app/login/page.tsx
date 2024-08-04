@@ -74,17 +74,17 @@ export default function Login() {
   };
 
   return (
-    <main className="w-full h-full flex flex-col items-center">
-      <section className="w-full flex justify-center my-10">
+    <main className="flex h-full w-full flex-col items-center">
+      <section className="my-10 flex w-full justify-center">
         <span className="text-xl font-[600]">로그인</span>
       </section>
-      <div className="max-w-[400px] min-w-[320px] w-full">
+      <div className="w-full min-w-[320px] max-w-[400px]">
         <form
-          className="w-full flex flex-col gap-5"
+          className="flex w-full flex-col gap-5"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <article className="w-full mt-5 gap-5">
-            <section className="w-full flex">
+          <article className="mt-5 w-full gap-5">
+            <section className="flex w-full">
               <span className="w-[120px]">이메일</span>
               <input
                 className="w-full"
@@ -96,8 +96,8 @@ export default function Login() {
               <span className="text-[red]">이메일을 입력해 주세요.</span>
             )}
           </article>
-          <article className="w-full mt-5 gap-5">
-            <section className="w-full flex">
+          <article className="mt-5 w-full gap-5">
+            <section className="flex w-full">
               <span className="w-[120px]">비밀번호</span>
               <input
                 className="w-full"
@@ -110,12 +110,12 @@ export default function Login() {
               <span className="text-[red]">비밀번호를 입력해 주세요.</span>
             )}
           </article>
-          <button className="w-full h-[30px] flex justify-center items-center mt-10 text-[#fff] font-[600] bg-blue-500">
+          <button className="mt-10 flex h-[30px] w-full items-center justify-center bg-blue-500 font-[600] text-[#fff]">
             로그인
           </button>
         </form>
         <Link href="/sign-up">
-          <button className="w-full h-[30px] flex justify-center items-center mt-5 text-[#fff] font-[600] bg-orange-500">
+          <button className="mt-5 flex h-[30px] w-full items-center justify-center bg-orange-500 font-[600] text-[#fff]">
             회원가입
           </button>
         </Link>

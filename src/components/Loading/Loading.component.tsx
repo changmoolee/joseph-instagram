@@ -17,7 +17,7 @@ export default function Loading(props: ILoadingProps) {
   return (
     isActive && (
       <section
-        className={`animate-spin w-10 h-10 border-2 border-black border-t-2 border-t-white rounded-full ${className}`}
+        className={`h-10 w-10 animate-spin rounded-full border-2 border-t-2 border-black border-t-white ${className}`}
       ></section>
     )
   );

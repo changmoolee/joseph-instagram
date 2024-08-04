@@ -16,10 +16,10 @@ export default function SkeletonComment(props: ISkeletonCommentProps) {
   return (
     <article className="flex items-center gap-2 p-2">
       <SkeletonUI isCircle isActive={isActive}>
-        <div className="w-[50px] h-[50px]" />
+        <div className="h-[50px] w-[50px]" />
       </SkeletonUI>
       <SkeletonUI isActive={isActive}>
-        <div className="w-[140px] h-[20px]" />
+        <div className="h-[20px] w-[140px]" />
       </SkeletonUI>
     </article>
   );

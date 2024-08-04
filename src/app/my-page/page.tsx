@@ -58,21 +58,21 @@ export default function MyPage() {
   }, [error, message, router]);
 
   return (
-    <main className="w-full flex justify-center">
-      <form className="w-[400px] flex flex-col gap-5">
-        <section className="w-full flex justify-center my-10">
+    <main className="flex w-full justify-center">
+      <form className="flex w-[400px] flex-col gap-5">
+        <section className="my-10 flex w-full justify-center">
           <span className="text-xl font-[600]">마이 페이지</span>
         </section>
-        <section className="w-full flex justify-center">
+        <section className="flex w-full justify-center">
           {/* 유저 프로필 이미지 */}
           {isLoading ? (
             <SkeletonUI
               isActive={isLoading}
               isCircle
-              className="w-[300px] h-[300px]"
+              className="h-[300px] w-[300px]"
             />
           ) : (
-            <div className="relative w-[300px] h-[300px] rounded-full overflow-hidden">
+            <div className="relative h-[300px] w-[300px] overflow-hidden rounded-full">
               <Image
                 src={userInfo?.image || "/images/user.png"}
                 alt="my-page-profile-image"
@@ -83,18 +83,18 @@ export default function MyPage() {
           )}
         </section>
 
-        <section className="w-full flex flex-col gap-10 my-10">
+        <section className="my-10 flex w-full flex-col gap-10">
           {/* 유저 이메일 */}
           {isLoading ? (
             <SkeletonUI
               isActive={isLoading}
               isCircle
-              className="w-[400px] h-[24px]"
+              className="h-[24px] w-[400px]"
             />
           ) : (
             <article className="w-full gap-5">
               {/* 이메일 */}
-              <section className="w-full flex">
+              <section className="flex w-full">
                 <span className="w-[200px]">이메일</span>
                 <span className="w-full">{userInfo?.email || ""}</span>
               </section>
@@ -106,12 +106,12 @@ export default function MyPage() {
             <SkeletonUI
               isActive={isLoading}
               isCircle
-              className="w-[400px] h-[24px]"
+              className="h-[24px] w-[400px]"
             />
           ) : (
             <article className="w-full gap-5">
               {/* 이름 */}
-              <section className="w-full flex">
+              <section className="flex w-full">
                 <span className="w-[200px]">이름</span>
                 <span className="w-full">{userInfo?.name || ""}</span>
               </section>
@@ -121,7 +121,7 @@ export default function MyPage() {
 
         {/* 내정보 수정 페이지 이동*/}
         <Link
-          className={`${buttonClasses} w-full h-[40px] mt-10 bg-sky-400`}
+          className={`${buttonClasses} mt-10 h-[40px] w-full bg-sky-400`}
           href={"/my-page/edit"}
         >
           내정보 수정하기
@@ -131,7 +131,7 @@ export default function MyPage() {
         <ColorButton
           text="회원탈퇴"
           type="button"
-          className={`${buttonClasses} w-full h-[40px] mt-2 bg-black text-white`}
+          className={`${buttonClasses} mt-2 h-[40px] w-full bg-black text-white`}
           onClick={deleteUserData}
         />
       </form>

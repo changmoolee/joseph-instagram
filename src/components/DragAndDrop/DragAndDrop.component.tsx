@@ -134,7 +134,7 @@ export default function DragAndDrop(props: IDragAndDropProps) {
     >
       <label
         htmlFor="drag-and-drop"
-        className="w-full h-full flex justify-center items-center"
+        className="flex h-full w-full items-center justify-center"
       >
         <input
           id="drag-and-drop"
@@ -146,7 +146,7 @@ export default function DragAndDrop(props: IDragAndDropProps) {
           ref={inputRef}
         />
         {selectedFiles.length !== 0 || previewImgSrc ? (
-          <div className={rounded ? roundedStyle : "relative w-full h-full"}>
+          <div className={rounded ? roundedStyle : "relative h-full w-full"}>
             <Image
               src={previewImgSrc}
               alt="profile-image"

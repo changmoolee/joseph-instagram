@@ -23,13 +23,13 @@ export default function SignupDragAndDropSkeletonUI(
 
   return (
     <section className="flex flex-col">
-      <div className="flex justify-center items-center w-[400px] h-[200px]">
+      <div className="flex h-[200px] w-[400px] items-center justify-center">
         <SkeletonUI isActive={isActive} isCircle className={className} />
       </div>
-      <section className="w-full h-[40px] flex justify-end m-2">
+      <section className="m-2 flex h-[40px] w-full justify-end">
         <ColorButton
           text="사진 삭제"
-          className="w-[100px] h-full bg-sky-400 text-[white] rounded-md"
+          className="h-full w-[100px] rounded-md bg-sky-400 text-[white]"
         />
       </section>
     </section>

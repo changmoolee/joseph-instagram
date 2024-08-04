@@ -19,7 +19,7 @@ export default function ProfileAboveName(props: IProfileAboveNameProps) {
   const { src, name } = props;
 
   return (
-    <div className="flex flex-col gap-[2px] items-center">
+    <div className="flex flex-col items-center gap-[2px]">
       <ProfileImage src={src} />
       <span>{name}</span>
     </div>

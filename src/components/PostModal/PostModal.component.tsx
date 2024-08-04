@@ -97,13 +97,13 @@ export default function PostModal(props: IPostModalProps) {
 
   return (
     <Modal open={open} onClose={onClose}>
-      <section className="max-w-[500px] min-w-[320px] w-full max-h-[100vh] h-fit flex flex-col lg:max-w-none lg:min-w-none lg:w-[800px] lg:h-[500px] lg:flex-row bg-white overflow-y-auto">
-        <div className="w-full flex justify-end p-2 lg:hidden">
+      <section className="lg:min-w-none flex h-fit max-h-[100vh] w-full min-w-[320px] max-w-[500px] flex-col overflow-y-auto bg-white lg:h-[500px] lg:w-[800px] lg:max-w-none lg:flex-row">
+        <div className="flex w-full justify-end p-2 lg:hidden">
           <button onClick={onClose}>
-            <IoMdClose className="w-[20px] h-[20px]" />
+            <IoMdClose className="h-[20px] w-[20px]" />
           </button>
         </div>
-        <div className="relative w-full h-[300px] lg:w-[60%] lg:h-full bg-black">
+        <div className="relative h-[300px] w-full bg-black lg:h-full lg:w-[60%]">
           <Image
             src={postSrc || "/"}
             alt="post-image"
@@ -111,17 +111,17 @@ export default function PostModal(props: IPostModalProps) {
             fill
           />
         </div>
-        <div className="relative w-full h-auto lg:w-[40%]">
+        <div className="relative h-auto w-full lg:w-[40%]">
           <section className="flex flex-col">
             <ProfileAndName
               src={userDetails.at(0)?.image}
               name={userDetails.at(0)?.name || ""}
             />
-            <p className="max-h-[200px] px-5 py-2 overflow-y-auto">
+            <p className="max-h-[200px] overflow-y-auto px-5 py-2">
               {description}
             </p>
           </section>
-          <section className="h-[200px] p-2 overflow-y-auto">
+          <section className="h-[200px] overflow-y-auto p-2">
             {isLoading ? (
               <>
                 <SkeletonComment isActive={isLoading} />
@@ -138,7 +138,7 @@ export default function PostModal(props: IPostModalProps) {
               ))
             )}
           </section>
-          <section className="lg:absolute bottom-0 w-full flex-col mt-5">
+          <section className="bottom-0 mt-5 w-full flex-col lg:absolute">
             <div className="flex justify-between px-2 py-1">
               <Like
                 checked={

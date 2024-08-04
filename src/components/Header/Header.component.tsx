@@ -26,9 +26,8 @@ export default function Header() {
    * 로그아웃 함수
    */
   const signOut = async () => {
-    const response: ICommonResponse = await apiClient.post(
-      "/api/auth/sign-out"
-    );
+    const response: ICommonResponse =
+      await apiClient.post("/api/auth/sign-out");
 
     const { result, message } = response.data;
 
@@ -57,27 +56,27 @@ export default function Header() {
   // }, [data, excuteLogout]);
 
   return (
-    <header className="w-full h-[100px] flex justify-center px-5 border-solid border-b-[1px] border-black">
-      <section className="w-full h-full flex justify-between">
-        <Link href={"/"} className="h-full flex justify-center items-center">
+    <header className="flex h-[100px] w-full justify-center border-b-[1px] border-solid border-black px-5">
+      <section className="flex h-full w-full justify-between">
+        <Link href={"/"} className="flex h-full items-center justify-center">
           Instargram
         </Link>
 
-        <ul className="h-full flex items-center gap-x-5">
+        <ul className="flex h-full items-center gap-x-5">
           <li>
             <Link href={"/"}>
-              <AiOutlineHome className="w-[25px] h-[25px]" />
+              <AiOutlineHome className="h-[25px] w-[25px]" />
             </Link>
           </li>
           <li>
             <Link href={"/search"}>
-              <FiSearch className="w-[25px] h-[25px]" />
+              <FiSearch className="h-[25px] w-[25px]" />
             </Link>
           </li>
           {isLogin && (
             <li>
               <Link href={"/post/new"}>
-                <BsPlusSquare className="w-[25px] h-[25px]" />
+                <BsPlusSquare className="h-[25px] w-[25px]" />
               </Link>
             </li>
           )}

@@ -36,7 +36,7 @@ export default function Textarea(props: ITextareaProps) {
 
   return (
     <textarea
-      className={`p-1 rounded-lg border-2 border-gray-200 border-solid resize-none bg-white box-border ${className}`}
+      className={`box-border resize-none rounded-lg border-2 border-solid border-gray-200 bg-white p-1 ${className}`}
       placeholder={placeholder}
       onChange={(e) => setText(e.target.value)}
     />
