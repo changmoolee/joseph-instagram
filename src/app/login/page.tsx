@@ -74,20 +74,20 @@ export default function Login() {
   };
 
   return (
-    <main className="flex h-full w-full flex-col items-center">
+    <main className="flex h-full w-full flex-col items-center pt-10">
       <section className="my-10 flex w-full justify-center">
-        <span className="text-xl font-[600]">로그인</span>
+        <h1 className="text-2xl font-semibold">로그인</h1>
       </section>
       <div className="w-full min-w-[320px] max-w-[400px]">
         <form
-          className="flex w-full flex-col gap-5"
+          className="flex w-full flex-col gap-3"
           onSubmit={handleSubmit(onSubmit)}
         >
           <article className="mt-5 w-full gap-5">
-            <section className="flex w-full">
-              <span className="w-[120px]">이메일</span>
+            <section className="flex w-full items-center">
+              <span className="w-[120px] font-semibold">이메일</span>
               <input
-                className="w-full"
+                className="w-full border p-2"
                 placeholder="abc1234@gmail.com"
                 {...register("email", { required: true })}
               />
@@ -96,11 +96,11 @@ export default function Login() {
               <span className="text-[red]">이메일을 입력해 주세요.</span>
             )}
           </article>
-          <article className="mt-5 w-full gap-5">
-            <section className="flex w-full">
-              <span className="w-[120px]">비밀번호</span>
+          <article className="w-full gap-5">
+            <section className="flex w-full items-center">
+              <span className="w-[120px] font-semibold">비밀번호</span>
               <input
-                className="w-full"
+                className="w-full border p-2"
                 type="password"
                 placeholder="password"
                 {...register("password", { required: true })}
@@ -110,12 +110,12 @@ export default function Login() {
               <span className="text-[red]">비밀번호를 입력해 주세요.</span>
             )}
           </article>
-          <button className="mt-10 flex h-[30px] w-full items-center justify-center bg-blue-500 font-[600] text-[#fff]">
+          <button className="mt-10 flex h-[40px] w-full items-center justify-center rounded-md bg-blue-500 font-[600] text-[#fff]">
             로그인
           </button>
         </form>
         <Link href="/sign-up">
-          <button className="mt-5 flex h-[30px] w-full items-center justify-center bg-orange-500 font-[600] text-[#fff]">
+          <button className="mt-3 flex h-[40px] w-full items-center justify-center rounded-md bg-orange-500 font-[600] text-[#fff]">
             회원가입
           </button>
         </Link>

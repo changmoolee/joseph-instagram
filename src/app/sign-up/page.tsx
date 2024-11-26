@@ -76,26 +76,26 @@ export default function SignUp() {
   };
 
   return (
-    <main className="flex w-full justify-center">
+    <main className="flex w-full justify-center pb-20 pt-10">
       <form
         className="flex h-full w-full min-w-[320px] max-w-[400px] flex-col gap-5"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <section className="mb-10 mt-10 flex w-full justify-center lg:mb-20">
+        <section className="mt-10 flex w-full justify-center">
           <span className="text-xl font-[600]">회원가입</span>
         </section>
         <SignupDragAndDrop
-          className="h-[200px] lg:h-[300px]"
+          className="mt-10 h-[150px] lg:h-[200px]"
           onChange={(file) => {
             setImageFile(file);
           }}
         />
-        <section className="mt-10 flex w-full flex-col gap-10">
+        <section className="mt-5 flex w-full flex-col gap-5">
           <article className="w-full gap-5">
-            <section className="flex w-full">
+            <section className="flex w-full items-center">
               <span className="w-[200px]">이메일</span>
               <input
-                className="w-full"
+                className="w-full border p-2"
                 placeholder="abc1234@gmail.com"
                 {...register("email", { required: true })}
               />
@@ -105,10 +105,10 @@ export default function SignUp() {
             )}
           </article>
           <article className="w-full gap-5">
-            <section className="flex w-full">
+            <section className="flex w-full items-center">
               <span className="w-[200px]">이름</span>
               <input
-                className="w-full"
+                className="w-full border p-2"
                 placeholder="홍길동"
                 {...register("name", { required: true })}
               />
@@ -118,10 +118,10 @@ export default function SignUp() {
             )}
           </article>
           <article className="w-full gap-5">
-            <section className="flex w-full">
+            <section className="flex w-full items-center">
               <span className="w-[200px]">비밀번호</span>
               <input
-                className="w-full"
+                className="w-full border p-2"
                 type="password"
                 placeholder="password"
                 {...register("password", { required: true })}
@@ -132,10 +132,10 @@ export default function SignUp() {
             )}
           </article>
           <article className="w-full gap-5">
-            <section className="flex w-full">
+            <section className="flex w-full items-center">
               <span className="w-[200px]">비밀번호 확인</span>
               <input
-                className="w-full"
+                className="w-full border p-2"
                 type="password"
                 placeholder="verify password"
                 {...register("verifyPassword", {
@@ -151,7 +151,7 @@ export default function SignUp() {
         </section>
         <ColorButton
           text="가입하기"
-          className="mt-10 h-[40px] w-full bg-sky-400 text-[white]"
+          className="mt-10 flex h-[40px] w-full items-center justify-center rounded-md bg-sky-400 text-[white]"
         />
       </form>
     </main>
