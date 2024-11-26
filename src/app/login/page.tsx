@@ -8,6 +8,7 @@ import { ICommonResponse } from "@/typescript/common/response.interface";
 import { getUserData } from "@/utils/services/user";
 import { useLoginStore } from "@/store/useLoginStore";
 import apiClient from "@/utils/axios";
+import InputSection from "@/components/InputSection/InputSection.component";
 
 /**
  * 로그인 페이지
@@ -84,28 +85,21 @@ export default function Login() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <article className="mt-5 w-full gap-5">
-            <section className="flex w-full items-center">
-              <span className="w-[120px] font-semibold">이메일</span>
-              <input
-                className="w-full border p-2"
-                placeholder="abc1234@gmail.com"
-                {...register("email", { required: true })}
-              />
-            </section>
+            <InputSection
+              label="이메일"
+              placeholder="abc1234@gmail.com"
+              {...register("email", { required: true })}
+            />
             {errors.email && (
               <span className="text-[red]">이메일을 입력해 주세요.</span>
             )}
           </article>
           <article className="w-full gap-5">
-            <section className="flex w-full items-center">
-              <span className="w-[120px] font-semibold">비밀번호</span>
-              <input
-                className="w-full border p-2"
-                type="password"
-                placeholder="password"
-                {...register("password", { required: true })}
-              />
-            </section>
+            <InputSection
+              label="비밀번호"
+              placeholder="password"
+              {...register("password", { required: true })}
+            />
             {errors.password && (
               <span className="text-[red]">비밀번호를 입력해 주세요.</span>
             )}

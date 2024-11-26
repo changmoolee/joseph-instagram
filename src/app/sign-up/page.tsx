@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import { ImageUpload } from "@/utils/services/upload";
 import apiClient from "@/utils/axios";
+import InputSection from "@/components/InputSection/InputSection.component";
 
 /**
  * 회원가입 페이지
@@ -92,58 +93,44 @@ export default function SignUp() {
         />
         <section className="mt-5 flex w-full flex-col gap-5">
           <article className="w-full gap-5">
-            <section className="flex w-full items-center">
-              <span className="w-[200px]">이메일</span>
-              <input
-                className="w-full border p-2"
-                placeholder="abc1234@gmail.com"
-                {...register("email", { required: true })}
-              />
-            </section>
+            <InputSection
+              label="이메일"
+              placeholder="abc1234@gmail.com"
+              {...register("email", { required: true })}
+            />
             {errors.email && (
               <span className="text-[red]">이메일을 입력해 주세요.</span>
             )}
           </article>
           <article className="w-full gap-5">
-            <section className="flex w-full items-center">
-              <span className="w-[200px]">이름</span>
-              <input
-                className="w-full border p-2"
-                placeholder="홍길동"
-                {...register("name", { required: true })}
-              />
-            </section>
+            <InputSection
+              label="이름"
+              placeholder="홍길동"
+              {...register("홍길동", { required: true })}
+            />
             {errors.name && (
               <span className="text-[red]">이름을 입력해 주세요.</span>
             )}
           </article>
           <article className="w-full gap-5">
-            <section className="flex w-full items-center">
-              <span className="w-[200px]">비밀번호</span>
-              <input
-                className="w-full border p-2"
-                type="password"
-                placeholder="password"
-                {...register("password", { required: true })}
-              />
-            </section>
+            <InputSection
+              label="비밀번호"
+              placeholder="password"
+              {...register("password", { required: true })}
+            />
             {errors.password && (
               <span className="text-[red]">비밀번호를 입력해 주세요.</span>
             )}
           </article>
           <article className="w-full gap-5">
-            <section className="flex w-full items-center">
-              <span className="w-[200px]">비밀번호 확인</span>
-              <input
-                className="w-full border p-2"
-                type="password"
-                placeholder="verify password"
-                {...register("verifyPassword", {
-                  required: true,
-                  validate: (v) => watch("password") == v,
-                })}
-              />
-            </section>
+            <InputSection
+              label="비밀번호 확인"
+              placeholder="verify password"
+              {...register("verifyPassword", {
+                required: true,
+                validate: (v) => watch("password") == v,
+              })}
+            />
             {errors.verifyPassword && (
               <span className="text-[red]">비밀번호가 일치하지 않습니다.</span>
             )}
