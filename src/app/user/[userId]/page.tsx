@@ -117,7 +117,7 @@ export default function User({ params }: { params: { userId: string } }) {
             {userLoading ? (
               <SkeletonUI
                 isActive={userLoading}
-                className="h-[25px] w-[300px]"
+                className="h-[25px] w-[100px]"
               />
             ) : (
               <article className="flex flex-col gap-1 lg:flex-row lg:gap-5">
