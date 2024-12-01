@@ -27,18 +27,11 @@ export default function Textarea(props: ITextareaProps) {
     onChange = (text) => console.log(text),
   } = props;
 
-  // textarea에 입력된 텍스트
-  const [text, setText] = React.useState<string>("");
-
-  React.useEffect(() => {
-    onChange(text);
-  }, [text, onChange]);
-
   return (
     <textarea
       className={`box-border resize-none rounded-lg border-2 border-solid border-gray-200 bg-white p-1 ${className}`}
       placeholder={placeholder}
-      onChange={(e) => setText(e.target.value)}
+      onChange={(e) => onChange(e.target.value)}
     />
   );
 }
