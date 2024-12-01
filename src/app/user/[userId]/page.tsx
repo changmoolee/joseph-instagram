@@ -5,6 +5,7 @@ import PostModal from "@/components/PostModal/PostModal.component";
 import BigProfileImage from "@/components/ProfileImage/BigProfileImage.component";
 import SkeletonUI from "@/components/SkeletonUI/SkeletonUI.component";
 import Tab from "@/components/Tab/Tab.component";
+import { useModal } from "@/hooks/components/useModal";
 import { useGetUserPost } from "@/hooks/post/useGetUserPost";
 import { useGetUserData } from "@/hooks/user/useGetUserData";
 import { useLoginStore } from "@/store/useLoginStore";
@@ -25,8 +26,8 @@ export default function User({ params }: { params: { userId: string } }) {
   // 클릭한 Post의 id
   const [clickedId, setClickedId] = React.useState<string>();
 
-  // PostModal 구현 여부
-  const [open, setOpen] = React.useState<boolean>(false);
+  // modal 커스텀 훅
+  const { isOpen, openModal, closeModal } = useModal();
 
   /**
    * 유저 개인의 포스트 데이터 호출
@@ -198,7 +199,7 @@ export default function User({ params }: { params: { userId: string } }) {
               >
                 <button
                   onClick={() => {
-                    setOpen(true);
+                    openModal();
                     setClickedId(post._id.toString());
                   }}
                 >
@@ -215,10 +216,10 @@ export default function User({ params }: { params: { userId: string } }) {
         </ul>
 
         {/* 게시물 이미지 클릭시 생성되는 게시물 모달 */}
-        {open && clickedPostData && (
+        {isOpen && clickedPostData && (
           <PostModal
-            open={open}
-            onClose={() => setOpen(false)}
+            open={isOpen}
+            onClose={closeModal}
             PostProps={clickedPostData}
             userInfo={userInfo}
           />

@@ -12,6 +12,7 @@ import { useLoginStore } from "@/store/useLoginStore";
 import { excuteLike } from "@/utils/services/like";
 import Link from "next/link";
 import { excuteBookmark } from "@/utils/services/bookmark";
+import { useModal } from "@/hooks/components/useModal";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -48,7 +49,8 @@ export default function Post(props: IPostProps) {
     commentDetails,
   } = props;
 
-  const [open, setOpen] = React.useState<boolean>(false);
+  // modal 커스텀 훅
+  const { isOpen, openModal, closeModal } = useModal();
 
   /** 유저 개인 프로필 전역 상태 데이터 */
   const userInfo = useLoginStore((state) => state.userInfo);
@@ -119,13 +121,13 @@ export default function Post(props: IPostProps) {
             <span className="text-gray-400">{dayjs(createDate).fromNow()}</span>
           </div>
         </section>
-        <CommentInput onClick={() => setOpen(true)} />
+        <CommentInput onClick={openModal} />
       </section>
 
-      {open && (
+      {isOpen && (
         <PostModal
-          open={open}
-          onClose={() => setOpen(false)}
+          open={isOpen}
+          onClose={closeModal}
           PostProps={props}
           userInfo={userInfo}
         />
