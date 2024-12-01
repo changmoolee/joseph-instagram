@@ -51,7 +51,7 @@ export default function ChatSection() {
   return (
     <section className="flex w-[500px] flex-col gap-[10px]">
       <span className="text-[16px] font-bold">실시간 채팅</span>
-      <div className="h-[300px] w-[400px] overflow-y-auto rounded-[10px] border-[1px] border-gray-400 p-[10px]">
+      <div className="h-[300px] w-[400px] overflow-y-auto overscroll-none rounded-[10px] border-[1px] border-gray-400 p-[10px]">
         {messages.map((msg, index) => (
           <p key={index}>{`${msg?.username || ""} : ${msg?.message || ""}`}</p>
         ))}

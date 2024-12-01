@@ -97,7 +97,7 @@ export default function PostModal(props: IPostModalProps) {
 
   return (
     <Modal open={open} onClose={onClose}>
-      <section className="flex h-fit max-h-[100vh] w-[90vw] min-w-[300px] max-w-[500px] flex-col overflow-y-auto bg-white pb-[50px] lg:h-[500px] lg:w-[800px] lg:min-w-0 lg:max-w-none lg:flex-row lg:pb-0">
+      <section className="flex h-fit max-h-[100vh] w-[90vw] min-w-[300px] max-w-[500px] flex-col overflow-y-auto overscroll-none bg-white pb-[50px] lg:h-[500px] lg:w-[800px] lg:min-w-0 lg:max-w-none lg:flex-row lg:pb-0">
         <div className="flex w-full justify-end p-2 lg:hidden">
           <button onClick={onClose}>
             <IoMdClose className="h-[20px] w-[20px]" />
@@ -117,11 +117,11 @@ export default function PostModal(props: IPostModalProps) {
               src={userDetails.at(0)?.image}
               name={userDetails.at(0)?.name || ""}
             />
-            <p className="max-h-[200px] overflow-y-auto px-5 py-2">
+            <p className="max-h-[200px] overflow-y-auto overscroll-none px-5 py-2">
               {description}
             </p>
           </section>
-          <section className="h-[150px] overflow-y-auto p-2">
+          <section className="h-[150px] overflow-y-auto overscroll-none p-2">
             {isLoading ? (
               <>
                 <SkeletonComment isActive={isLoading} />
