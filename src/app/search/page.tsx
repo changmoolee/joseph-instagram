@@ -23,7 +23,7 @@ export default function Search() {
   } = useGetUser(searchWord);
 
   const handleKeyDown = () => {
-    mutate("/api/user/search");
+    mutate();
   };
 
   React.useEffect(() => {
