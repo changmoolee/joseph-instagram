@@ -3,7 +3,7 @@
  */
 export default function LoginButton() {
   return (
-    <button className="p-4 border-2 border-solid border-black rounded-lg">
+    <button className="rounded-lg border-2 border-solid border-black p-4">
       Sign in with Google
     </button>
   );

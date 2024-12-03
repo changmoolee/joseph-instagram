@@ -37,11 +37,11 @@ export default function CommentInput(props: ICommentInputProps) {
 
   return (
     <section
-      className="w-full h-[50px] flex border-solid border-[1px] border-gray-200"
+      className="flex h-[50px] w-full border-[1px] border-solid border-gray-200"
       onClick={onClick}
     >
-      <button className="w-[50px] h-full flex justify-center items-center">
-        <BiSmile className="w-[25px] h-[25px]" />
+      <button className="flex h-full w-[50px] items-center justify-center">
+        <BiSmile className="h-[25px] w-[25px]" />
       </button>
       <input
         placeholder="Add a comment..."
@@ -53,7 +53,7 @@ export default function CommentInput(props: ICommentInputProps) {
       />
       <button
         onClick={onButtonClick}
-        className="w-[60px] h-full flex justify-center items-center text-[#6cb9d2] font-[600]"
+        className="flex h-full w-[60px] items-center justify-center font-[600] text-[#6cb9d2]"
       >
         {buttonText}
       </button>

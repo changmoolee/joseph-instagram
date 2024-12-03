@@ -15,16 +15,16 @@ export default function SkeletonCard(props: ISkeletonCardProps) {
   const { isActive } = props;
 
   return (
-    <article className="flex items-center gap-3 p-5 border-solid border-[2px] border-gray-200">
+    <article className="flex items-center gap-3 border-[2px] border-solid border-gray-200 p-5">
       <SkeletonUI isCircle isActive={isActive}>
-        <div className="w-[50px] h-[50px]" />
+        <div className="h-[50px] w-[50px]" />
       </SkeletonUI>
-      <section className="w-full flex flex-col gap-3">
-        <SkeletonUI isActive={isActive} className="w-min h-min">
-          <div className="w-[100px] h-[15px]" />
+      <section className="flex w-full flex-col gap-3">
+        <SkeletonUI isActive={isActive} className="h-min w-min">
+          <div className="h-[15px] w-[100px]" />
         </SkeletonUI>
-        <SkeletonUI isActive={isActive} className="w-min h-min">
-          <div className="w-[300px] h-[15px]" />
+        <SkeletonUI isActive={isActive} className="h-min w-min">
+          <div className="h-[15px] w-[300px]" />
         </SkeletonUI>
       </section>
     </article>

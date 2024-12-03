@@ -11,6 +11,10 @@ interface ITabProps {
    */
   tabArr: string[];
   /**
+   * 탭 초기값
+   */
+  defaultTab?: string;
+  /**
    * 현재 선택된 탭
    */
   onChange?: (selectedTab: string) => void;
@@ -28,7 +32,9 @@ export default function Tab(props: ITabProps) {
   } = props;
 
   // 클릭한 탭의 index
-  const [clickedTab, setClickedTab] = React.useState<string>(tabArr[0]);
+  const [clickedTab, setClickedTab] = React.useState<string>(
+    props.defaultTab || tabArr[0]
+  );
 
   React.useEffect(() => {
     if (clickedTab) {
@@ -38,18 +44,18 @@ export default function Tab(props: ITabProps) {
 
   return (
     <section
-      className={`min-w-[320px] w-full h-[50px] flex justify-center items-center ${className}`}
+      className={`flex h-[50px] w-full min-w-[320px] items-center justify-center ${className}`}
     >
       {tabArr.map((tab: string, index: number) => (
         <button
           key={tab}
-          className="w-full h-full flex justify-center border-solid border-t-[2px] border-gray"
+          className="border-gray flex h-full w-full justify-center border-t-[2px] border-solid"
           onClick={() => {
             setClickedTab(tab);
           }}
         >
           <div
-            className={`w-auto h-full flex justify-center items-center border-solid border-t-[1px] ${
+            className={`flex h-full w-auto items-center justify-center border-t-[1px] border-solid ${
               clickedTab === tab
                 ? "border-black font-bold"
                 : "border-transparent"

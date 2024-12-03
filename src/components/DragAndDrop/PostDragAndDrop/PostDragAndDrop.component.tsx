@@ -39,15 +39,15 @@ export default function PostDragAndDrop(props: IPostDragAndDropProps) {
         className={className}
         onChange={onChange}
       >
-        <div className="w-full h-full flex flex-col justify-center items-center gap-3 bg-white border-dotted border-sky-400 border-4">
-          <FaPhotoVideo className="w-[30%] h-[30%]" color="#ced4da" />
+        <div className="flex h-full w-full flex-col items-center justify-center gap-3 border-4 border-dotted border-sky-400 bg-white">
+          <FaPhotoVideo className="h-[30%] w-[30%]" color="#ced4da" />
           Drag and Drop your image here or click
         </div>
       </DragAndDrop>
-      <section className="w-full h-[40px] flex justify-end m-4">
+      <section className="m-4 flex h-[40px] w-full justify-end">
         <ColorButton
           text="사진 삭제"
-          className="w-[100px] h-full bg-sky-400 text-[white] rounded-md"
+          className="h-full w-[100px] rounded-md bg-sky-400 text-[white]"
           onClick={deleteImage}
         />
       </section>

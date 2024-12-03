@@ -12,6 +12,7 @@ import { useLoginStore } from "@/store/useLoginStore";
 import { excuteLike } from "@/utils/services/like";
 import Link from "next/link";
 import { excuteBookmark } from "@/utils/services/bookmark";
+import { useModal } from "@/hooks/components/useModal";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -48,15 +49,16 @@ export default function Post(props: IPostProps) {
     commentDetails,
   } = props;
 
-  const [open, setOpen] = React.useState<boolean>(false);
+  // modal 커스텀 훅
+  const { isOpen, openModal, closeModal } = useModal();
 
   /** 유저 개인 프로필 전역 상태 데이터 */
   const userInfo = useLoginStore((state) => state.userInfo);
 
   return (
-    <div className="min-w-[320px] w-full ">
+    <div className="w-full min-w-[320px]">
       <Link href={`/user/${userDetails[0]._id}`}>
-        <section className="border-solid border-[1px] border-gray-200">
+        <section className="border-[1px] border-solid border-gray-200">
           <ProfileAndName
             src={userDetails.at(0)?.image}
             name={userDetails.at(0)?.name || ""}
@@ -64,13 +66,13 @@ export default function Post(props: IPostProps) {
         </section>
       </Link>
       {postSrc && (
-        <div className="relative w-full h-[400px]">
+        <div className="relative h-[400px] w-full">
           <Image src={postSrc} alt="" className="object-cover" fill />
         </div>
       )}
       <section>
-        <section className="w-full flex flex-col gap-2 px-4 py-2 border-solid border-[1px] border-gray-200">
-          <div className="w-full h-[30px] flex justify-between">
+        <section className="flex w-full flex-col gap-2 border-[1px] border-solid border-gray-200 px-4 py-2">
+          <div className="flex h-[30px] w-full justify-between">
             <Like
               checked={
                 !!likeDetails.find((like) => like.userId === userInfo?._id)
@@ -111,7 +113,7 @@ export default function Post(props: IPostProps) {
           <div className="flex flex-col gap-2">
             <span>{likeDetails.length} Like</span>
             <p>
-              <span className="min-w-[80px] max-w-[200px] font-bold mr-5">
+              <span className="mr-5 min-w-[80px] max-w-[200px] font-bold">
                 {userDetails.at(0)?.name || ""}
               </span>
               <span>{description}</span>
@@ -119,13 +121,13 @@ export default function Post(props: IPostProps) {
             <span className="text-gray-400">{dayjs(createDate).fromNow()}</span>
           </div>
         </section>
-        <CommentInput onClick={() => setOpen(true)} />
+        <CommentInput onClick={openModal} />
       </section>
 
-      {open && (
+      {isOpen && (
         <PostModal
-          open={open}
-          onClose={() => setOpen(false)}
+          open={isOpen}
+          onClose={closeModal}
           PostProps={props}
           userInfo={userInfo}
         />

@@ -19,11 +19,11 @@ export default function ProfileCard(props: IProfileCardProps) {
   const { image, name, followersNum = 0, followingNum = 0 } = props;
 
   return (
-    <article className="flex items-center gap-3 p-5 border-solid border-[2px] border-gray-200">
+    <article className="flex items-center gap-3 border-[2px] border-solid border-gray-200 p-5">
       <ProfileImage src={image} />
       <section className="flex flex-col">
-        <span className="text-black fond-bold">{name}</span>
-        <span className="text-gray-400 fond-bold">{`${followersNum} followers ${followingNum} following`}</span>
+        <span className="fond-bold text-black">{name}</span>
+        <span className="fond-bold text-gray-400">{`${followersNum} followers ${followingNum} following`}</span>
       </section>
     </article>
   );

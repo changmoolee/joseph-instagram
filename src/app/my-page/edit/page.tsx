@@ -114,12 +114,12 @@ export default function MyPageEdit() {
   }, [userInfo, setValue, error, message]);
 
   return (
-    <main className="w-full flex justify-center">
+    <main className="flex w-full justify-center">
       <form
-        className="max-w-[400px] min-w-[320px] w-full h-full flex flex-col"
+        className="flex h-full w-full min-w-[320px] max-w-[400px] flex-col"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <section className="w-full flex justify-center mt-10 mb-10 lg:mb-20">
+        <section className="mb-10 mt-10 flex w-full justify-center lg:mb-20">
           <span className="text-xl font-[600]">내정보 수정</span>
         </section>
         {/* 프로필 이미지 수정 */}
@@ -135,16 +135,16 @@ export default function MyPageEdit() {
           />
         )}
 
-        <section className="w-full flex flex-col mt-10 gap-10">
+        <section className="mt-10 flex w-full flex-col gap-10">
           {isLoading ? (
             <SkeletonUI
               isActive={isLoading}
               isCircle
-              className="w-full h-[24px]"
+              className="h-[24px] w-full"
             />
           ) : (
             <article className="w-full gap-5">
-              <section className="w-full flex">
+              <section className="flex w-full">
                 <span className="w-[200px]">이메일</span>
                 <input
                   className="w-full"
@@ -162,11 +162,11 @@ export default function MyPageEdit() {
             <SkeletonUI
               isActive={isLoading}
               isCircle
-              className="w-full h-[24px]"
+              className="h-[24px] w-full"
             />
           ) : (
             <article className="w-full gap-5">
-              <section className="w-full flex">
+              <section className="flex w-full">
                 <span className="w-[200px]">이름</span>
                 <input
                   className="w-full"
@@ -184,11 +184,11 @@ export default function MyPageEdit() {
             <SkeletonUI
               isActive={isLoading}
               isCircle
-              className="w-full h-[24px]"
+              className="h-[24px] w-full"
             />
           ) : (
             <article className="w-full gap-5">
-              <section className="w-full flex">
+              <section className="flex w-full">
                 <span className="w-[200px]">비밀번호</span>
                 <input
                   className="w-full"
@@ -207,11 +207,11 @@ export default function MyPageEdit() {
             <SkeletonUI
               isActive={isLoading}
               isCircle
-              className="w-full h-[24px]"
+              className="h-[24px] w-full"
             />
           ) : (
             <article className="w-full gap-5">
-              <section className="w-full flex">
+              <section className="flex w-full">
                 <span className="w-[200px]">비밀번호 확인</span>
                 <input
                   className="w-full"
@@ -234,7 +234,7 @@ export default function MyPageEdit() {
 
         <ColorButton
           text="수정하기"
-          className="w-full h-[40px] mt-10 bg-sky-400 text-[white]"
+          className="mt-10 h-[40px] w-full bg-sky-400 text-[white]"
         />
       </form>
     </main>

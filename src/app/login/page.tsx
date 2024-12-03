@@ -8,6 +8,7 @@ import { ICommonResponse } from "@/typescript/common/response.interface";
 import { getUserData } from "@/utils/services/user";
 import { useLoginStore } from "@/store/useLoginStore";
 import apiClient from "@/utils/axios";
+import InputSection from "@/components/InputSection/InputSection.component";
 
 /**
  * 로그인 페이지
@@ -74,48 +75,41 @@ export default function Login() {
   };
 
   return (
-    <main className="w-full h-full flex flex-col items-center">
-      <section className="w-full flex justify-center my-10">
-        <span className="text-xl font-[600]">로그인</span>
+    <main className="flex h-full w-full flex-col items-center pt-10">
+      <section className="my-10 flex w-full justify-center">
+        <h1 className="text-2xl font-semibold">로그인</h1>
       </section>
-      <div className="max-w-[400px] min-w-[320px] w-full">
+      <div className="w-full min-w-[320px] max-w-[400px]">
         <form
-          className="w-full flex flex-col gap-5"
+          className="flex w-full flex-col gap-3"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <article className="w-full mt-5 gap-5">
-            <section className="w-full flex">
-              <span className="w-[120px]">이메일</span>
-              <input
-                className="w-full"
-                placeholder="abc1234@gmail.com"
-                {...register("email", { required: true })}
-              />
-            </section>
+          <article className="mt-5 w-full gap-5">
+            <InputSection
+              label="이메일"
+              placeholder="abc1234@gmail.com"
+              {...register("email", { required: true })}
+            />
             {errors.email && (
               <span className="text-[red]">이메일을 입력해 주세요.</span>
             )}
           </article>
-          <article className="w-full mt-5 gap-5">
-            <section className="w-full flex">
-              <span className="w-[120px]">비밀번호</span>
-              <input
-                className="w-full"
-                type="password"
-                placeholder="password"
-                {...register("password", { required: true })}
-              />
-            </section>
+          <article className="w-full gap-5">
+            <InputSection
+              label="비밀번호"
+              placeholder="password"
+              {...register("password", { required: true })}
+            />
             {errors.password && (
               <span className="text-[red]">비밀번호를 입력해 주세요.</span>
             )}
           </article>
-          <button className="w-full h-[30px] flex justify-center items-center mt-10 text-[#fff] font-[600] bg-blue-500">
+          <button className="mt-10 flex h-[40px] w-full items-center justify-center rounded-md bg-blue-500 font-[600] text-[#fff]">
             로그인
           </button>
         </form>
         <Link href="/sign-up">
-          <button className="w-full h-[30px] flex justify-center items-center mt-5 text-[#fff] font-[600] bg-orange-500">
+          <button className="mt-3 flex h-[40px] w-full items-center justify-center rounded-md bg-orange-500 font-[600] text-[#fff]">
             회원가입
           </button>
         </Link>

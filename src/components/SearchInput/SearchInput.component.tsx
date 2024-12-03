@@ -38,7 +38,7 @@ export default function SearchInput(props: ISearchInputProps) {
   return (
     <input
       placeholder="Search for username or name"
-      className="w-full h-[50px] flex border-solid p-3 border-[2px] border-gray-3s00 "
+      className="border-gray-3s00 flex h-[50px] w-full border-[2px] border-solid p-3"
       value={comment}
       onChange={(e) => {
         setComment(e.target.value);

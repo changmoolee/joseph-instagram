@@ -1,5 +1,6 @@
 "use client";
 
+import ChatSection from "@/components/ChatSection/ChatSection.component";
 import Loading from "@/components/Loading/Loading.component";
 import Post from "@/components/Post/Post.component";
 import ProfileAndName from "@/components/ProfileAndName/ProfileAndName.component";
@@ -16,21 +17,21 @@ export default function Home() {
   const userInfo = useLoginStore((state) => state.userInfo);
 
   return (
-    <main className="w-full h-full flex justify-center">
-      <section className="max-w-[500px] w-full h-full">
-        <section className="w-full flex gap-5 border-[2px] p-5 border-gray-100 border-box"></section>
+    <main className="flex h-full w-full justify-center">
+      <section className="h-full w-full max-w-[500px]">
+        <section className="border-box flex w-full gap-5 border-[2px] border-gray-100 p-5"></section>
         {/* 친구들이 올린 post 데이터 내림차순 */}
         {isLoading ? (
           <Loading isActive={isLoading} className="mx-auto mt-5" />
         ) : postData && postData.length > 0 ? (
           postData.map((post) => <Post key={post._id.toString()} {...post} />)
         ) : (
-          <div className="flex justify-center mt-5">
+          <div className="mt-5 flex justify-center">
             <span>게시물이 없습니다.</span>
           </div>
         )}
       </section>
-      <section className="w-[200px] h-full hidden flex-col gap-5 p-5 lg:flex">
+      <section className="hidden h-full w-[200px] flex-col gap-5 p-5 lg:flex">
         {userInfo && (
           <ProfileAndName
             src={userInfo?.image || "/images/user.png"}
@@ -57,6 +58,7 @@ export default function Home() {
         <div>
           <span>@Copyright INSTANTGRAM from META</span>
         </div>
+        <ChatSection />
       </section>
     </main>
   );

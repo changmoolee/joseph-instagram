@@ -14,11 +14,17 @@ import ProfileAndName from "@/components/ProfileAndName/ProfileAndName.component
 /**
  * 회원의 팔로워/팔로잉 유저 확인 페이지
  */
-export default function UserFollow({ params }: { params: { userId: string } }) {
-  const tabs = ["Follower", "Following"];
+export default function UserFollow({
+  params,
+  searchParams,
+}: {
+  params: { userId: string };
+  searchParams: { type: string };
+}) {
+  const tabs = ["follower", "following"];
 
   // 클릭한 탭의 index
-  const [clickedTab, setClickedTab] = React.useState<string>(tabs[0]);
+  const [clickedTab, setClickedTab] = React.useState<string>(searchParams.type);
 
   const { isLoading, data: followInfo } = useGetFollowUser(params.userId);
 
@@ -33,12 +39,12 @@ export default function UserFollow({ params }: { params: { userId: string } }) {
   } = useGetUserData(params.userId);
 
   return (
-    <main className="w-full h-full flex justify-center items-center">
-      <div className="w-[600px] h-full flex flex-col items-center">
-        <div className="w-[300px] h-[100px] flex justify-center items-center">
+    <main className="flex h-full w-full items-center justify-center">
+      <div className="flex h-full w-[600px] flex-col items-center">
+        <div className="flex h-[100px] w-[300px] items-center justify-center">
           {/* 유저 프로필 이미지 */}
           {userLoading ? (
-            <SkeletonUI isActive={userLoading} className="w-[120px] h-[60px]" />
+            <SkeletonUI isActive={userLoading} className="h-[60px] w-[120px]" />
           ) : (
             <ProfileAndName
               src={userData?.image || "/"}
@@ -49,18 +55,19 @@ export default function UserFollow({ params }: { params: { userId: string } }) {
         <Tab
           className="mt-5"
           tabArr={tabs}
+          defaultTab={searchParams.type}
           onChange={(selectedTab) => {
             setClickedTab(selectedTab);
           }}
         />
-        <section className="w-full h-[auto] flex flex-col p-5 gap-3">
+        <section className="flex h-[auto] w-full flex-col gap-3 p-5">
           {isLoading ? (
             <>
               <SkeletonCard isActive={isLoading} />
               <SkeletonCard isActive={isLoading} />
               <SkeletonCard isActive={isLoading} />
             </>
-          ) : clickedTab === "Follower" ? (
+          ) : clickedTab === "follower" ? (
             followInfo?.follower.map((user: IRefinedUserData) => (
               <Link key={user._id.toString()} href={`/user/${user._id}`}>
                 <ProfileCard
@@ -71,7 +78,7 @@ export default function UserFollow({ params }: { params: { userId: string } }) {
                 />
               </Link>
             ))
-          ) : clickedTab === "Following" ? (
+          ) : clickedTab === "following" ? (
             followInfo?.following.map((user: IRefinedUserData) => (
               <Link key={user._id.toString()} href={`/user/${user._id}`}>
                 <ProfileCard
@@ -83,7 +90,7 @@ export default function UserFollow({ params }: { params: { userId: string } }) {
               </Link>
             ))
           ) : (
-            <div className="w-full h-[200px] flex justify-center items-center">
+            <div className="flex h-[200px] w-full items-center justify-center">
               {(clickedTab === "Follower"
                 ? "해당 회원의 팔로워가"
                 : "해당 회원이 팔로우하는 회원이") + " 없습니다."}

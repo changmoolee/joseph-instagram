@@ -23,7 +23,7 @@ export default function Search() {
   } = useGetUser(searchWord);
 
   const handleKeyDown = () => {
-    mutate("/api/user/search");
+    mutate();
   };
 
   React.useEffect(() => {
@@ -33,13 +33,13 @@ export default function Search() {
   }, [error, message]);
 
   return (
-    <main className="w-full h-full flex justify-center items-center">
-      <div className="max-w-[600px] min-w-[320px] w-full h-full flex flex-col items-center px-5 mt-5">
+    <main className="flex h-full w-full items-center justify-center">
+      <div className="mt-5 flex h-full w-full min-w-[320px] max-w-[600px] flex-col items-center px-5">
         <SearchInput
           onChange={(word) => setSearchWord(word)}
           handleKeyDown={handleKeyDown}
         />
-        <section className="w-full h-[auto] flex flex-col gap-3 mt-5">
+        <section className="mt-5 flex h-[auto] w-full flex-col gap-3">
           {isLoading ? (
             <>
               <SkeletonCard isActive={isLoading} />
@@ -58,7 +58,7 @@ export default function Search() {
               </Link>
             ))
           ) : (
-            <div className="w-full h-[200px] flex justify-center items-center">
+            <div className="flex h-[200px] w-full items-center justify-center">
               검색된 회원이 없습니다.
             </div>
           )}

@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import { ImageUpload } from "@/utils/services/upload";
 import apiClient from "@/utils/axios";
+import InputSection from "@/components/InputSection/InputSection.component";
 
 /**
  * 회원가입 페이지
@@ -76,74 +77,60 @@ export default function SignUp() {
   };
 
   return (
-    <main className="w-full flex justify-center">
+    <main className="flex w-full justify-center pb-20 pt-10">
       <form
-        className="max-w-[400px] min-w-[320px] w-full h-full flex flex-col gap-5"
+        className="flex h-full w-full min-w-[320px] max-w-[400px] flex-col gap-5"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <section className="w-full flex justify-center  mt-10 mb-10 lg:mb-20">
+        <section className="mt-10 flex w-full justify-center">
           <span className="text-xl font-[600]">회원가입</span>
         </section>
         <SignupDragAndDrop
-          className="h-[200px] lg:h-[300px]"
+          className="mt-10 h-[150px] lg:h-[200px]"
           onChange={(file) => {
             setImageFile(file);
           }}
         />
-        <section className="w-full flex flex-col mt-10 gap-10">
+        <section className="mt-5 flex w-full flex-col gap-5">
           <article className="w-full gap-5">
-            <section className="w-full flex">
-              <span className="w-[200px]">이메일</span>
-              <input
-                className="w-full"
-                placeholder="abc1234@gmail.com"
-                {...register("email", { required: true })}
-              />
-            </section>
+            <InputSection
+              label="이메일"
+              placeholder="abc1234@gmail.com"
+              {...register("email", { required: true })}
+            />
             {errors.email && (
               <span className="text-[red]">이메일을 입력해 주세요.</span>
             )}
           </article>
           <article className="w-full gap-5">
-            <section className="w-full flex">
-              <span className="w-[200px]">이름</span>
-              <input
-                className="w-full"
-                placeholder="홍길동"
-                {...register("name", { required: true })}
-              />
-            </section>
+            <InputSection
+              label="이름"
+              placeholder="홍길동"
+              {...register("홍길동", { required: true })}
+            />
             {errors.name && (
               <span className="text-[red]">이름을 입력해 주세요.</span>
             )}
           </article>
           <article className="w-full gap-5">
-            <section className="w-full flex">
-              <span className="w-[200px]">비밀번호</span>
-              <input
-                className="w-full"
-                type="password"
-                placeholder="password"
-                {...register("password", { required: true })}
-              />
-            </section>
+            <InputSection
+              label="비밀번호"
+              placeholder="password"
+              {...register("password", { required: true })}
+            />
             {errors.password && (
               <span className="text-[red]">비밀번호를 입력해 주세요.</span>
             )}
           </article>
           <article className="w-full gap-5">
-            <section className="w-full flex">
-              <span className="w-[200px]">비밀번호 확인</span>
-              <input
-                className="w-full"
-                type="password"
-                placeholder="verify password"
-                {...register("verifyPassword", {
-                  required: true,
-                  validate: (v) => watch("password") == v,
-                })}
-              />
-            </section>
+            <InputSection
+              label="비밀번호 확인"
+              placeholder="verify password"
+              {...register("verifyPassword", {
+                required: true,
+                validate: (v) => watch("password") == v,
+              })}
+            />
             {errors.verifyPassword && (
               <span className="text-[red]">비밀번호가 일치하지 않습니다.</span>
             )}
@@ -151,7 +138,7 @@ export default function SignUp() {
         </section>
         <ColorButton
           text="가입하기"
-          className="w-full h-[40px] mt-10 bg-sky-400 text-[white]"
+          className="mt-10 flex h-[40px] w-full items-center justify-center rounded-md bg-sky-400 text-[white]"
         />
       </form>
     </main>

@@ -25,12 +25,12 @@ export default function Modal(props: IModalProps) {
   return (
     open && (
       <ModalPortal>
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-1000">
+        <div className="z-1000 fixed left-0 top-0 flex h-full w-full items-center justify-center">
           <section
-            className="absolute w-full h-full bg-[rgba(0,0,0,0.3)] z-0"
+            className="absolute z-0 h-full w-full bg-[rgba(0,0,0,0.3)]"
             onClick={onClose}
           />
-          <section className="relative z-1">{children}</section>
+          <section className="z-1 relative">{children}</section>
         </div>
       </ModalPortal>
     )

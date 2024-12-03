@@ -5,11 +5,13 @@ import PostModal from "@/components/PostModal/PostModal.component";
 import BigProfileImage from "@/components/ProfileImage/BigProfileImage.component";
 import SkeletonUI from "@/components/SkeletonUI/SkeletonUI.component";
 import Tab from "@/components/Tab/Tab.component";
+import { useModal } from "@/hooks/components/useModal";
 import { useGetUserPost } from "@/hooks/post/useGetUserPost";
 import { useGetUserData } from "@/hooks/user/useGetUserData";
 import { useLoginStore } from "@/store/useLoginStore";
 import { excuteFollow } from "@/utils/services/follow";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 /**
@@ -24,8 +26,8 @@ export default function User({ params }: { params: { userId: string } }) {
   // 클릭한 Post의 id
   const [clickedId, setClickedId] = React.useState<string>();
 
-  // PostModal 구현 여부
-  const [open, setOpen] = React.useState<boolean>(false);
+  // modal 커스텀 훅
+  const { isOpen, openModal, closeModal } = useModal();
 
   /**
    * 유저 개인의 포스트 데이터 호출
@@ -67,26 +69,26 @@ export default function User({ params }: { params: { userId: string } }) {
   );
 
   return (
-    <main className="w-full h-full">
-      <div className="max-w-[1000px] min-w-[320px] flex flex-col items-center">
-        <div className="w-full h-[200px] flex justify-center gap-5 items-center lg:gap-10 p-5">
+    <main className="flex h-full w-full justify-center">
+      <div className="flex min-w-[320px] max-w-[1000px] flex-col items-center">
+        <div className="flex h-[200px] w-full items-center justify-center gap-5 p-5 lg:gap-10">
           {/* 유저 프로필 이미지 */}
           {userLoading ? (
             <SkeletonUI
               isActive={userLoading}
               isCircle
-              className="w-[100px] h-[100px]"
+              className="h-[100px] w-[100px]"
             />
           ) : (
             <BigProfileImage src={userData?.image || "/"} />
           )}
           <section className="flex flex-col gap-2 lg:gap-3">
-            <article className="flex gap-5 lg:gap-5 items-center">
+            <article className="flex items-center gap-5 lg:gap-5">
               {/* 유저 이름 및 팔로우 버튼 */}
               {userLoading ? (
                 <SkeletonUI
                   isActive={userLoading}
-                  className="w-[100px] h-[25px]"
+                  className="h-[25px] w-[100px]"
                 />
               ) : (
                 <>
@@ -95,7 +97,7 @@ export default function User({ params }: { params: { userId: string } }) {
                     <ColorButton
                       // TODO:  !!followDetails.find((followingId) => followingId.userId === followingId?._id)
                       text="Follow"
-                      className="h-[30px] px-3 bg-sky-400 rounded-md text-white"
+                      className="h-[30px] rounded-md bg-sky-400 px-3 text-white"
                       onClick={() => {
                         if (isLogin && userData) {
                           excuteFollow({
@@ -116,7 +118,7 @@ export default function User({ params }: { params: { userId: string } }) {
             {userLoading ? (
               <SkeletonUI
                 isActive={userLoading}
-                className="w-[300px] h-[25px]"
+                className="h-[25px] w-[100px]"
               />
             ) : (
               <article className="flex flex-col gap-1 lg:flex-row lg:gap-5">
@@ -125,12 +127,27 @@ export default function User({ params }: { params: { userId: string } }) {
                   Posts
                 </span>
                 <span>
-                  <span className="font-bold">{userData?.followers}</span>{" "}
-                  followers
+                  <Link
+                    href={{
+                      pathname: `/user/${params.userId}/follow`,
+                      query: { type: "follower" },
+                    }}
+                  >
+                    <span className="font-bold">{userData?.followers}</span>{" "}
+                    followers
+                  </Link>
                 </span>
+
                 <span>
-                  <span className="font-bold">{userData?.following}</span>{" "}
-                  following
+                  <Link
+                    href={{
+                      pathname: `/user/${params.userId}/follow`,
+                      query: { type: "following" },
+                    }}
+                  >
+                    <span className="font-bold">{userData?.following}</span>{" "}
+                    following
+                  </Link>
                 </span>
               </article>
             )}
@@ -139,10 +156,10 @@ export default function User({ params }: { params: { userId: string } }) {
               {userLoading ? (
                 <SkeletonUI
                   isActive={userLoading}
-                  className="w-[100px] h-[25px]"
+                  className="h-[25px] w-[100px]"
                 />
               ) : (
-                <span className="font-bold hidden lg:inline">
+                <span className="hidden font-bold lg:inline">
                   {userData?.name}
                 </span>
               )}
@@ -157,32 +174,32 @@ export default function User({ params }: { params: { userId: string } }) {
         />
         {!postData ||
           (postData?.length === 0 && (
-            <div className="w-full h-[100px] flex justify-center items-center">
+            <div className="flex h-[100px] w-full items-center justify-center">
               데이터가 없습니다.
             </div>
           ))}
-        <ul className="w-full h-full grid grid-cols-3 gap-1 lg:gap-4 mt-5">
+        <ul className="mt-5 grid h-full w-full grid-cols-3 gap-1 lg:gap-4">
           {/* 유저 게시물 이미지 */}
           {postLoading ? (
             <>
               <SkeletonUI
                 isActive={postLoading}
-                className="w-full h-auto aspect-[1/1]"
+                className="aspect-[1/1] h-auto w-full"
               />
               <SkeletonUI
                 isActive={postLoading}
-                className="w-full h-auto aspect-[1/1]"
+                className="aspect-[1/1] h-auto w-full"
               />
             </>
           ) : postData && postData.length > 0 ? (
             postData.map((post) => (
               <li
                 key={post._id.toString()}
-                className="relative w-full h-auto aspect-[1/1]"
+                className="relative aspect-[1/1] h-auto w-full"
               >
                 <button
                   onClick={() => {
-                    setOpen(true);
+                    openModal();
                     setClickedId(post._id.toString());
                   }}
                 >
@@ -199,10 +216,10 @@ export default function User({ params }: { params: { userId: string } }) {
         </ul>
 
         {/* 게시물 이미지 클릭시 생성되는 게시물 모달 */}
-        {open && clickedPostData && (
+        {isOpen && clickedPostData && (
           <PostModal
-            open={open}
-            onClose={() => setOpen(false)}
+            open={isOpen}
+            onClose={closeModal}
             PostProps={clickedPostData}
             userInfo={userInfo}
           />
