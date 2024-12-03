@@ -11,7 +11,9 @@ export default function ChatSection() {
 
   useEffect(() => {
     // WebSocket 연결
-    const ws = new WebSocket(`ws://${process.env.AWS_SOCKET_SERVER}:4000`);
+    const ws = new WebSocket(
+      `ws://${process.env.NEXT_PUBLIC_AWS_SOCKET_SERVER}:4000`
+    );
 
     ws.onopen = () => {
       console.log("Connected to WebSocket server");
