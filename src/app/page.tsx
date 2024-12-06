@@ -58,7 +58,7 @@ export default function Home() {
         <div>
           <span>@Copyright INSTANTGRAM from META</span>
         </div>
-        <ChatSection />
+        {/* <ChatSection /> */}
       </section>
     </main>
   );
