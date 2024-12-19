@@ -1,10 +1,10 @@
 import React from "react";
-import { FieldValues, UseFormRegister } from "react-hook-form";
+import { UseFormRegisterReturn } from "react-hook-form";
 
 interface IInputSectionProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  register?: UseFormRegister<FieldValues>;
+  register?: UseFormRegisterReturn;
 }
 
 /**

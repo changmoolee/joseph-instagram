@@ -96,7 +96,7 @@ export default function SignUp() {
             <InputSection
               label="이메일"
               placeholder="abc1234@gmail.com"
-              {...register("email", { required: true })}
+              register={register("email", { required: true })}
             />
             {errors.email && (
               <span className="text-[red]">이메일을 입력해 주세요.</span>
@@ -106,7 +106,7 @@ export default function SignUp() {
             <InputSection
               label="이름"
               placeholder="홍길동"
-              {...register("홍길동", { required: true })}
+              register={register("홍길동", { required: true })}
             />
             {errors.name && (
               <span className="text-[red]">이름을 입력해 주세요.</span>
@@ -116,7 +116,7 @@ export default function SignUp() {
             <InputSection
               label="비밀번호"
               placeholder="password"
-              {...register("password", { required: true })}
+              register={register("password", { required: true })}
             />
             {errors.password && (
               <span className="text-[red]">비밀번호를 입력해 주세요.</span>
@@ -126,7 +126,7 @@ export default function SignUp() {
             <InputSection
               label="비밀번호 확인"
               placeholder="verify password"
-              {...register("verifyPassword", {
+              register={register("verifyPassword", {
                 required: true,
                 validate: (v) => watch("password") == v,
               })}

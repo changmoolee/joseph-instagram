@@ -88,7 +88,7 @@ export default function Login() {
             <InputSection
               label="이메일"
               placeholder="abc1234@gmail.com"
-              {...register("email", { required: true })}
+              register={register("email", { required: true })}
             />
             {errors.email && (
               <span className="text-[red]">이메일을 입력해 주세요.</span>
@@ -96,15 +96,19 @@ export default function Login() {
           </article>
           <article className="w-full gap-5">
             <InputSection
+              type="password"
               label="비밀번호"
               placeholder="password"
-              {...register("password", { required: true })}
+              register={register("password", { required: true })}
             />
             {errors.password && (
               <span className="text-[red]">비밀번호를 입력해 주세요.</span>
             )}
           </article>
-          <button className="mt-10 flex h-[40px] w-full items-center justify-center rounded-md bg-blue-500 font-[600] text-[#fff]">
+          <button
+            type="submit"
+            className="mt-10 flex h-[40px] w-full items-center justify-center rounded-md bg-blue-500 font-[600] text-[#fff]"
+          >
             로그인
           </button>
         </form>
