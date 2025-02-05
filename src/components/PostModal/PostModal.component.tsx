@@ -16,7 +16,6 @@ import { IUserData } from "@/typescript/user.interface";
 import useSWRMutation from "swr/mutation";
 import apiClient from "@/utils/axios";
 import { useGetPostComments } from "@/hooks/post/useGetPostComments";
-import { IoMdClose } from "react-icons/io";
 import SkeletonComment from "@/components/Comment/SkeletonComment.component";
 
 // dayjs의 RelativeTime 플러그인 추가
@@ -97,12 +96,7 @@ export default function PostModal(props: IPostModalProps) {
 
   return (
     <Modal open={open} onClose={onClose}>
-      <section className="flex h-fit max-h-[100vh] w-[90vw] min-w-[300px] max-w-[500px] flex-col overflow-y-auto overscroll-none bg-white pb-[50px] lg:h-[500px] lg:w-[800px] lg:min-w-0 lg:max-w-none lg:flex-row lg:pb-0">
-        <div className="flex w-full justify-end p-2 lg:hidden">
-          <button onClick={onClose}>
-            <IoMdClose className="h-[20px] w-[20px]" />
-          </button>
-        </div>
+      <section className="flex h-[100vh] w-[100vw] max-w-[500px] flex-col overflow-y-auto overscroll-none bg-white pb-[50px] lg:h-[500px] lg:w-[900px] lg:min-w-0 lg:max-w-none lg:flex-row lg:pb-0">
         <div className="relative aspect-square max-h-[300px] w-full bg-black lg:h-full lg:max-h-none lg:w-[60%]">
           <Image
             src={postSrc || "/"}
@@ -111,17 +105,17 @@ export default function PostModal(props: IPostModalProps) {
             fill
           />
         </div>
-        <div className="relative h-auto w-full lg:w-[40%]">
+        <div className="relative h-full w-full pb-[150px] lg:w-[40%]">
           <section className="flex flex-col">
             <ProfileAndName
               src={userDetails.at(0)?.image}
               name={userDetails.at(0)?.name || ""}
             />
-            <p className="max-h-[200px] overflow-y-auto overscroll-none px-5 py-2">
+            <p className="h-[100px] overflow-y-auto overscroll-none px-5 py-2">
               {description}
             </p>
           </section>
-          <section className="h-[150px] overflow-y-auto overscroll-none p-2">
+          <section className="flex-grow overflow-y-auto overscroll-none p-2 lg:h-[150px]">
             {isLoading ? (
               <>
                 <SkeletonComment isActive={isLoading} />
@@ -138,7 +132,9 @@ export default function PostModal(props: IPostModalProps) {
               ))
             )}
           </section>
-          <section className="bottom-0 mt-5 w-full flex-col lg:absolute">
+
+          {/* 좋아요 북마크 INPUT */}
+          <section className="absolute bottom-0 mt-5 h-[150px] w-full flex-col">
             <div className="flex justify-between px-2 py-1">
               <Like
                 checked={
