@@ -79,7 +79,7 @@ export default function Login() {
       <section className="my-10 flex w-full justify-center">
         <h1 className="text-2xl font-semibold">로그인</h1>
       </section>
-      <div className="w-full min-w-[320px] max-w-[400px]">
+      <div className="w-full max-w-[400px] px-[20px]">
         <form
           className="flex w-full flex-col gap-3"
           onSubmit={handleSubmit(onSubmit)}

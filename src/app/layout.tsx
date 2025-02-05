@@ -9,8 +9,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-w-[430px]">
+    <html lang="ko">
+      <body className="w-full min-w-[320px]">
         <Header />
         {children}
       </body>

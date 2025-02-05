@@ -116,7 +116,7 @@ export default function MyPageEdit() {
   return (
     <main className="flex w-full justify-center">
       <form
-        className="flex h-full w-full min-w-[320px] max-w-[400px] flex-col"
+        className="flex h-full w-full max-w-[400px] flex-col px-[20px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <section className="mb-10 mt-10 flex w-full justify-center lg:mb-20">

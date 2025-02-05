@@ -34,7 +34,7 @@ export default function Search() {
 
   return (
     <main className="flex h-full w-full items-center justify-center">
-      <div className="mt-5 flex h-full w-full min-w-[320px] max-w-[600px] flex-col items-center px-5">
+      <div className="mt-5 flex h-full w-full max-w-[600px] flex-col items-center px-[20px]">
         <SearchInput
           onChange={(word) => setSearchWord(word)}
           handleKeyDown={handleKeyDown}

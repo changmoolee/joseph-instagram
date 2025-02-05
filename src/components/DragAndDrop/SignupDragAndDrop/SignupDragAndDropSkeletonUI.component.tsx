@@ -23,7 +23,7 @@ export default function SignupDragAndDropSkeletonUI(
 
   return (
     <section className="flex flex-col">
-      <div className="flex h-[200px] w-[400px] items-center justify-center">
+      <div className="flex h-[200px] w-full max-w-[400px] items-center justify-center">
         <SkeletonUI isActive={isActive} isCircle className={className} />
       </div>
       <section className="m-2 flex h-[40px] w-full justify-end">

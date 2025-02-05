@@ -65,7 +65,7 @@ export default function Header() {
         <ul className="flex h-full items-center gap-x-5">
           <li>
             <Link href={"/"}>
-              <AiOutlineHome className="h-[25px] w-[25px]" />
+              <AiOutlineHome className="hidden h-[25px] w-[25px] lg:block" />
             </Link>
           </li>
           <li>

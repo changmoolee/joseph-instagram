@@ -79,7 +79,7 @@ export default function SignUp() {
   return (
     <main className="flex w-full justify-center pb-20 pt-10">
       <form
-        className="flex h-full w-full min-w-[320px] max-w-[400px] flex-col gap-5"
+        className="flex h-full w-full max-w-[400px] flex-col gap-5 px-[20px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <section className="mt-10 flex w-full justify-center">

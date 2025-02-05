@@ -70,7 +70,7 @@ export default function NewPost() {
   return (
     userInfo && (
       <main className="flex w-full justify-center">
-        <section className="mt-5 flex w-[320px] flex-col items-center lg:w-[500px]">
+        <section className="mt-5 flex w-full max-w-[400px] flex-col items-center px-[10px] lg:w-[500px]">
           <ProfileAndName
             src={userInfo.image || "/images/user.png"}
             name={userInfo.name || "error"}

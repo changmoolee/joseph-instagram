@@ -59,7 +59,7 @@ export default function MyPage() {
 
   return (
     <main className="flex w-full justify-center">
-      <form className="flex w-[400px] flex-col gap-5">
+      <form className="flex w-full max-w-[400px] flex-col gap-5 px-[20px] pb-[20px]">
         <section className="my-10 flex w-full justify-center">
           <span className="text-xl font-[600]">마이 페이지</span>
         </section>
@@ -89,7 +89,7 @@ export default function MyPage() {
             <SkeletonUI
               isActive={isLoading}
               isCircle
-              className="h-[24px] w-[400px]"
+              className="h-[24px] w-full"
             />
           ) : (
             <article className="w-full gap-5">
@@ -106,7 +106,7 @@ export default function MyPage() {
             <SkeletonUI
               isActive={isLoading}
               isCircle
-              className="h-[24px] w-[400px]"
+              className="h-[24px] w-full"
             />
           ) : (
             <article className="w-full gap-5">
@@ -131,7 +131,7 @@ export default function MyPage() {
         <ColorButton
           text="회원탈퇴"
           type="button"
-          className={`${buttonClasses} mt-2 h-[40px] w-full bg-black text-white`}
+          className={`${buttonClasses} h-[40px] w-full bg-black text-white`}
           onClick={deleteUserData}
         />
       </form>

@@ -56,7 +56,7 @@ export default function Post(props: IPostProps) {
   const userInfo = useLoginStore((state) => state.userInfo);
 
   return (
-    <div className="w-full min-w-[320px]">
+    <div className="w-full">
       <Link href={`/user/${userDetails[0]._id}`}>
         <section className="border-[1px] border-solid border-gray-200">
           <ProfileAndName
