@@ -6,7 +6,8 @@ import Post from "@/components/Post/Post.component";
 import ProfileAndName from "@/components/ProfileAndName/ProfileAndName.component";
 import { useGetPosts } from "@/hooks/post/useGetPosts";
 import { useLoginStore } from "@/store/useLoginStore";
-import React from "react";
+import apiClient from "@/utils/axios";
+import React, { useEffect } from "react";
 
 export default function Home() {
   // const [skip, setSkip] = React.useState<number>(1);
@@ -15,6 +16,23 @@ export default function Home() {
 
   /** 유저 개인 프로필 전역 상태 데이터 */
   const userInfo = useLoginStore((state) => state.userInfo);
+
+  // nest.js test
+  useEffect(() => {
+    const fetcher = async () => {
+      try {
+        const { data } = await apiClient.get(
+          `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/users` || "/"
+        );
+
+        console.log("성공", data);
+      } catch (error) {
+        console.log("api 호출 에러");
+      }
+    };
+
+    fetcher();
+  }, []);
 
   return (
     <main className="flex h-full w-full justify-center">
