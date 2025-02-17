@@ -1,10 +1,10 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
-import { IUserData } from "@/typescript/user.interface";
+import { IUser } from "@/typescript/user.interface";
 import useSWR from "swr";
 
 export function useGetUser(searchWord: string) {
-  const urlKey = "/api/user/search";
+  const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/user/search`;
 
   const fetcher = async () =>
     await apiClient.get(urlKey, {
@@ -16,7 +16,7 @@ export function useGetUser(searchWord: string) {
     error,
     isLoading,
     mutate,
-  } = useSWR<ICommonResponse<IUserData[]>>(urlKey, fetcher);
+  } = useSWR<ICommonResponse<IUser[]>>(urlKey, fetcher);
 
   const { data, result, message } = userResponse?.data || {};
 
