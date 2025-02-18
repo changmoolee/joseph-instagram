@@ -17,23 +17,6 @@ export default function Home() {
   /** 유저 개인 프로필 전역 상태 데이터 */
   const userInfo = useLoginStore((state) => state.userInfo);
 
-  // nest.js test
-  useEffect(() => {
-    const fetcher = async () => {
-      try {
-        const { data } = await apiClient.get(
-          `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/users` || "/"
-        );
-
-        console.log("성공", data);
-      } catch (error) {
-        console.log("api 호출 에러");
-      }
-    };
-
-    fetcher();
-  }, []);
-
   return (
     <main className="flex h-full w-full justify-center">
       <section className="h-full w-full max-w-[500px]">
@@ -42,7 +25,7 @@ export default function Home() {
         {isLoading ? (
           <Loading isActive={isLoading} className="mx-auto mt-5" />
         ) : postData && postData.length > 0 ? (
-          postData.map((post) => <Post key={post._id.toString()} {...post} />)
+          postData.map((post) => <Post key={post.id} {...post} />)
         ) : (
           <div className="mt-5 flex justify-center">
             <span>게시물이 없습니다.</span>

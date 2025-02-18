@@ -7,7 +7,7 @@ import PostModal from "@/components/PostModal/PostModal.component";
 import React from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { IPostUnifiedData } from "@/typescript/post.interface";
+import { IPost, IPostUnifiedData } from "@/typescript/post.interface";
 import { useLoginStore } from "@/store/useLoginStore";
 import { excuteLike } from "@/utils/services/like";
 import Link from "next/link";
@@ -16,11 +16,17 @@ import { useModal } from "@/hooks/components/useModal";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
-export interface IPostProps extends IPostUnifiedData {
-  /** 북마크 여부 */
-  bookmark?: boolean;
-  /** 좋아요 개수 */
-  likeNumber?: number;
+export interface IPostProps extends IPost {
+  user: {
+    id: number;
+    username: string;
+    email: string;
+    image: string;
+  };
+  // /** 북마크 여부 */
+  // bookmark?: boolean;
+  // /** 좋아요 개수 */
+  // likeNumber?: number;
 }
 
 /**
@@ -30,23 +36,23 @@ export default function Post(props: IPostProps) {
   // props
   const {
     /** 게시글 아이디 */
-    _id: postId,
+    id: postId,
     /** 게시글 이미지 */
-    image: postSrc,
+    image_url: postSrc,
     /** 게시글 내용 */
     description,
     /** 게시글 생성 날짜 */
-    CreateDate: createDate,
+    created_at: createDate,
     /** 북마크 여부 */
-    bookmark,
+    // bookmark,
     /** 회원 정보 */
-    userDetails,
-    /** 좋아요 정보 */
-    likeDetails,
-    /** 북마크 정보 */
-    bookmarkDetails,
-    /** 댓글 정보 */
-    commentDetails,
+    user,
+    // /** 좋아요 정보 */
+    // likeDetails,
+    // /** 북마크 정보 */
+    // bookmarkDetails,
+    // /** 댓글 정보 */
+    // commentDetails,
   } = props;
 
   // modal 커스텀 훅
@@ -57,12 +63,9 @@ export default function Post(props: IPostProps) {
 
   return (
     <div className="w-full">
-      <Link href={`/user/${userDetails[0]._id}`}>
+      <Link href={`/user/${user.id}`}>
         <section className="border-[1px] border-solid border-gray-200">
-          <ProfileAndName
-            src={userDetails.at(0)?.image}
-            name={userDetails.at(0)?.name || ""}
-          />
+          <ProfileAndName src={user.image} name={user.username || ""} />
         </section>
       </Link>
       {postSrc && (
@@ -73,7 +76,7 @@ export default function Post(props: IPostProps) {
       <section>
         <section className="flex w-full flex-col gap-2 border-[1px] border-solid border-gray-200 px-4 py-2">
           <div className="flex h-[30px] w-full justify-between">
-            <Like
+            {/* <Like
               checked={
                 !!likeDetails.find((like) => like.userId === userInfo?._id)
               }
@@ -89,8 +92,8 @@ export default function Post(props: IPostProps) {
                   alert("로그인이 필요합니다.");
                 }
               }}
-            />
-            <Bookmark
+            /> */}
+            {/* <Bookmark
               checked={
                 !!bookmarkDetails.find(
                   (bookmark) => bookmark.userId === userInfo?._id
@@ -108,13 +111,13 @@ export default function Post(props: IPostProps) {
                   alert("로그인이 필요합니다.");
                 }
               }}
-            />
+            /> */}
           </div>
           <div className="flex flex-col gap-2">
-            <span>{likeDetails.length} Like</span>
+            {/* <span>{likeDetails.length} Like</span> */}
             <p>
               <span className="mr-5 min-w-[80px] max-w-[200px] font-bold">
-                {userDetails.at(0)?.name || ""}
+                {user.username || ""}
               </span>
               <span>{description}</span>
             </p>

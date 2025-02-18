@@ -1,4 +1,4 @@
-import { IUserData } from "@/typescript/user.interface";
+import { IUser, IUserData } from "@/typescript/user.interface";
 import { ObjectId } from "mongodb";
 
 /** 게시물 데이터 */
@@ -23,6 +23,29 @@ export interface IPostData {
   description: string | null;
   image: string | null;
   CreateDate: string | null;
+}
+
+/** 마이그레이션 게시물 데이터 */
+export interface IPostUnified {
+  id: number;
+  user_id: number;
+  created_at: string;
+  description: string | null;
+  image_url: string;
+  user: IUser;
+  // like_user: string[] | null;
+  // likeDetails: ILikeData[];
+  // commentDetails: ICommentData[];
+  // bookmarkDetails: IBookmarkData[];
+}
+
+/** 마이그레이션 게시물 데이터 */
+export interface IPost {
+  id: number;
+  user_id: number;
+  created_at: string;
+  description: string | null;
+  image_url: string;
 }
 
 /** 좋아요 데이터 */

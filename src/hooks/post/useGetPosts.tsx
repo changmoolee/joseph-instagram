@@ -1,18 +1,18 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
 import useSWR from "swr";
-import { IPostUnifiedData } from "@/typescript/post.interface";
+import { IPostUnified, IPostUnifiedData } from "@/typescript/post.interface";
 
 export function useGetPosts() {
-  const urlKey = "/api/post";
-  //
+  const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post`;
+
   const fetcher = async () => await apiClient.get(urlKey);
 
   const {
     data: postResponse,
     error,
     isLoading,
-  } = useSWR<ICommonResponse<IPostUnifiedData[]>>(urlKey, fetcher);
+  } = useSWR<ICommonResponse<IPostUnified[]>>(urlKey, fetcher);
 
   const { data, result, message } = postResponse?.data || {};
 
