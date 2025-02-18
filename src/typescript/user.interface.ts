@@ -10,7 +10,7 @@ export interface IUserData {
 
 /** 마이그레이션 유저 데이터 */
 export interface IUser {
-  id: string;
+  id: number;
   image: string;
   email: string;
   username: string;
