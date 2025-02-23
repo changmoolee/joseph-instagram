@@ -2,13 +2,20 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import { getUserData } from "@/utils/services/user";
 import { useLoginStore } from "@/store/useLoginStore";
 import apiClient from "@/utils/axios";
 import InputSection from "@/components/InputSection/InputSection.component";
+import { IUser } from "@/typescript/user.interface";
+
+// https://react-hook-form.com/ts
+interface FormValues {
+  email: string;
+  password: string;
+}
 
 /**
  * 로그인 페이지
@@ -22,43 +29,38 @@ export default function Login() {
     setValue,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm<FormValues>();
 
   const excuteLogin = useLoginStore((state) => state.excuteLogin);
 
   /**
    * 로그인 함수
    */
-  const signIn = async (data: any) => {
+  const signIn = async (data: FormValues) => {
     // 객체분해할당
     const { email, password } = data;
 
-    const signInResponse: ICommonResponse = await apiClient.post(
-      "/api/auth/sign-in",
+    const signInResponse: ICommonResponse<IUser> = await apiClient.post(
+      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/signin`,
       {
         email,
         password,
-      }
+      },
+      { withCredentials: true }
     );
 
-    const { result, message } = signInResponse.data;
+    const { result, data: responseData, message } = signInResponse.data;
 
-    if (result === "success") {
-      const userProfileResponse = await getUserData();
-
-      const { result: userProfileResult, data: userProfileData } =
-        userProfileResponse;
-
-      if (userProfileResult === "success" && userProfileData) {
-        // 로그인 전역상태
-        excuteLogin(userProfileData);
-        // 메인페이지로 이동
-        router.push("/");
-      } else {
-        alert(
-          "유저의 프로필 데이터를 불러오는데 실패하였습니다. 관리자에게 문의해주세요."
-        );
-      }
+    if (result === "success" && responseData) {
+      // 로그인 전역상태
+      excuteLogin({
+        id: responseData.id,
+        email: responseData.email,
+        image: responseData.image,
+        username: responseData.username,
+      });
+      // 메인페이지로 이동
+      router.push("/");
     }
 
     if (result === "fail") {
@@ -70,7 +72,7 @@ export default function Login() {
   };
 
   // 유효성 검사 통과시 실행될 함수
-  const onSubmit = (data: any) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     signIn(data);
   };
 
