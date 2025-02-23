@@ -4,11 +4,17 @@ import ColorButton from "@/components/ColorButton/ColorButton.component";
 import SignupDragAndDrop from "@/components/DragAndDrop/SignupDragAndDrop/SignupDragAndDrop.component";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import { ImageUpload } from "@/utils/services/upload";
 import apiClient from "@/utils/axios";
 import InputSection from "@/components/InputSection/InputSection.component";
+import { IUser } from "@/typescript/user.interface";
+
+interface FormValues extends IUser {
+  password: string;
+  verifyPassword: string;
+}
 
 /**
  * 회원가입 페이지
@@ -25,12 +31,12 @@ export default function SignUp() {
     watch,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm<FormValues>();
 
   /**
    * 회원가입 함수
    */
-  const signUp = async (params: any) => {
+  const signUp = async (params: FormValues) => {
     // 이미지 업 로드
     if (imageFile) {
       const imageUploadResponse = await ImageUpload(imageFile);
@@ -39,14 +45,14 @@ export default function SignUp() {
 
       if (result === "success") {
         // 객체분해할당
-        const { email, name, password } = params;
+        const { email, username, password } = params;
 
         const response: ICommonResponse = await apiClient.post(
-          "/api/auth/sign-up",
+          `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/signup`,
           {
             image: data,
             email,
-            name,
+            username,
             password,
           }
         );
@@ -72,7 +78,7 @@ export default function SignUp() {
     }
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     signUp(data);
   };
 
@@ -106,9 +112,9 @@ export default function SignUp() {
             <InputSection
               label="이름"
               placeholder="홍길동"
-              register={register("홍길동", { required: true })}
+              register={register("username", { required: true })}
             />
-            {errors.name && (
+            {errors.username && (
               <span className="text-[red]">이름을 입력해 주세요.</span>
             )}
           </article>
