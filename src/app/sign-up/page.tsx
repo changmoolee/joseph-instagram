@@ -121,6 +121,7 @@ export default function SignUp() {
           <article className="w-full gap-5">
             <InputSection
               label="비밀번호"
+              type="password"
               placeholder="password"
               register={register("password", { required: true })}
             />
@@ -131,6 +132,7 @@ export default function SignUp() {
           <article className="w-full gap-5">
             <InputSection
               label="비밀번호 확인"
+              type="password"
               placeholder="verify password"
               register={register("verifyPassword", {
                 required: true,
