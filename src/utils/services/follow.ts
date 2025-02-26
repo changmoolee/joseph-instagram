@@ -21,7 +21,7 @@ export const excuteFollow = async (props: IExcuteFollowProps) => {
     alert("팔로우를 등록/해제하였습니다.");
   }
 
-  if (result === "fail") {
+  if (result === "failure") {
     alert(message || "팔로우 등록/해제를 실패하였습니다.");
   }
 };

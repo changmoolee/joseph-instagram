@@ -17,7 +17,7 @@ export const ImageUpload = async (
 ): Promise<ICommonReturn<string>> => {
   if (!imageFile || imageFile.length === 0) {
     alert("등록할 이미지가 없습니다.");
-    return { result: "fail" };
+    return { result: "failure" };
   }
 
   const response: ICommonResponse<IUploadData> = await apiClient.post(
@@ -47,11 +47,11 @@ export const ImageUpload = async (
       return { result: "success", data: url + fields.key };
     } catch (error: any) {
       alert(error.message);
-      return { result: "fail", data: null };
+      return { result: "failure", data: null };
     }
   } else {
     // 에러메시지
     alert(message);
-    return { result: "fail", data: null };
+    return { result: "failure", data: null };
   }
 };

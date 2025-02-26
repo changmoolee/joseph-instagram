@@ -29,6 +29,6 @@ export async function POST(req: NextRequest) {
       message: "회원가입을 성공하였습니다.",
     });
   } catch (error: any) {
-    return NextResponse.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "failure", message: error.message });
   }
 }

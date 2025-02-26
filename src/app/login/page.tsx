@@ -63,7 +63,7 @@ export default function Login() {
       router.push("/");
     }
 
-    if (result === "fail") {
+    if (result === "failure") {
       // 에러메시지
       alert(message);
       // 비밀번호 초기화

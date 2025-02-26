@@ -65,7 +65,7 @@ export async function GET(
     });
   } catch (error: any) {
     return NextResponse.json({
-      result: "fail",
+      result: "failure",
       message: error.message,
     });
   }

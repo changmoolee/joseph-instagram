@@ -24,7 +24,7 @@ export const excuteBookmark = async (props: IExcuteBookmarkProps) => {
     alert("북마크 저장/해제를 실행하였습니다.");
   }
 
-  if (result === "fail") {
+  if (result === "failure") {
     alert(message || "북마크 저장/해제를 실패하였습니다.");
   }
 };

@@ -22,6 +22,6 @@ export const getUserData = async () => {
   } else {
     // 에러메시지
     alert(message);
-    return { result: "fail", data: null, message };
+    return { result: "failure", data: null, message };
   }
 };

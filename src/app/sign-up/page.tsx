@@ -68,7 +68,7 @@ export default function SignUp() {
           router.push("/");
         }
 
-        if (result === "fail") {
+        if (result === "failure") {
           // 에러메시지
           alert(message);
         }

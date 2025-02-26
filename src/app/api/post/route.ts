@@ -62,7 +62,7 @@ export async function GET(req: NextRequest) {
     });
   } catch (error: any) {
     return NextResponse.json({
-      result: "fail",
+      result: "failure",
       message: error.message,
     });
   }
@@ -99,6 +99,6 @@ export async function POST(req: NextRequest) {
       });
     }
   } catch (error: any) {
-    return NextResponse.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "failure", message: error.message });
   }
 }

@@ -24,7 +24,7 @@ export const excuteLike = async (props: IExcuteLikeProps) => {
     alert("좋아요를 실행하였습니다.");
   }
 
-  if (result === "fail") {
+  if (result === "failure") {
     alert(message || "좋아요을 실패하였습니다.");
   }
 };

@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
       message: "로그아웃을 성공하였습니다.",
     });
   } catch (error: any) {
-    return NextResponse.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "failure", message: error.message });
   } finally {
   }
 }

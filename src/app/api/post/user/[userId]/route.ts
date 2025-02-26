@@ -135,6 +135,6 @@ export async function GET(
       message: "",
     });
   } catch (error: any) {
-    return NextResponse.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "failure", message: error.message });
   }
 }

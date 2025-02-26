@@ -49,6 +49,6 @@ export async function POST(req: NextRequest) {
     }
     throw new Error("로그인 관련 프로필 데이터가 존재하지 않습니다.");
   } catch (error: any) {
-    return NextResponse.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "failure", message: error.message });
   }
 }

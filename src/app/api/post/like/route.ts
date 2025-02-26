@@ -48,6 +48,6 @@ export async function POST(req: NextRequest) {
       message: `좋아요를 수정하였습니다.`,
     });
   } catch (error: any) {
-    return NextResponse.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "failure", message: error.message });
   }
 }

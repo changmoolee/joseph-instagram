@@ -26,6 +26,6 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ result: "success", message: "" });
   } catch (error: any) {
-    return NextResponse.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "failure", message: error.message });
   }
 }

@@ -30,7 +30,7 @@ export function useGetFollowUser(userId: string) {
 
   return {
     data,
-    error: error || result === "fail",
+    error: error || result === "failure",
     isLoading,
     message: error
       ? "네트워크 연결 상태 등의 원인으로 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요."

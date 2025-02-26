@@ -48,7 +48,7 @@ export default function MyPageEdit() {
 
       const { result, data } = imageUploadResponse;
 
-      if (result === "fail") {
+      if (result === "failure") {
         alert("게시물 업로드에 실패했습니다.");
         return;
       }
@@ -89,7 +89,7 @@ export default function MyPageEdit() {
     }
 
     // 프로필 데이터 수정이 실패했을 경우
-    if (result === "fail") {
+    if (result === "failure") {
       // 에러메시지
       alert(message);
     }

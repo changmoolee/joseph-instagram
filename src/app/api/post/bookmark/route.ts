@@ -48,6 +48,6 @@ export async function POST(req: NextRequest) {
       message: `북마크 저장/해제를 실행하였습니다.`,
     });
   } catch (error: any) {
-    return NextResponse.json({ result: "fail", message: error.message });
+    return NextResponse.json({ result: "failure", message: error.message });
   }
 }
