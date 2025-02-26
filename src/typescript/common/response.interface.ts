@@ -11,7 +11,7 @@ export interface ICommonReturn<T = null> {
   /**
    * 성공 또는 실패 결과
    */
-  result: "success" | "fail";
+  result: "success" | "failure";
   /**
    * 성공 또는 에러 메시지
    */
