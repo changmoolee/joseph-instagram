@@ -37,44 +37,49 @@ export default function SignUp() {
    * 회원가입 함수
    */
   const signUp = async (params: FormValues) => {
-    // 이미지 업 로드
-    if (imageFile) {
+    let imageApiResult;
+    let imageApiData;
+
+    // 이미지가 있을 경우, 이미지 API 호출
+    if (imageFile?.length) {
       const imageUploadResponse = await ImageUpload(imageFile);
 
       const { result, data } = imageUploadResponse;
 
-      if (result === "success") {
-        // 객체분해할당
-        const { email, username, password } = params;
-
-        const response: ICommonResponse = await apiClient.post(
-          `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/signup`,
-          {
-            image: data,
-            email,
-            username,
-            password,
-          }
-        );
-
-        const { result, message } = response.data;
-
-        if (result === "success") {
-          alert(
-            "회원가입에 성공하였습니다. 서비스 이용을 원할시 로그인해주세요."
-          );
-
-          // 메인페이지 이동
-          router.push("/");
-        }
-
-        if (result === "failure") {
-          // 에러메시지
-          alert(message);
-        }
-      } else {
+      // API 호출 실패시 중단
+      if (result === "failure") {
         alert("유저 이미지 업로드에 실패했습니다. 관리자에게 문의해 주세요.");
+        return;
       }
+
+      imageApiResult = result;
+      imageApiData = data;
+    }
+
+    const { email, username, password } = params;
+
+    const response: ICommonResponse = await apiClient.post(
+      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/signup`,
+      {
+        ...(imageApiData && { image: imageApiData }),
+        email,
+        username,
+        password,
+      }
+    );
+
+    const { result, message } = response.data;
+
+    if (result === "success") {
+      alert("회원가입에 성공하였습니다. 서비스 이용을 원할시 로그인해주세요.");
+
+      // 메인페이지 이동
+      router.push("/");
+    }
+
+    if (result === "failure") {
+      // 에러메시지
+      alert(message);
     }
   };
 
