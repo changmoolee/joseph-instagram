@@ -31,12 +31,7 @@ export interface IFollowData {
 }
 
 /** 유저 + 팔로우 데이터 */
-export interface IRefinedUserData {
-  // 유저 데이터
-  _id: ObjectId;
-  image: string;
-  email: string;
-  name: string;
+export interface IRefinedUserData extends IUser {
   // 게시물 데이터
   totalPostCount: number;
   // 팔로우 데이터

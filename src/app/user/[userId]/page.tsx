@@ -92,8 +92,8 @@ export default function User({ params }: { params: { userId: string } }) {
                 />
               ) : (
                 <>
-                  <span>{userData?.name}</span>
-                  {isLogin && userInfo?._id !== userData?._id && (
+                  <span>{userData?.username}</span>
+                  {/* {isLogin && userInfo?.id !== userData?.id && (
                     <ColorButton
                       // TODO:  !!followDetails.find((followingId) => followingId.userId === followingId?._id)
                       text="Follow"
@@ -101,7 +101,7 @@ export default function User({ params }: { params: { userId: string } }) {
                       onClick={() => {
                         if (isLogin && userData) {
                           excuteFollow({
-                            followerId: userData._id,
+                            followerId: userData.id,
                           });
                         } else {
                           alert(
@@ -110,7 +110,7 @@ export default function User({ params }: { params: { userId: string } }) {
                         }
                       }}
                     />
-                  )}
+                  )} */}
                 </>
               )}
             </article>
@@ -160,7 +160,7 @@ export default function User({ params }: { params: { userId: string } }) {
                 />
               ) : (
                 <span className="hidden font-bold lg:inline">
-                  {userData?.name}
+                  {userData?.username}
                 </span>
               )}
             </article>

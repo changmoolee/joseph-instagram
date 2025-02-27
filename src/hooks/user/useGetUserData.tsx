@@ -8,7 +8,7 @@ import { IRefinedUserData } from "@/typescript/user.interface";
  * @param postId
  */
 export function useGetUserData(userId: string) {
-  const urlKey = `/api/user/${userId}`;
+  const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/user/${userId}`;
 
   const fetcher = async () => await apiClient.get(urlKey);
 
