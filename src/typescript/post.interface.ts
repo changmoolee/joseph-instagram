@@ -2,27 +2,17 @@ import { IUser, IUserData } from "@/typescript/user.interface";
 import { ObjectId } from "mongodb";
 
 /** 게시물 데이터 */
-export interface IPostUnifiedData {
-  _id: ObjectId;
-  CreateUser: ObjectId;
+export interface IPostUnifiedData extends IPost {
   like_user: string[] | null;
-  description: string | null;
-  image: string | null;
-  CreateDate: string | null;
-  userDetails: IUserData[];
+  user: IUser;
   likeDetails: ILikeData[];
   commentDetails: ICommentData[];
   bookmarkDetails: IBookmarkData[];
 }
 
 /** 게시물 데이터 */
-export interface IPostData {
-  _id: ObjectId;
-  CreateUser: ObjectId;
+export interface IPostData extends IPost {
   like_user: string[] | null;
-  description: string | null;
-  image: string | null;
-  CreateDate: string | null;
 }
 
 /** 마이그레이션 게시물 데이터 */

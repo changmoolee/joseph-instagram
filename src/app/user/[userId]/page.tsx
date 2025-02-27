@@ -64,7 +64,7 @@ export default function User({ params }: { params: { userId: string } }) {
   const clickedPostData = React.useMemo(
     () =>
       postData &&
-      postData.filter((post) => post._id.toString() === clickedId).at(0),
+      postData.filter((post) => post.id.toString() === clickedId).at(0),
     [postData, clickedId]
   );
 
@@ -194,17 +194,17 @@ export default function User({ params }: { params: { userId: string } }) {
           ) : postData && postData.length > 0 ? (
             postData.map((post) => (
               <li
-                key={post._id.toString()}
+                key={post.id.toString()}
                 className="relative aspect-[1/1] h-auto w-full"
               >
                 <button
                   onClick={() => {
                     openModal();
-                    setClickedId(post._id.toString());
+                    setClickedId(post.id.toString());
                   }}
                 >
                   <Image
-                    src={post.image || "/"}
+                    src={post.image_url || "/"}
                     alt="post-image"
                     fill
                     className="object-cover"

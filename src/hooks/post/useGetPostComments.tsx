@@ -8,7 +8,7 @@ import { ObjectId } from "mongodb";
  * 게시물 댓글 GET 커스텀 훅
  * @param postId
  */
-export function useGetPostComments(postId: ObjectId) {
+export function useGetPostComments(postId: number) {
   const urlKey = `/api/post/${postId}`;
 
   const fetcher = async () => await apiClient.get(urlKey);

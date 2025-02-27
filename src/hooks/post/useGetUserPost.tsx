@@ -9,7 +9,7 @@ import { IPostUnifiedData } from "@/typescript/post.interface";
  * @param clickedTab
  */
 export function useGetUserPost(userId: string, clickedTab: string) {
-  const urlKey = `/api/post/user/${userId}?post=${clickedTab}`;
+  const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post/user/${userId}?post=${clickedTab}`;
 
   const fetcher = async () =>
     await apiClient.get(urlKey, {

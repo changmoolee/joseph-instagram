@@ -13,16 +13,12 @@ import { excuteLike } from "@/utils/services/like";
 import Link from "next/link";
 import { excuteBookmark } from "@/utils/services/bookmark";
 import { useModal } from "@/hooks/components/useModal";
+import { IUser } from "@/typescript/user.interface";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
 export interface IPostProps extends IPost {
-  user: {
-    id: number;
-    username: string;
-    email: string;
-    image: string;
-  };
+  user: IUser;
   // /** 북마크 여부 */
   // bookmark?: boolean;
   // /** 좋아요 개수 */

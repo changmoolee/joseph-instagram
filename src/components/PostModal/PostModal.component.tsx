@@ -12,7 +12,7 @@ import Image from "next/image";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { excuteLike } from "@/utils/services/like";
-import { IUserData } from "@/typescript/user.interface";
+import { IUser } from "@/typescript/user.interface";
 import useSWRMutation from "swr/mutation";
 import apiClient from "@/utils/axios";
 import { useGetPostComments } from "@/hooks/post/useGetPostComments";
@@ -37,7 +37,7 @@ interface IPostModalProps {
   /**
    * 로그인한 회원의 프로필 데이터
    */
-  userInfo: IUserData | null;
+  userInfo: IUser | null;
 }
 
 /**
@@ -54,27 +54,27 @@ export default function PostModal(props: IPostModalProps) {
   // props
   const {
     /** 게시글 Idx */
-    _id: postId,
+    id: postId,
+    /** 게시글 생성 날짜 */
+    created_at: createDate,
     /** 게시글 이미지 */
-    image: postSrc,
+    image_url: postSrc,
     /** 게시글 내용 */
     description,
-    /** 게시글 생성 날짜 */
-    CreateDate: createDate,
     /** 북마크 여부 */
-    bookmark,
+    // bookmark,
     /** 회원 정보 */
-    userDetails,
-    /** 좋아요 정보 */
-    likeDetails,
-    /** 북마크 정보 */
-    bookmarkDetails,
-    /** 댓글 정보 */
-    commentDetails,
+    user,
+    // /** 좋아요 정보 */
+    // likeDetails,
+    // /** 북마크 정보 */
+    // bookmarkDetails,
+    // /** 댓글 정보 */
+    // commentDetails,
   } = PostProps;
 
   /** 게시물 댓글 조회 */
-  const { isLoading, data: commentsData } = useGetPostComments(postId);
+  // const { isLoading, data: commentsData } = useGetPostComments(postId);
 
   const { trigger } = useSWRMutation(
     `/api/comments/${postId}`,
@@ -107,15 +107,12 @@ export default function PostModal(props: IPostModalProps) {
         </div>
         <div className="relative h-full w-full pb-[150px] lg:w-[40%]">
           <section className="flex flex-col">
-            <ProfileAndName
-              src={userDetails.at(0)?.image}
-              name={userDetails.at(0)?.name || ""}
-            />
+            <ProfileAndName src={user.image} name={user.username || ""} />
             <p className="h-[100px] overflow-y-auto overscroll-none px-5 py-2">
               {description}
             </p>
           </section>
-          <section className="flex-grow overflow-y-auto overscroll-none p-2 lg:h-[150px]">
+          {/* <section className="flex-grow overflow-y-auto overscroll-none p-2 lg:h-[150px]">
             {isLoading ? (
               <>
                 <SkeletonComment isActive={isLoading} />
@@ -131,29 +128,29 @@ export default function PostModal(props: IPostModalProps) {
                 />
               ))
             )}
-          </section>
+          </section> */}
 
           {/* 좋아요 북마크 INPUT */}
           <section className="absolute bottom-0 mt-5 h-[150px] w-full flex-col">
             <div className="flex justify-between px-2 py-1">
-              <Like
+              {/* <Like
                 checked={
-                  !!likeDetails.find((like) => like.userId === userInfo?._id)
+                  !!likeDetails.find((like) => like.userId === userInfo?.id)
                 }
                 size={20}
                 onClick={() => {
                   // 로그인 정보가 있다면
-                  if (userInfo?._id) {
+                  if (userInfo?.id) {
                     excuteLike({
-                      userId: userInfo?._id || null,
+                      userId: userInfo?.id || null,
                       postId,
                     });
                   } else {
                     alert("로그인이 필요합니다.");
                   }
                 }}
-              />
-              <Bookmark
+              /> */}
+              {/* <Bookmark
                 checked={
                   !!bookmarkDetails.find(
                     (bookmark) => bookmark.userId === userInfo?._id
@@ -162,19 +159,19 @@ export default function PostModal(props: IPostModalProps) {
                 size={20}
                 onClick={() => {
                   // 로그인 정보가 있다면
-                  if (userInfo?._id) {
+                  if (userInfo?.id) {
                     excuteLike({
-                      userId: userInfo?._id || null,
+                      userId: userInfo?.id || null,
                       postId,
                     });
                   } else {
                     alert("로그인이 필요합니다.");
                   }
                 }}
-              />
+              /> */}
             </div>
             <div className="flex flex-col gap-2 p-2">
-              <span>{likeDetails.length} Like</span>
+              {/* <span>{likeDetails.length} Like</span> */}
               <span className="text-gray-400">
                 {dayjs(createDate).fromNow()}
               </span>
@@ -182,7 +179,7 @@ export default function PostModal(props: IPostModalProps) {
             <CommentInput
               onChange={(text) => setComment(text)}
               onButtonClick={() => {
-                if (userInfo?._id) {
+                if (userInfo?.id) {
                   trigger();
                   console.log("등록", comment);
                 } else {
