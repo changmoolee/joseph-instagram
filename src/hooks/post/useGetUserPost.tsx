@@ -1,7 +1,7 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
 import useSWR from "swr";
-import { IPostUnifiedData } from "@/typescript/post.interface";
+import { IPostUnified } from "@/typescript/post.interface";
 
 /**
  * 회원의 게시물 데이터 GET 커스텀 훅
@@ -20,7 +20,7 @@ export function useGetUserPost(userId: string, clickedTab: string) {
     data: postResponse,
     error,
     isLoading,
-  } = useSWR<ICommonResponse<IPostUnifiedData[]>>(urlKey, fetcher);
+  } = useSWR<ICommonResponse<IPostUnified[]>>(urlKey, fetcher);
 
   const { data, result, message } = postResponse?.data || {};
 

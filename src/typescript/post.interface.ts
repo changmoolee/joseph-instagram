@@ -11,9 +11,7 @@ export interface IPostUnifiedData extends IPost {
 }
 
 /** 게시물 데이터 */
-export interface IPostData extends IPost {
-  like_user: string[] | null;
-}
+export interface IPostData extends IPost {}
 
 /** 마이그레이션 게시물 데이터 */
 export interface IPostUnified {
@@ -23,8 +21,7 @@ export interface IPostUnified {
   description: string | null;
   image_url: string;
   user: IUser;
-  // like_user: string[] | null;
-  // likeDetails: ILikeData[];
+  likes: ILike[];
   // commentDetails: ICommentData[];
   // bookmarkDetails: IBookmarkData[];
 }
@@ -44,6 +41,15 @@ export interface ILikeData {
   userId: ObjectId;
   postId: ObjectId;
   CreateDate: string | null;
+}
+
+/** 좋아요 마이그레이션 데이터 */
+export interface ILike {
+  id: number;
+  created_at: string;
+  user: {
+    id: number;
+  };
 }
 
 /** 댓글 데이터 */
