@@ -54,7 +54,7 @@ export default function PostModal(props: IPostModalProps) {
   // props
   const {
     /** 게시글 Idx */
-    id: postId,
+    id: post_id,
     /** 게시글 생성 날짜 */
     created_at: createDate,
     /** 게시글 이미지 */
@@ -65,8 +65,8 @@ export default function PostModal(props: IPostModalProps) {
     // bookmark,
     /** 회원 정보 */
     user,
-    // /** 좋아요 정보 */
-    // likeDetails,
+    /** 좋아요 정보 */
+    likes,
     // /** 북마크 정보 */
     // bookmarkDetails,
     // /** 댓글 정보 */
@@ -77,10 +77,10 @@ export default function PostModal(props: IPostModalProps) {
   // const { isLoading, data: commentsData } = useGetPostComments(postId);
 
   const { trigger } = useSWRMutation(
-    `/api/comments/${postId}`,
+    `/api/comments/${post_id}`,
     () =>
       apiClient.post<{ result: string; message: string }>(
-        `/api/comments/${postId}`,
+        `/api/comments/${post_id}`,
         { text: comment }
       ),
     {
@@ -133,23 +133,21 @@ export default function PostModal(props: IPostModalProps) {
           {/* 좋아요 북마크 INPUT */}
           <section className="absolute bottom-0 mt-5 h-[150px] w-full flex-col">
             <div className="flex justify-between px-2 py-1">
-              {/* <Like
-                checked={
-                  !!likeDetails.find((like) => like.userId === userInfo?.id)
-                }
+              <Like
+                checked={!!likes.find((like) => like.user.id === userInfo?.id)}
                 size={20}
                 onClick={() => {
                   // 로그인 정보가 있다면
                   if (userInfo?.id) {
                     excuteLike({
-                      userId: userInfo?.id || null,
-                      postId,
+                      user_id: userInfo.id,
+                      post_id,
                     });
                   } else {
                     alert("로그인이 필요합니다.");
                   }
                 }}
-              /> */}
+              />
               {/* <Bookmark
                 checked={
                   !!bookmarkDetails.find(

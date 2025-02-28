@@ -7,7 +7,7 @@ import PostModal from "@/components/PostModal/PostModal.component";
 import React from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { IPost, IPostUnifiedData } from "@/typescript/post.interface";
+import { ILike, IPost } from "@/typescript/post.interface";
 import { useLoginStore } from "@/store/useLoginStore";
 import { excuteLike } from "@/utils/services/like";
 import Link from "next/link";
@@ -19,6 +19,7 @@ import { IUser } from "@/typescript/user.interface";
 dayjs.extend(relativeTime);
 export interface IPostProps extends IPost {
   user: IUser;
+  likes: ILike[];
   // /** 북마크 여부 */
   // bookmark?: boolean;
   // /** 좋아요 개수 */
@@ -32,7 +33,7 @@ export default function Post(props: IPostProps) {
   // props
   const {
     /** 게시글 아이디 */
-    id: postId,
+    id: post_id,
     /** 게시글 이미지 */
     image_url: postSrc,
     /** 게시글 내용 */
@@ -43,8 +44,8 @@ export default function Post(props: IPostProps) {
     // bookmark,
     /** 회원 정보 */
     user,
-    // /** 좋아요 정보 */
-    // likeDetails,
+    /** 좋아요 정보 */
+    likes,
     // /** 북마크 정보 */
     // bookmarkDetails,
     // /** 댓글 정보 */
@@ -72,23 +73,21 @@ export default function Post(props: IPostProps) {
       <section>
         <section className="flex w-full flex-col gap-2 border-[1px] border-solid border-gray-200 px-4 py-2">
           <div className="flex h-[30px] w-full justify-between">
-            {/* <Like
-              checked={
-                !!likeDetails.find((like) => like.userId === userInfo?._id)
-              }
+            <Like
+              checked={!!likes.find((like) => like.user.id === userInfo?.id)}
               size={20}
               onClick={() => {
                 // 로그인 정보가 있다면
-                if (userInfo?._id) {
+                if (userInfo?.id) {
                   excuteLike({
-                    userId: userInfo?._id || null,
-                    postId,
+                    user_id: userInfo.id,
+                    post_id,
                   });
                 } else {
                   alert("로그인이 필요합니다.");
                 }
               }}
-            /> */}
+            />
             {/* <Bookmark
               checked={
                 !!bookmarkDetails.find(
