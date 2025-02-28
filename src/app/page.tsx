@@ -36,7 +36,7 @@ export default function Home() {
         {userInfo && (
           <ProfileAndName
             src={userInfo?.image || "/images/user.png"}
-            name={userInfo?.name || "error"}
+            name={userInfo?.username || "error"}
           />
         )}
         <div>
