@@ -22,8 +22,8 @@ export interface IPostUnified {
   image_url: string;
   user: IUser;
   likes: ILike[];
+  bookmarks: IBookmark[];
   // commentDetails: ICommentData[];
-  // bookmarkDetails: IBookmarkData[];
 }
 
 /** 마이그레이션 게시물 데이터 */
@@ -68,6 +68,16 @@ export interface IBookmarkData {
   userId: ObjectId;
   postId: ObjectId;
   CreateDate: string | null;
+}
+
+/** 북마크 데이터 */
+export interface IBookmark {
+  id: ObjectId;
+  created_at: string;
+  user: {
+    id: number;
+  };
+  post_id: number;
 }
 
 /** 게시물 댓글 데이터 */

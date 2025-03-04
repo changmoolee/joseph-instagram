@@ -1,4 +1,7 @@
-import { ICommonResponse } from "@/typescript/common/response.interface";
+import {
+  ICommonResponse,
+  ICommonReturn,
+} from "@/typescript/common/response.interface";
 import { ILikeData } from "@/typescript/post.interface";
 import apiClient from "@/utils/axios";
 import { ObjectId } from "mongodb";
@@ -9,7 +12,9 @@ interface IExcuteLikeProps {
 }
 
 /** 좋아요 실행 api 함수 */
-export const excuteLike = async (props: IExcuteLikeProps) => {
+export const excuteLike = async (
+  props: IExcuteLikeProps
+): Promise<ICommonReturn<null>> => {
   // props
   const { user_id, post_id } = props;
 
@@ -20,14 +25,5 @@ export const excuteLike = async (props: IExcuteLikeProps) => {
       user_id,
     }
   );
-
-  const { result, message } = response.data;
-
-  if (result === "success") {
-    alert("좋아요를 실행하였습니다.");
-  }
-
-  if (result === "failure") {
-    alert(message || "좋아요을 실패하였습니다.");
-  }
+  return response.data;
 };

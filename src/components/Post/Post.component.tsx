@@ -7,21 +7,22 @@ import PostModal from "@/components/PostModal/PostModal.component";
 import React from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { ILike, IPost } from "@/typescript/post.interface";
+import { IBookmark, ILike, IPost } from "@/typescript/post.interface";
 import { useLoginStore } from "@/store/useLoginStore";
 import { excuteLike } from "@/utils/services/like";
 import Link from "next/link";
 import { excuteBookmark } from "@/utils/services/bookmark";
 import { useModal } from "@/hooks/components/useModal";
 import { IUser } from "@/typescript/user.interface";
+import { mutate } from "swr";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
 export interface IPostProps extends IPost {
   user: IUser;
   likes: ILike[];
-  // /** 북마크 여부 */
-  // bookmark?: boolean;
+  /** 북마크 */
+  bookmarks: IBookmark[];
   // /** 좋아요 개수 */
   // likeNumber?: number;
 }
@@ -46,17 +47,47 @@ export default function Post(props: IPostProps) {
     user,
     /** 좋아요 정보 */
     likes,
-    // /** 북마크 정보 */
-    // bookmarkDetails,
+    /** 북마크 정보 */
+    bookmarks,
     // /** 댓글 정보 */
     // commentDetails,
   } = props;
+
+  const getPostsUrlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post`;
 
   // modal 커스텀 훅
   const { isOpen, openModal, closeModal } = useModal();
 
   /** 유저 개인 프로필 전역 상태 데이터 */
   const userInfo = useLoginStore((state) => state.userInfo);
+
+  const excuteLikeApi = async (userInfo: IUser) => {
+    const { result } = await excuteLike({
+      user_id: userInfo.id,
+      post_id,
+    });
+
+    if (result === "success") {
+      mutate(getPostsUrlKey);
+    }
+    if (result === "failure") {
+      alert("좋아요 실행을 실패하였습니다.");
+    }
+  };
+
+  const excuteBookmarkApi = async (userInfo: IUser) => {
+    const { result } = await excuteBookmark({
+      user_id: userInfo.id,
+      post_id,
+    });
+
+    if (result === "success") {
+      mutate(getPostsUrlKey);
+    }
+    if (result === "failure") {
+      alert("북마크 실행을 실패하였습니다.");
+    }
+  };
 
   return (
     <div className="w-full">
@@ -79,34 +110,28 @@ export default function Post(props: IPostProps) {
               onClick={() => {
                 // 로그인 정보가 있다면
                 if (userInfo?.id) {
-                  excuteLike({
-                    user_id: userInfo.id,
-                    post_id,
-                  });
+                  excuteLikeApi(userInfo);
                 } else {
                   alert("로그인이 필요합니다.");
                 }
               }}
             />
-            {/* <Bookmark
+            <Bookmark
               checked={
-                !!bookmarkDetails.find(
-                  (bookmark) => bookmark.userId === userInfo?._id
+                !!bookmarks.find(
+                  (bookmark) => bookmark.user.id === userInfo?.id
                 )
               }
               size={20}
               onClick={() => {
                 // 로그인 정보가 있다면
-                if (userInfo?._id) {
-                  excuteBookmark({
-                    userId: userInfo?._id || null,
-                    postId,
-                  });
+                if (userInfo?.id) {
+                  excuteBookmarkApi(userInfo);
                 } else {
                   alert("로그인이 필요합니다.");
                 }
               }}
-            /> */}
+            />
           </div>
           <div className="flex flex-col gap-2">
             {/* <span>{likeDetails.length} Like</span> */}
