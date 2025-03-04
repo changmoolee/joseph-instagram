@@ -62,7 +62,7 @@ export default function Post(props: IPostProps) {
     <div className="w-full">
       <Link href={`/user/${user.id}`}>
         <section className="border-[1px] border-solid border-gray-200">
-          <ProfileAndName src={user.image} name={user.username || ""} />
+          <ProfileAndName src={user.image_url} name={user.username || ""} />
         </section>
       </Link>
       {postSrc && (

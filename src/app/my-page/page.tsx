@@ -113,7 +113,7 @@ export default function MyPage() {
               {/* 이름 */}
               <section className="flex w-full">
                 <span className="w-[200px]">이름</span>
-                <span className="w-full">{userInfo?.name || ""}</span>
+                <span className="w-full">{userInfo?.username || ""}</span>
               </section>
             </article>
           )}

@@ -107,7 +107,7 @@ export default function PostModal(props: IPostModalProps) {
         </div>
         <div className="relative h-full w-full pb-[150px] lg:w-[40%]">
           <section className="flex flex-col">
-            <ProfileAndName src={user.image} name={user.username || ""} />
+            <ProfileAndName src={user.image_url} name={user.username || ""} />
             <p className="h-[100px] overflow-y-auto overscroll-none px-5 py-2">
               {description}
             </p>

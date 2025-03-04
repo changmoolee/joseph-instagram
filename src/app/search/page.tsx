@@ -51,7 +51,7 @@ export default function Search() {
               <Link key={user.id.toString()} href={`/user/${user.id}`}>
                 <ProfileCard
                   name={user.username}
-                  image={user.image}
+                  image={user.image_url}
                   // followersNum={user.followers?.length || 0}
                   // followingNum={user.following?.length || 0}
                 />

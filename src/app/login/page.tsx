@@ -56,7 +56,7 @@ export default function Login() {
       excuteLogin({
         id: responseData.id,
         email: responseData.email,
-        image: responseData.image,
+        image_url: responseData.image_url,
         username: responseData.username,
       });
       // 메인페이지로 이동

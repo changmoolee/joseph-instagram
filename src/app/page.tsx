@@ -35,7 +35,7 @@ export default function Home() {
       <section className="hidden h-full w-[200px] flex-col gap-5 p-5 lg:flex">
         {userInfo && (
           <ProfileAndName
-            src={userInfo?.image || "/images/user.png"}
+            src={userInfo?.image_url || "/images/user.png"}
             name={userInfo?.username || "error"}
           />
         )}
