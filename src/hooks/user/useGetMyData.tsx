@@ -1,18 +1,18 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
-import { IUserData } from "@/typescript/user.interface";
+import { IUser } from "@/typescript/user.interface";
 import useSWR from "swr";
 
 export function useGetMyData() {
-  const urlKey = "/api/user/my-page";
-  //
+  const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/user/my-page`;
+
   const fetcher = async () => await apiClient.get(urlKey);
 
   const {
     data: userResponse,
     error,
     isLoading,
-  } = useSWR<ICommonResponse<IUserData>>(urlKey, fetcher);
+  } = useSWR<ICommonResponse<IUser>>(urlKey, fetcher);
 
   const { data, result, message } = userResponse?.data || {};
 
