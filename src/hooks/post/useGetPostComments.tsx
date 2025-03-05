@@ -1,15 +1,15 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
 import useSWR from "swr";
-import { IPostCommentData } from "@/typescript/post.interface";
+import { IPostComment, IPostCommentData } from "@/typescript/post.interface";
 import { ObjectId } from "mongodb";
 
 /**
  * 게시물 댓글 GET 커스텀 훅
- * @param postId
+ * @param post_id
  */
-export function useGetPostComments(postId: number) {
-  const urlKey = `/api/post/${postId}`;
+export function useGetPostComments(post_id: number) {
+  const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post/${post_id}`;
 
   const fetcher = async () => await apiClient.get(urlKey);
 
@@ -17,7 +17,7 @@ export function useGetPostComments(postId: number) {
     data: commentResponse,
     error,
     isLoading,
-  } = useSWR<ICommonResponse<IPostCommentData[]>>(urlKey, fetcher);
+  } = useSWR<ICommonResponse<IPostComment[]>>(urlKey, fetcher);
 
   const { data, result, message } = commentResponse?.data || {};
 

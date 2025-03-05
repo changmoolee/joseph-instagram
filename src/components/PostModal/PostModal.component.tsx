@@ -17,6 +17,8 @@ import useSWRMutation from "swr/mutation";
 import apiClient from "@/utils/axios";
 import { useGetPostComments } from "@/hooks/post/useGetPostComments";
 import SkeletonComment from "@/components/Comment/SkeletonComment.component";
+import { makeComment } from "@/utils/services/comment";
+import { mutate } from "swr";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -67,32 +69,55 @@ export default function PostModal(props: IPostModalProps) {
     user,
     /** 좋아요 정보 */
     likes,
-    // /** 북마크 정보 */
-    // bookmarkDetails,
+    /** 북마크 정보 */
+    bookmarks,
     // /** 댓글 정보 */
     // commentDetails,
   } = PostProps;
 
+  const getPostsUrlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post`;
+
   /** 게시물 댓글 조회 */
-  // const { isLoading, data: commentsData } = useGetPostComments(postId);
+  const { isLoading, data: commentsData } = useGetPostComments(post_id);
 
   const { trigger } = useSWRMutation(
-    `/api/comments/${post_id}`,
-    () =>
-      apiClient.post<{ result: string; message: string }>(
-        `/api/comments/${post_id}`,
-        { text: comment }
-      ),
+    `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post`,
+    () => {
+      if (!userInfo?.id) {
+        return;
+      }
+
+      return makeComment({
+        post_id,
+        user_id: userInfo?.id,
+        content: comment,
+      });
+    },
     {
       onSuccess: (data) => {
-        const { result, message } = data.data;
-        alert(message);
+        if (data?.message) {
+          alert(data.message);
+        }
       },
       onError: (error) => {
         alert(error.message);
       },
     }
   );
+
+  const excuteLikeApi = async (userInfo: IUser) => {
+    const { result } = await excuteLike({
+      user_id: userInfo.id,
+      post_id,
+    });
+
+    if (result === "success") {
+      mutate(getPostsUrlKey);
+    }
+    if (result === "failure") {
+      alert("좋아요 실행을 실패하였습니다.");
+    }
+  };
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -121,18 +146,24 @@ export default function PostModal(props: IPostModalProps) {
             ) : (
               commentsData?.map((comment) => (
                 <Comment
-                  key={comment._id.toString()}
-                  imageUrl={comment.userImage || "/"}
-                  nickName={comment.username || ""}
-                  commentContent={comment.text || ""}
+                  key={comment.id.toString()}
+                  imageUrl={comment.user.image_url || "/"}
+                  nickName={comment.user.username || ""}
+                  commentContent={comment.content || ""}
                 />
               ))
             )}
-          </section> */}
+          </section>
 
           {/* 좋아요 북마크 INPUT */}
-          <section className="absolute bottom-0 mt-5 h-[150px] w-full flex-col">
-            <div className="flex justify-between px-2 py-1">
+          <section className="absolute bottom-[0px] w-full flex-col pb-[20px] lg:pb-0">
+            <div className="flex justify-end p-[10px] lg:hidden">
+              <button className="text-[14px] text-gray-400 underline">
+                댓글보기
+              </button>
+            </div>
+
+            <div className="flex justify-between px-[10px] py-[4px]">
               <Like
                 checked={!!likes.find((like) => like.user.id === userInfo?.id)}
                 size={20}
@@ -148,25 +179,22 @@ export default function PostModal(props: IPostModalProps) {
                   }
                 }}
               />
-              {/* <Bookmark
+              <Bookmark
                 checked={
-                  !!bookmarkDetails.find(
-                    (bookmark) => bookmark.userId === userInfo?._id
+                  !!bookmarks.find(
+                    (bookmark) => bookmark.user.id === userInfo?.id
                   )
                 }
                 size={20}
                 onClick={() => {
                   // 로그인 정보가 있다면
                   if (userInfo?.id) {
-                    excuteLike({
-                      userId: userInfo?.id || null,
-                      postId,
-                    });
+                    excuteLikeApi(userInfo);
                   } else {
                     alert("로그인이 필요합니다.");
                   }
                 }}
-              /> */}
+              />
             </div>
             <div className="flex flex-col gap-2 p-[10px]">
               {/* <span>{likeDetails.length} Like</span> */}

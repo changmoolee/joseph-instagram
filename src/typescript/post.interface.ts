@@ -72,7 +72,7 @@ export interface IBookmarkData {
 
 /** 북마크 데이터 */
 export interface IBookmark {
-  id: ObjectId;
+  id: number;
   created_at: string;
   user: {
     id: number;
@@ -90,4 +90,14 @@ export interface IPostCommentData {
   CreateUser: ObjectId;
   CreateDate: string | null;
   replies: string[] | null;
+}
+
+/** 게시물 댓글 마이그레이션 데이터 */
+export interface IPostComment {
+  id: number;
+  content: string | null;
+  created_at: string;
+  updated_at: string | null;
+  parent_comment_id: number | null;
+  user: IUser;
 }
