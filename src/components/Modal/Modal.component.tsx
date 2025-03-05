@@ -32,12 +32,14 @@ export default function Modal(props: IModalProps) {
             onClick={onClose}
           />
           {/* 닫기 버튼 */}
-          <div className="flex w-full justify-end p-2 lg:hidden">
+          <div className="flex w-full justify-end p-[10px] lg:hidden">
             <button onClick={onClose}>
               <IoMdClose className="h-[20px] w-[20px] rounded-full bg-gray-400" />
             </button>
           </div>
-          <section className="z-1 relative">{children}</section>
+          <section className="z-1 relative flex h-full w-full items-center justify-center lg:h-auto lg:w-auto">
+            {children}
+          </section>
         </div>
       </ModalPortal>
     )

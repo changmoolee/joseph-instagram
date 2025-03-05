@@ -96,7 +96,7 @@ export default function PostModal(props: IPostModalProps) {
 
   return (
     <Modal open={open} onClose={onClose}>
-      <section className="flex h-[100vh] w-[100vw] max-w-[500px] flex-col overflow-y-auto overscroll-none bg-white pb-[50px] lg:h-[500px] lg:w-[900px] lg:min-w-0 lg:max-w-none lg:flex-row lg:pb-0">
+      <section className="flex h-full w-full min-w-[320px] max-w-[500px] flex-col overflow-y-auto overscroll-none bg-white lg:h-[500px] lg:w-[900px] lg:min-w-0 lg:max-w-none lg:flex-row lg:pb-0">
         <div className="relative aspect-square max-h-[300px] w-full bg-black lg:h-full lg:max-h-none lg:w-[60%]">
           <Image
             src={postSrc || "/"}
@@ -105,14 +105,14 @@ export default function PostModal(props: IPostModalProps) {
             fill
           />
         </div>
-        <div className="relative h-full w-full pb-[150px] lg:w-[40%]">
+        <div className="relative h-full w-full lg:w-[40%]">
           <section className="flex flex-col">
             <ProfileAndName src={user.image_url} name={user.username || ""} />
-            <p className="h-[100px] overflow-y-auto overscroll-none px-5 py-2">
+            <p className="h-[100px] overflow-y-auto overscroll-none px-[10px] py-[4px]">
               {description}
             </p>
           </section>
-          {/* <section className="flex-grow overflow-y-auto overscroll-none p-2 lg:h-[150px]">
+          <section className="hidden flex-grow overflow-y-auto overscroll-none px-[10px] py-[4px] lg:block lg:h-[150px]">
             {isLoading ? (
               <>
                 <SkeletonComment isActive={isLoading} />
@@ -168,7 +168,7 @@ export default function PostModal(props: IPostModalProps) {
                 }}
               /> */}
             </div>
-            <div className="flex flex-col gap-2 p-2">
+            <div className="flex flex-col gap-2 p-[10px]">
               {/* <span>{likeDetails.length} Like</span> */}
               <span className="text-gray-400">
                 {dayjs(createDate).fromNow()}

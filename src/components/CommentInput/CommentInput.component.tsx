@@ -37,7 +37,7 @@ export default function CommentInput(props: ICommentInputProps) {
 
   return (
     <section
-      className="flex h-[50px] w-full border-[1px] border-solid border-gray-200"
+      className="flex h-[50px] w-full border-[1px] border-solid border-gray-200 px-[10px]"
       onClick={onClick}
     >
       <button className="flex h-full w-[50px] items-center justify-center">
