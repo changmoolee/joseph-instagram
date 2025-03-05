@@ -8,8 +8,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
-import { useGetMyData } from "@/hooks/user/useGetMyData";
-import SkeletonUI from "@/components/SkeletonUI/SkeletonUI.component";
+import { useLoginStore } from "@/store/useLoginStore";
 
 /**
  * 마이 페이지
@@ -17,6 +16,9 @@ import SkeletonUI from "@/components/SkeletonUI/SkeletonUI.component";
 export default function MyPage() {
   // router
   const router = useRouter();
+
+  /** 유저 개인 프로필 전역 상태 데이터 */
+  const userInfo = useLoginStore((state) => state.userInfo);
 
   /**
    * 회원 탈퇴
@@ -48,15 +50,6 @@ export default function MyPage() {
     }
   };
 
-  const { isLoading, data: userInfo, error, message } = useGetMyData();
-
-  React.useEffect(() => {
-    if (error) {
-      alert(message);
-      router.push("/");
-    }
-  }, [error, message, router]);
-
   return (
     <main className="flex w-full justify-center">
       <form className="flex w-full max-w-[400px] flex-col gap-5 px-[20px] pb-[20px]">
@@ -65,58 +58,36 @@ export default function MyPage() {
         </section>
         <section className="flex w-full justify-center">
           {/* 유저 프로필 이미지 */}
-          {isLoading ? (
-            <SkeletonUI
-              isActive={isLoading}
-              isCircle
-              className="h-[300px] w-[300px]"
+          <div className="relative h-[300px] w-[300px] overflow-hidden rounded-full">
+            <Image
+              src={userInfo?.image_url || "/images/user.png"}
+              alt="my-page-profile-image"
+              fill
+              className="object-cover"
             />
-          ) : (
-            <div className="relative h-[300px] w-[300px] overflow-hidden rounded-full">
-              <Image
-                src={userInfo?.image || "/images/user.png"}
-                alt="my-page-profile-image"
-                fill
-                className="object-cover"
-              />
-            </div>
-          )}
+          </div>
         </section>
 
         <section className="my-10 flex w-full flex-col gap-10">
           {/* 유저 이메일 */}
-          {isLoading ? (
-            <SkeletonUI
-              isActive={isLoading}
-              isCircle
-              className="h-[24px] w-full"
-            />
-          ) : (
-            <article className="w-full gap-5">
-              {/* 이메일 */}
-              <section className="flex w-full">
-                <span className="w-[200px]">이메일</span>
-                <span className="w-full">{userInfo?.email || ""}</span>
-              </section>
-            </article>
-          )}
+
+          <article className="w-full gap-5">
+            {/* 이메일 */}
+            <section className="flex w-full">
+              <span className="w-[200px]">이메일</span>
+              <span className="w-full">{userInfo?.email || ""}</span>
+            </section>
+          </article>
 
           {/* 유저 이름 */}
-          {isLoading ? (
-            <SkeletonUI
-              isActive={isLoading}
-              isCircle
-              className="h-[24px] w-full"
-            />
-          ) : (
-            <article className="w-full gap-5">
-              {/* 이름 */}
-              <section className="flex w-full">
-                <span className="w-[200px]">이름</span>
-                <span className="w-full">{userInfo?.username || ""}</span>
-              </section>
-            </article>
-          )}
+
+          <article className="w-full gap-5">
+            {/* 이름 */}
+            <section className="flex w-full">
+              <span className="w-[200px]">이름</span>
+              <span className="w-full">{userInfo?.username || ""}</span>
+            </section>
+          </article>
         </section>
 
         {/* 내정보 수정 페이지 이동*/}
