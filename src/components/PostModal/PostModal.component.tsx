@@ -121,7 +121,7 @@ export default function PostModal(props: IPostModalProps) {
 
   return (
     <Modal open={open} onClose={onClose}>
-      <section className="flex h-full w-full min-w-[320px] max-w-[500px] flex-col overflow-y-auto overscroll-none bg-white lg:h-[500px] lg:w-[900px] lg:min-w-0 lg:max-w-none lg:flex-row lg:pb-0">
+      <section className="flex h-[calc(100vh-40px)] w-screen min-w-[320px] max-w-[500px] flex-col overflow-y-auto overscroll-none bg-white lg:h-[500px] lg:w-[900px] lg:min-w-0 lg:max-w-none lg:flex-row lg:pb-0">
         <div className="relative aspect-square max-h-[300px] w-full bg-black lg:h-full lg:max-h-none lg:w-[60%]">
           <Image
             src={postSrc || "/"}
@@ -166,7 +166,7 @@ export default function PostModal(props: IPostModalProps) {
             <div className="flex justify-between px-[10px] py-[4px]">
               <Like
                 checked={!!likes.find((like) => like.user.id === userInfo?.id)}
-                size={20}
+                size={25}
                 onClick={() => {
                   // 로그인 정보가 있다면
                   if (userInfo?.id) {
@@ -185,7 +185,7 @@ export default function PostModal(props: IPostModalProps) {
                     (bookmark) => bookmark.user.id === userInfo?.id
                   )
                 }
-                size={20}
+                size={25}
                 onClick={() => {
                   // 로그인 정보가 있다면
                   if (userInfo?.id) {

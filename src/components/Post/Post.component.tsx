@@ -106,7 +106,7 @@ export default function Post(props: IPostProps) {
           <div className="flex h-[30px] w-full justify-between">
             <Like
               checked={!!likes.find((like) => like.user.id === userInfo?.id)}
-              size={20}
+              size={25}
               onClick={() => {
                 // 로그인 정보가 있다면
                 if (userInfo?.id) {
@@ -122,7 +122,7 @@ export default function Post(props: IPostProps) {
                   (bookmark) => bookmark.user.id === userInfo?.id
                 )
               }
-              size={20}
+              size={25}
               onClick={() => {
                 // 로그인 정보가 있다면
                 if (userInfo?.id) {
