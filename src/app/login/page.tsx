@@ -109,16 +109,16 @@ export default function Login() {
             )}
           </article>
           <ColorButton
+            text="로그인"
             type="submit"
             className="mt-10 h-[40px] w-full bg-blue-500"
-          >
-            로그인
-          </ColorButton>
+          />
         </form>
         <Link href="/sign-up">
-          <ColorButton className="mt-3 h-[40px] w-full bg-orange-500">
-            회원가입
-          </ColorButton>
+          <ColorButton
+            text="회원가입"
+            className="mt-3 h-[40px] w-full bg-orange-500"
+          />
         </Link>
       </div>
     </main>
