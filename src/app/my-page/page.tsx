@@ -1,7 +1,6 @@
 "use client";
 
 import ColorButton from "@/components/ColorButton/ColorButton.component";
-import { buttonClasses } from "@/styles/tailwindUtilities";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -63,7 +62,7 @@ export default function MyPage() {
               src={userInfo?.image_url || "/images/user.png"}
               alt="my-page-profile-image"
               fill
-              className="object-cover"
+              className="scale-[1.2] object-cover"
             />
           </div>
         </section>
@@ -92,7 +91,7 @@ export default function MyPage() {
 
         {/* 내정보 수정 페이지 이동*/}
         <Link
-          className={`${buttonClasses} mt-10 h-[40px] w-full bg-sky-400`}
+          className={`flex h-[40px] w-full items-center justify-center rounded-md bg-blue-500 text-[#fff]`}
           href={"/my-page/edit"}
         >
           내정보 수정하기
@@ -102,7 +101,7 @@ export default function MyPage() {
         <ColorButton
           text="회원탈퇴"
           type="button"
-          className={`${buttonClasses} h-[40px] w-full bg-black text-white`}
+          className={`h-[40px] w-full bg-black`}
           onClick={deleteUserData}
         />
       </form>

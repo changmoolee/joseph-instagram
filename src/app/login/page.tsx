@@ -10,6 +10,7 @@ import { useLoginStore } from "@/store/useLoginStore";
 import apiClient from "@/utils/axios";
 import InputSection from "@/components/InputSection/InputSection.component";
 import { IUser } from "@/typescript/user.interface";
+import ColorButton from "@/components/ColorButton/ColorButton.component";
 
 // https://react-hook-form.com/ts
 interface FormValues {
@@ -107,17 +108,17 @@ export default function Login() {
               <span className="text-[red]">비밀번호를 입력해 주세요.</span>
             )}
           </article>
-          <button
+          <ColorButton
             type="submit"
-            className="mt-10 flex h-[40px] w-full items-center justify-center rounded-md bg-blue-500 font-[600] text-[#fff]"
+            className="mt-10 h-[40px] w-full bg-blue-500"
           >
             로그인
-          </button>
+          </ColorButton>
         </form>
         <Link href="/sign-up">
-          <button className="mt-3 flex h-[40px] w-full items-center justify-center rounded-md bg-orange-500 font-[600] text-[#fff]">
+          <ColorButton className="mt-3 h-[40px] w-full bg-orange-500">
             회원가입
-          </button>
+          </ColorButton>
         </Link>
       </div>
     </main>

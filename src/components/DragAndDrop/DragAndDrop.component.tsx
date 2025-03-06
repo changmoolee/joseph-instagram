@@ -151,7 +151,7 @@ export default function DragAndDrop(props: IDragAndDropProps) {
               src={previewImgSrc}
               alt="profile-image"
               fill
-              className="object-cover"
+              className="scale-[1.2] object-contain"
             />
           </div>
         ) : (

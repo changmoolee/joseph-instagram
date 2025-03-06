@@ -72,8 +72,8 @@ export default function NewPost() {
       <main className="flex w-full justify-center">
         <section className="mt-5 flex w-full max-w-[400px] flex-col items-center px-[10px] lg:w-[500px]">
           <ProfileAndName
-            src={userInfo.image || "/images/user.png"}
-            name={userInfo.name || "error"}
+            src={userInfo.image_url || "/images/user.png"}
+            name={userInfo.username || "error"}
           />
           <PostDragAndDrop
             className="mt-5 h-[200px] w-full lg:h-[250px]"
@@ -82,15 +82,15 @@ export default function NewPost() {
             }}
           />
           <Textarea
-            className="h-[300px] w-full"
-            placeholder="Write a capiton..."
+            className="h-[300px] w-full p-[10px]"
+            placeholder="글 작성하기..."
             onChange={(text) => {
               setDescription(text);
             }}
           />
           <ColorButton
-            text="Publish"
-            className="mt-5 h-[40px] w-full bg-sky-400"
+            text="올리기"
+            className="mt-5 h-[40px] w-full bg-blue-500"
             onClick={() => {
               postCreate();
             }}

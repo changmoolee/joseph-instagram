@@ -197,7 +197,7 @@ export default function MyPageEdit() {
 
         <ColorButton
           text="수정하기"
-          className="mt-10 h-[40px] w-full bg-sky-400 text-[white]"
+          className="mt-10 h-[40px] w-full bg-blue-500"
         />
       </form>
     </main>

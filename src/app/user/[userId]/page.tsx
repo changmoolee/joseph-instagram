@@ -80,7 +80,7 @@ export default function User({ params }: { params: { userId: string } }) {
               className="h-[100px] w-[100px]"
             />
           ) : (
-            <BigProfileImage src={userData?.image || "/"} />
+            <BigProfileImage src={userData?.image_url || "/"} />
           )}
           <section className="flex flex-col gap-2 lg:gap-3">
             <article className="flex items-center gap-5 lg:gap-5">

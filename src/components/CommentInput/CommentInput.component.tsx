@@ -1,4 +1,5 @@
 "use client";
+import ColorButton from "@/components/ColorButton/ColorButton.component";
 import React from "react";
 import { BiSmile } from "react-icons/bi";
 
@@ -37,7 +38,7 @@ export default function CommentInput(props: ICommentInputProps) {
 
   return (
     <section
-      className="flex h-[50px] w-full border-[1px] border-solid border-gray-200 px-[10px]"
+      className="flex h-[50px] w-full items-center justify-center border-[1px] border-solid border-gray-200 px-[10px]"
       onClick={onClick}
     >
       <button className="flex h-full w-[50px] items-center justify-center">
@@ -51,12 +52,13 @@ export default function CommentInput(props: ICommentInputProps) {
           setComment(e.target.value);
         }}
       />
-      <button
+      <ColorButton
+        text="보내기"
         onClick={onButtonClick}
-        className="flex h-full w-[60px] items-center justify-center font-[600] text-[#6cb9d2]"
+        className="h-[40px] w-[80px] bg-blue-500"
       >
         {buttonText}
-      </button>
+      </ColorButton>
     </section>
   );
 }
