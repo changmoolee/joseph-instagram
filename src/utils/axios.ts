@@ -3,6 +3,7 @@ import axios from "axios";
 // axios 인스턴스 생성
 const apiClient = axios.create({
   timeout: 30000,
+  withCredentials: true,
 });
 
 // axios 인터셉터 추가
