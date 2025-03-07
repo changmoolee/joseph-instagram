@@ -69,13 +69,16 @@ export default function MyPageEdit() {
     /**
      * 프로필 데이터 수정 api 호출 결과
      */
-    const response: ICommonResponse = await apiClient.patch("/api/user/edit", {
-      // 수정할 프로필 이미지가 존재할 시
-      ...(imageData && { image: imageData }),
-      email,
-      name,
-      password,
-    });
+    const response: ICommonResponse = await apiClient.put(
+      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/user/${userInfo?.id}`,
+      {
+        // 수정할 프로필 이미지가 존재할 시
+        ...(imageData && { image: imageData }),
+        email,
+        username,
+        password,
+      }
+    );
 
     const { result, message } = response.data;
 
