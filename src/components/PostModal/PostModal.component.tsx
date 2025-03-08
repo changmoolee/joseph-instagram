@@ -14,11 +14,12 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { excuteLike } from "@/utils/services/like";
 import { IUser } from "@/typescript/user.interface";
 import useSWRMutation from "swr/mutation";
-import apiClient from "@/utils/axios";
 import { useGetPostComments } from "@/hooks/post/useGetPostComments";
 import SkeletonComment from "@/components/Comment/SkeletonComment.component";
 import { makeComment } from "@/utils/services/comment";
 import { mutate } from "swr";
+import { useModal } from "@/hooks/components/useModal";
+import CommentModal from "@/components/CommentModal/CommentModal.component";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -63,22 +64,21 @@ export default function PostModal(props: IPostModalProps) {
     image_url: postSrc,
     /** 게시글 내용 */
     description,
-    /** 북마크 여부 */
-    // bookmark,
     /** 회원 정보 */
     user,
     /** 좋아요 정보 */
     likes,
     /** 북마크 정보 */
     bookmarks,
-    // /** 댓글 정보 */
-    // commentDetails,
   } = PostProps;
 
   const getPostsUrlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post`;
 
+  // modal 커스텀 훅
+  const { isOpen, openModal, closeModal } = useModal();
+
   /** 게시물 댓글 조회 */
-  const { isLoading, data: commentsData } = useGetPostComments(post_id);
+  const { isLoading, data: comments } = useGetPostComments(post_id);
 
   const { trigger } = useSWRMutation(
     `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post`,
@@ -144,7 +144,7 @@ export default function PostModal(props: IPostModalProps) {
                 <SkeletonComment isActive={isLoading} />
               </>
             ) : (
-              commentsData?.map((comment) => (
+              comments?.map((comment) => (
                 <Comment
                   key={comment.id.toString()}
                   imageUrl={comment.user.image_url || "/"}
@@ -158,7 +158,10 @@ export default function PostModal(props: IPostModalProps) {
           {/* 좋아요 북마크 INPUT */}
           <section className="absolute bottom-[0px] w-full flex-col pb-[20px] lg:pb-0">
             <div className="flex justify-end p-[10px] lg:hidden">
-              <button className="text-[14px] text-gray-400 underline">
+              <button
+                className="text-[14px] text-gray-400 underline"
+                onClick={openModal}
+              >
                 댓글보기
               </button>
             </div>
@@ -216,6 +219,15 @@ export default function PostModal(props: IPostModalProps) {
           </section>
         </div>
       </section>
+
+      {/* 모바일뷰에서 생성되는 댓글모달 */}
+      {isOpen && (
+        <CommentModal
+          open={isOpen}
+          onClose={closeModal}
+          comments={comments || []}
+        />
+      )}
     </Modal>
   );
 }
