@@ -26,7 +26,7 @@ export default function Modal(props: IModalProps) {
   return (
     open && (
       <ModalPortal>
-        <div className="z-1000 fixed left-0 top-0 flex h-screen w-screen flex-col items-center lg:flex-row lg:justify-center">
+        <div className="fixed left-0 top-0 z-50 flex h-screen w-screen flex-col items-center lg:flex-row lg:justify-center">
           <section
             className="absolute z-0 h-full w-full bg-[rgba(0,0,0,0.3)]"
             onClick={onClose}
@@ -37,7 +37,7 @@ export default function Modal(props: IModalProps) {
               <IoMdClose className="h-[20px] w-[20px] rounded-full bg-gray-400" />
             </button>
           </div>
-          <section className="z-1 relative">{children}</section>
+          <section className="relative z-10">{children}</section>
         </div>
       </ModalPortal>
     )
