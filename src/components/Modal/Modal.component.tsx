@@ -3,6 +3,10 @@ import { IoMdClose } from "react-icons/io";
 
 interface IModalProps {
   /**
+   * classname
+   */
+  classname?: string;
+  /**
    * Modal 구현 여부
    */
   open: boolean;
@@ -21,12 +25,14 @@ interface IModalProps {
  */
 export default function Modal(props: IModalProps) {
   // props
-  const { open, onClose, children } = props;
+  const { classname, open, onClose, children } = props;
 
   return (
     open && (
       <ModalPortal>
-        <div className="fixed left-0 top-0 z-50 flex h-screen w-screen flex-col items-center lg:flex-row lg:justify-center">
+        <div
+          className={`fixed left-0 top-0 z-50 flex h-screen w-screen flex-col items-center lg:flex-row lg:justify-center ${classname}`}
+        >
           <section
             className="absolute z-0 h-full w-full bg-[rgba(0,0,0,0.3)]"
             onClick={onClose}
