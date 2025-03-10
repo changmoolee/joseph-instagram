@@ -7,7 +7,7 @@ import SkeletonUI from "@/components/SkeletonUI/SkeletonUI.component";
 import Tab from "@/components/Tab/Tab.component";
 import { useModal } from "@/hooks/components/useModal";
 import { useGetUserPost } from "@/hooks/post/useGetUserPost";
-import { useGetUserData } from "@/hooks/user/useGetUserData";
+import { useGetUserInfo } from "@/hooks/user/useGetUserInfo";
 import { useLoginStore } from "@/store/useLoginStore";
 import { excuteFollow } from "@/utils/services/follow";
 import Image from "next/image";
@@ -17,7 +17,7 @@ import React from "react";
 /**
  * 회원 게시물 페이지
  */
-export default function User({ params }: { params: { userId: string } }) {
+export default function User({ params }: { params: { user_id: string } }) {
   const tabs = ["POSTS", "SAVED", "LIKED"];
 
   // 클릭한 탭의 index
@@ -37,7 +37,7 @@ export default function User({ params }: { params: { userId: string } }) {
     data: postData,
     error: postError,
     message: postMessage,
-  } = useGetUserPost(params.userId, clickedTab);
+  } = useGetUserPost(params.user_id, clickedTab);
 
   /**
    * 유저 프로필 데이터 호출
@@ -47,7 +47,8 @@ export default function User({ params }: { params: { userId: string } }) {
     data: userData,
     error: userError,
     message: userMessage,
-  } = useGetUserData(params.userId);
+    mutate,
+  } = useGetUserInfo(params.user_id);
 
   const { isLogin, userInfo } = useLoginStore();
 
@@ -73,7 +74,7 @@ export default function User({ params }: { params: { userId: string } }) {
             <BigProfileImage src={userData?.image_url} />
           )}
           <section className="flex flex-col gap-2 lg:gap-3">
-            <article className="flex items-center gap-5 lg:gap-5">
+            <article className="flex items-center gap-5">
               {/* 유저 이름 및 팔로우 버튼 */}
               {userLoading ? (
                 <SkeletonUI
@@ -83,16 +84,17 @@ export default function User({ params }: { params: { userId: string } }) {
               ) : (
                 <>
                   <span>{userData?.username}</span>
-                  {/* {isLogin && userInfo?.id !== userData?.id && (
+                  {isLogin && userInfo?.id !== userData?.id && (
                     <ColorButton
-                      // TODO:  !!followDetails.find((followingId) => followingId.userId === followingId?._id)
-                      text="Follow"
-                      className="h-[30px] rounded-md bg-sky-400 px-3 text-white"
+                      // TODO:  !!followDetails.find((followingId) => followingId.user_id === followingId?._id)
+                      text="팔로우"
+                      className="h-[30px] rounded-md bg-blue-500 px-3 text-white"
                       onClick={() => {
                         if (isLogin && userData) {
                           excuteFollow({
-                            followerId: userData.id,
+                            user_id: userData.id,
                           });
+                          mutate();
                         } else {
                           alert(
                             "페이지 오류가 발생하여 팔로우 등록/해제가 불가능합니다."
@@ -100,7 +102,7 @@ export default function User({ params }: { params: { userId: string } }) {
                         }
                       }}
                     />
-                  )} */}
+                  )}
                 </>
               )}
             </article>
@@ -113,30 +115,36 @@ export default function User({ params }: { params: { userId: string } }) {
             ) : (
               <article className="flex flex-col gap-1 lg:flex-row lg:gap-5">
                 <span>
-                  <span className="font-bold">{userData?.totalPostCount}</span>{" "}
-                  Posts
+                  <span className="font-bold">
+                    {userData?.posts.length || 0}
+                  </span>{" "}
+                  게시물
                 </span>
                 <span>
                   <Link
                     href={{
-                      pathname: `/user/${params.userId}/follow`,
+                      pathname: `/user/${params.user_id}/follow`,
                       query: { type: "follower" },
                     }}
                   >
-                    <span className="font-bold">{userData?.followers}</span>{" "}
-                    followers
+                    <span className="font-bold">
+                      {userData?.follower.length || 0}
+                    </span>{" "}
+                    팔로워
                   </Link>
                 </span>
 
                 <span>
                   <Link
                     href={{
-                      pathname: `/user/${params.userId}/follow`,
+                      pathname: `/user/${params.user_id}/follow`,
                       query: { type: "following" },
                     }}
                   >
-                    <span className="font-bold">{userData?.following}</span>{" "}
-                    following
+                    <span className="font-bold">
+                      {userData?.following.length || 0}
+                    </span>{" "}
+                    팔로잉
                   </Link>
                 </span>
               </article>
