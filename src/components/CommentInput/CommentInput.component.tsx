@@ -45,7 +45,7 @@ export default function CommentInput(props: ICommentInputProps) {
         <BiSmile className="h-[25px] w-[25px]" />
       </button>
       <input
-        placeholder="Add a comment..."
+        placeholder="댓글을 추가하세요."
         className="w-full px-2"
         value={comment}
         onChange={(e) => {

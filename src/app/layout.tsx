@@ -10,7 +10,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="relative w-full min-w-[320px] pt-[100px]">
+      <body className="relative w-full min-w-[320px] pb-[50px] pt-[100px]">
         <Header />
         {children}
       </body>

@@ -19,11 +19,9 @@ export default function Home() {
 
   return (
     <main className="flex h-full w-full justify-center">
-      <section className="h-full w-full max-w-[500px]">
-        <section className="border-box flex w-full gap-5 border-[2px] border-gray-100 p-5"></section>
-        {/* 친구들이 올린 post 데이터 내림차순 */}
+      <section className="flex h-full w-full max-w-[500px] flex-col gap-[20px]">
         {isLoading ? (
-          <Loading isActive={isLoading} className="mx-auto mt-5" />
+          <Loading isActive={isLoading} className="mx-auto mt-[30px]" />
         ) : postData && postData.length > 0 ? (
           postData.map((post) => <Post key={post.id} {...post} />)
         ) : (

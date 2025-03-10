@@ -33,13 +33,13 @@ export default function Search() {
   }, [error, message]);
 
   return (
-    <main className="flex h-full w-full items-center justify-center">
-      <div className="mt-5 flex h-full w-full max-w-[600px] flex-col items-center px-[20px]">
+    <main className="flex h-full w-full justify-center">
+      <div className="mt-[10px] flex w-full max-w-[600px] flex-col px-[20px]">
         <SearchInput
           onChange={(word) => setSearchWord(word)}
           handleKeyDown={handleKeyDown}
         />
-        <section className="mt-5 flex h-[auto] w-full flex-col gap-3">
+        <section className="flex w-full flex-col gap-[10px] overflow-auto py-[10px]">
           {isLoading ? (
             <>
               <SkeletonCard isActive={isLoading} />

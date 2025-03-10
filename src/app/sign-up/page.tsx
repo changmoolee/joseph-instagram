@@ -151,7 +151,7 @@ export default function SignUp() {
         </section>
         <ColorButton
           text="가입하기"
-          className="mt-10 flex h-[40px] w-full items-center justify-center bg-sky-400"
+          className="mt-10 flex h-[40px] w-full items-center justify-center bg-blue-500"
         />
       </form>
     </main>

@@ -24,7 +24,7 @@ export default function SkeletonCard(props: ISkeletonCardProps) {
           <div className="h-[15px] w-[100px]" />
         </SkeletonUI>
         <SkeletonUI isActive={isActive} className="h-min w-min">
-          <div className="h-[15px] w-[300px]" />
+          <div className="h-[15px] w-[200px]" />
         </SkeletonUI>
       </section>
     </article>
