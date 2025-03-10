@@ -1,15 +1,10 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
 import useSWR from "swr";
-import { IPost } from "@/typescript/post.interface";
+import { IPostUnified } from "@/typescript/post.interface";
 
-/**
- * 회원의 게시물 데이터 GET 커스텀 훅
- * @param userId
- * @param clickedTab
- */
-export function useGetUserPost(userId: string, clickedTab: string) {
-  const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post/user/${userId}?type=${clickedTab.toLowerCase()}`;
+export function useGetPost(id: number) {
+  const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post/${id}`;
 
   const fetcher = async () => await apiClient.get(urlKey);
 
@@ -17,11 +12,11 @@ export function useGetUserPost(userId: string, clickedTab: string) {
     data: postResponse,
     error,
     isLoading,
-  } = useSWR<ICommonResponse<IPost[]>>(urlKey, fetcher);
+  } = useSWR<ICommonResponse<IPostUnified>>(urlKey, fetcher);
 
   const { data, result, message } = postResponse?.data || {};
 
-  if (result === "success" && data) {
+  if (result === "success") {
     return {
       data,
       isLoading,

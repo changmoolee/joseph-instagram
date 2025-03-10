@@ -1,7 +1,7 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
 import useSWR from "swr";
-import { IPostUnified, IPostUnifiedData } from "@/typescript/post.interface";
+import { IPostUnified } from "@/typescript/post.interface";
 
 export function useGetPosts() {
   const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post`;

@@ -21,10 +21,7 @@ dayjs.extend(relativeTime);
 export interface IPostProps extends IPost {
   user: IUser;
   likes: ILike[];
-  /** 북마크 */
   bookmarks: IBookmark[];
-  // /** 좋아요 개수 */
-  // likeNumber?: number;
 }
 
 /**
@@ -41,16 +38,12 @@ export default function Post(props: IPostProps) {
     description,
     /** 게시글 생성 날짜 */
     created_at: createDate,
-    /** 북마크 여부 */
-    // bookmark,
     /** 회원 정보 */
     user,
     /** 좋아요 정보 */
     likes,
     /** 북마크 정보 */
     bookmarks,
-    // /** 댓글 정보 */
-    // commentDetails,
   } = props;
 
   const getPostsUrlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post`;
@@ -105,7 +98,7 @@ export default function Post(props: IPostProps) {
         <section className="flex w-full flex-col gap-2 border-[1px] border-solid border-gray-200 px-4 py-2">
           <div className="flex h-[30px] w-full justify-between">
             <Like
-              checked={!!likes.find((like) => like.user.id === userInfo?.id)}
+              checked={!!likes?.find((like) => like.user.id === userInfo?.id)}
               size={25}
               onClick={() => {
                 // 로그인 정보가 있다면
@@ -118,7 +111,7 @@ export default function Post(props: IPostProps) {
             />
             <Bookmark
               checked={
-                !!bookmarks.find(
+                !!bookmarks?.find(
                   (bookmark) => bookmark.user.id === userInfo?.id
                 )
               }
@@ -151,8 +144,8 @@ export default function Post(props: IPostProps) {
         <PostModal
           open={isOpen}
           onClose={closeModal}
-          PostProps={props}
           userInfo={userInfo}
+          id={post_id}
         />
       )}
     </div>

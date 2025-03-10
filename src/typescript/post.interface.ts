@@ -16,20 +16,17 @@ export interface IPostData extends IPost {}
 /** 마이그레이션 게시물 데이터 */
 export interface IPostUnified {
   id: number;
-  user_id: number;
   created_at: string;
   description: string | null;
   image_url: string;
   user: IUser;
   likes: ILike[];
   bookmarks: IBookmark[];
-  // commentDetails: ICommentData[];
 }
 
 /** 마이그레이션 게시물 데이터 */
 export interface IPost {
   id: number;
-  user_id: number;
   created_at: string;
   description: string | null;
   image_url: string;

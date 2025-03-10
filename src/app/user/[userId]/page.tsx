@@ -24,7 +24,7 @@ export default function User({ params }: { params: { userId: string } }) {
   const [clickedTab, setClickedTab] = React.useState<string>(tabs[0]);
 
   // 클릭한 Post의 id
-  const [clickedId, setClickedId] = React.useState<string>();
+  const [clickedId, setClickedId] = React.useState<number>();
 
   // modal 커스텀 훅
   const { isOpen, openModal, closeModal } = useModal();
@@ -57,16 +57,6 @@ export default function User({ params }: { params: { userId: string } }) {
     }
     if (userError) alert(userMessage);
   }, [postError, postMessage, userError, userMessage]);
-
-  /**
-   * 클릭한 게시물의 데이터
-   */
-  const clickedPostData = React.useMemo(
-    () =>
-      postData &&
-      postData.filter((post) => post.id.toString() === clickedId).at(0),
-    [postData, clickedId]
-  );
 
   return (
     <main className="flex h-full w-full justify-center">
@@ -200,7 +190,7 @@ export default function User({ params }: { params: { userId: string } }) {
                 <button
                   onClick={() => {
                     openModal();
-                    setClickedId(post.id.toString());
+                    setClickedId(post.id);
                   }}
                 >
                   <Image
@@ -216,12 +206,12 @@ export default function User({ params }: { params: { userId: string } }) {
         </ul>
 
         {/* 게시물 이미지 클릭시 생성되는 게시물 모달 */}
-        {isOpen && clickedPostData && (
+        {isOpen && clickedId && (
           <PostModal
             open={isOpen}
             onClose={closeModal}
-            PostProps={clickedPostData}
             userInfo={userInfo}
+            id={clickedId}
           />
         )}
       </div>

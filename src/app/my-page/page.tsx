@@ -28,10 +28,7 @@ export default function MyPage() {
     }
 
     const response: ICommonResponse = await apiClient.delete(
-      `/api/user/my-page`,
-      {
-        withCredentials: true,
-      }
+      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/user/${userInfo?.id}`
     );
 
     const { result, data, message } = response.data;
