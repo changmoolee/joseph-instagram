@@ -162,13 +162,14 @@ export default function User({ params }: { params: { userId: string } }) {
             setClickedTab(selectedTab);
           }}
         />
-        {!postData ||
-          (postData?.length === 0 && (
-            <div className="flex h-[100px] w-full items-center justify-center">
-              데이터가 없습니다.
-            </div>
-          ))}
-        <ul className="mt-5 grid h-full w-full grid-cols-3 gap-1 lg:gap-4">
+
+        {postData && postData.length === 0 && (
+          <div className="flex h-[100px] w-full items-center justify-center">
+            데이터가 없습니다.
+          </div>
+        )}
+
+        <ul className="mt-5 grid w-full grid-cols-3 gap-1 lg:gap-4">
           {/* 유저 게시물 이미지 */}
           {postLoading ? (
             <>
