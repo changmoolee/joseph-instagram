@@ -1,13 +1,13 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
+import { IUserInfo } from "@/typescript/user.interface";
 import apiClient from "@/utils/axios";
 import useSWR from "swr";
-import { IRefinedUserData } from "@/typescript/user.interface";
 
 /**
  * 회원 데이터 조회 커스텀 훅
  * @param postId
  */
-export function useGetUserData(userId: string) {
+export function useGetUserInfo(userId: string) {
   const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/user/${userId}`;
 
   const fetcher = async () => await apiClient.get(urlKey);
@@ -16,7 +16,8 @@ export function useGetUserData(userId: string) {
     data: userResponse,
     error,
     isLoading,
-  } = useSWR<ICommonResponse<IRefinedUserData>>(urlKey, fetcher);
+    mutate,
+  } = useSWR<ICommonResponse<IUserInfo>>(urlKey, fetcher);
 
   const { data, result, message } = userResponse?.data || {};
 
@@ -25,6 +26,7 @@ export function useGetUserData(userId: string) {
       data,
       isLoading,
       message,
+      mutate,
     };
   }
 
@@ -35,5 +37,6 @@ export function useGetUserData(userId: string) {
     message: error
       ? "네트워크 연결 상태 등의 원인으로 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요."
       : message,
+    mutate,
   };
 }
