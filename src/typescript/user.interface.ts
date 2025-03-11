@@ -17,9 +17,11 @@ export interface IUser {
 }
 
 /** 유저 팔로우 데이터 */
-export interface IUserFollowData {
-  follower: IRefinedUserData[];
-  following: IRefinedUserData[];
+
+/** 유저 팔로우 데이터 */
+export interface IUserFollow {
+  follower: IUserInfo[];
+  following: IUserInfo[];
 }
 
 /** 팔로우 데이터 */
@@ -30,11 +32,9 @@ export interface IFollowData {
   CreatedAt: string;
 }
 
-/** 유저 + 팔로우 데이터 */
-export interface IRefinedUserData extends IUser {
-  // 게시물 데이터
-  totalPostCount: number;
-  // 팔로우 데이터
-  followers: number;
-  following: number;
+/** 유저 - 팔로우, 게시물 데이터 */
+export interface IUserInfo extends IUser {
+  posts: { id: number }[];
+  follower: { id: number }[];
+  following: { id: number }[];
 }

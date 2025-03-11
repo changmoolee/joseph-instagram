@@ -27,8 +27,7 @@ export default function UserFollowPage({
   const [clickedTab, setClickedTab] = React.useState<string>(searchParams.type);
 
   const { isLoading, data: followInfo } = useGetFollowUser(
-    parseInt(params.user_id),
-    clickedTab
+    parseInt(params.user_id)
   );
 
   /**

@@ -1,14 +1,14 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
 import useSWR from "swr";
-import { IUserFollowData } from "@/typescript/user.interface";
+import { IUserFollow } from "@/typescript/user.interface";
 
 /**
  * 회원 팔로우/팔로워 데이터 조회 커스텀 훅
  * @param postId
  */
-export function useGetFollowUser(userId: string) {
-  const urlKey = `/api/user/${userId}/follow`;
+export function useGetFollowUser(user_id: number) {
+  const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/follow/user/${user_id}`;
 
   const fetcher = async () => await apiClient.get(urlKey);
 
@@ -16,7 +16,7 @@ export function useGetFollowUser(userId: string) {
     data: userResponse,
     error,
     isLoading,
-  } = useSWR<ICommonResponse<IUserFollowData>>(urlKey, fetcher);
+  } = useSWR<ICommonResponse<IUserFollow>>(urlKey, fetcher);
 
   const { data, result, message } = userResponse?.data || {};
 
