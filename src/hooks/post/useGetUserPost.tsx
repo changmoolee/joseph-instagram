@@ -17,6 +17,7 @@ export function useGetUserPost(userId: string, clickedTab: string) {
     data: postResponse,
     error,
     isLoading,
+    mutate,
   } = useSWR<ICommonResponse<IPost[]>>(urlKey, fetcher);
 
   const { data, result, message } = postResponse?.data || {};
@@ -26,6 +27,7 @@ export function useGetUserPost(userId: string, clickedTab: string) {
       data,
       isLoading,
       message,
+      mutate,
     };
   }
 
@@ -36,5 +38,6 @@ export function useGetUserPost(userId: string, clickedTab: string) {
     message: error
       ? "네트워크 연결 상태 등의 원인으로 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요."
       : message,
+    mutate,
   };
 }
