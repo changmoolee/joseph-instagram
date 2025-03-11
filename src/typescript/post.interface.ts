@@ -1,14 +1,4 @@
-import { IUser, IUserData } from "@/typescript/user.interface";
-import { ObjectId } from "mongodb";
-
-/** 게시물 데이터 */
-export interface IPostUnifiedData extends IPost {
-  like_user: string[] | null;
-  user: IUser;
-  likeDetails: ILikeData[];
-  commentDetails: ICommentData[];
-  bookmarkDetails: IBookmarkData[];
-}
+import { IUser } from "@/typescript/user.interface";
 
 /** 게시물 데이터 */
 export interface IPostData extends IPost {}
@@ -32,14 +22,6 @@ export interface IPost {
   image_url: string;
 }
 
-/** 좋아요 데이터 */
-export interface ILikeData {
-  _id: ObjectId;
-  userId: ObjectId;
-  postId: ObjectId;
-  CreateDate: string | null;
-}
-
 /** 좋아요 마이그레이션 데이터 */
 export interface ILike {
   id: number;
@@ -47,24 +29,6 @@ export interface ILike {
   user: {
     id: number;
   };
-}
-
-/** 댓글 데이터 */
-export interface ICommentData {
-  _id: ObjectId;
-  text: string | null;
-  postId: ObjectId;
-  CreateUser: ObjectId;
-  CreateDate: string | null;
-  replies: string[] | null;
-}
-
-/** 북마크 데이터 */
-export interface IBookmarkData {
-  _id: ObjectId;
-  userId: ObjectId;
-  postId: ObjectId;
-  CreateDate: string | null;
 }
 
 /** 북마크 데이터 */
@@ -75,18 +39,6 @@ export interface IBookmark {
     id: number;
   };
   post_id: number;
-}
-
-/** 게시물 댓글 데이터 */
-export interface IPostCommentData {
-  _id: ObjectId;
-  text: string | null;
-  postId: ObjectId;
-  userImage: string | null;
-  username: string | null;
-  CreateUser: ObjectId;
-  CreateDate: string | null;
-  replies: string[] | null;
 }
 
 /** 게시물 댓글 마이그레이션 데이터 */

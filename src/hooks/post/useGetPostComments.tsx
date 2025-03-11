@@ -1,8 +1,7 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
 import useSWR from "swr";
-import { IPostComment, IPostCommentData } from "@/typescript/post.interface";
-import { ObjectId } from "mongodb";
+import { IPostComment } from "@/typescript/post.interface";
 
 /**
  * 게시물 댓글 GET 커스텀 훅

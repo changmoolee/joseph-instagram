@@ -2,9 +2,7 @@ import {
   ICommonResponse,
   ICommonReturn,
 } from "@/typescript/common/response.interface";
-import { ILikeData } from "@/typescript/post.interface";
 import apiClient from "@/utils/axios";
-import { ObjectId } from "mongodb";
 
 interface IExcuteLikeProps {
   user_id: number;

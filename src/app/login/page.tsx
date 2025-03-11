@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
 import { ICommonResponse } from "@/typescript/common/response.interface";
-import { getUserData } from "@/utils/services/user";
 import { useLoginStore } from "@/store/useLoginStore";
 import apiClient from "@/utils/axios";
 import InputSection from "@/components/InputSection/InputSection.component";
