@@ -1,6 +1,6 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
-import { IUser } from "@/typescript/user.interface";
+import { ISearchUserInfo } from "@/typescript/user.interface";
 import useSWR from "swr";
 
 export function useGetUser(searchWord: string) {
@@ -13,7 +13,7 @@ export function useGetUser(searchWord: string) {
     error,
     isLoading,
     mutate,
-  } = useSWR<ICommonResponse<IUser[]>>(urlKey, fetcher);
+  } = useSWR<ICommonResponse<ISearchUserInfo[]>>(urlKey, fetcher);
 
   const { data, result, message } = userResponse?.data || {};
 

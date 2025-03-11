@@ -3,7 +3,7 @@
 import ProfileCard from "@/components/ProfileCard/ProfileCard.component";
 import SearchInput from "@/components/SearchInput/SearchInput.component";
 import { useGetUser } from "@/hooks/user/search/useGetUser";
-import { IUser } from "@/typescript/user.interface";
+import { ISearchUserInfo } from "@/typescript/user.interface";
 import React from "react";
 import Link from "next/link";
 import SkeletonCard from "@/components/ProfileCard/SkeletonCard.component";
@@ -47,13 +47,13 @@ export default function Search() {
               <SkeletonCard isActive={isLoading} />
             </>
           ) : userInfo ? (
-            userInfo.map((user: IUser) => (
-              <Link key={user.id.toString()} href={`/user/${user.id}`}>
+            userInfo.map((user: ISearchUserInfo) => (
+              <Link key={user.id} href={`/user/${user.id}`}>
                 <ProfileCard
                   name={user.username}
                   image={user.image_url}
-                  // followersNum={user.followers?.length || 0}
-                  // followingNum={user.following?.length || 0}
+                  followersNum={user.follower.length}
+                  followingNum={user.following.length}
                 />
               </Link>
             ))
