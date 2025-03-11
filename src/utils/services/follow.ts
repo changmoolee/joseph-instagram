@@ -1,19 +1,21 @@
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
-import { ObjectId } from "mongodb";
 
 interface IExcuteFollowProps {
-  followerId: ObjectId;
+  user_id: number;
 }
 
 /** 팔로우 실행 api 함수 */
 export const excuteFollow = async (props: IExcuteFollowProps) => {
   // props
-  const { followerId } = props;
+  const { user_id } = props;
 
-  const response: ICommonResponse = await apiClient.post("/api/user/follow", {
-    followerId,
-  });
+  const response: ICommonResponse = await apiClient.post(
+    `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/follow/user`,
+    {
+      user_id,
+    }
+  );
 
   const { result, message } = response.data;
 
