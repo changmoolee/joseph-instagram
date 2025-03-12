@@ -6,14 +6,12 @@ import Comment from "@/components/Comment/Comment.component";
 import CommentInput from "@/components/CommentInput/CommentInput.component";
 import Like from "@/components/Like/Like.component";
 import Modal from "@/components/Modal/Modal.component";
-import { IPostProps } from "@/components/Post/Post.component";
 import ProfileAndName from "@/components/ProfileAndName/ProfileAndName.component";
 import Image from "next/image";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { excuteLike } from "@/utils/services/like";
 import { IUser } from "@/typescript/user.interface";
-import useSWRMutation from "swr/mutation";
 import { useGetPostComments } from "@/hooks/post/useGetPostComments";
 import SkeletonComment from "@/components/Comment/SkeletonComment.component";
 import { makeComment } from "@/utils/services/comment";
@@ -59,36 +57,33 @@ export default function PostModal(props: IPostModalProps) {
 
   const getPostsUrlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post`;
 
+  const getCommentsUrlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post/${id}`;
+
   // modal 커스텀 훅
   const { isOpen, openModal, closeModal } = useModal();
 
   /** 게시물 댓글 조회 */
   const { isLoading, data: comments } = useGetPostComments(id);
 
-  const { trigger } = useSWRMutation(
-    `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post`,
-    () => {
-      if (!userInfo?.id) {
-        return;
-      }
-
-      return makeComment({
-        post_id: id,
-        user_id: userInfo?.id,
-        content: comment,
-      });
-    },
-    {
-      onSuccess: (data) => {
-        if (data?.message) {
-          alert(data.message);
-        }
-      },
-      onError: (error) => {
-        alert(error.message);
-      },
+  const makeCommentApi = async () => {
+    if (!userInfo) {
+      alert("로그인한 회원의 정보가 없습니다.");
+      return;
     }
-  );
+
+    const { result } = await makeComment({
+      post_id: id,
+      user_id: userInfo?.id,
+      content: comment,
+    });
+
+    if (result === "success") {
+      mutate(getCommentsUrlKey);
+    }
+    if (result === "failure") {
+      alert("댓글 생성을 실패하였습니다.");
+    }
+  };
 
   const excuteLikeApi = async (userInfo: IUser) => {
     const { result } = await excuteLike({
@@ -199,8 +194,7 @@ export default function PostModal(props: IPostModalProps) {
               onChange={(text) => setComment(text)}
               onButtonClick={() => {
                 if (userInfo?.id) {
-                  trigger();
-                  console.log("등록", comment);
+                  makeCommentApi();
                 } else {
                   alert("로그인이 필요합니다.");
                 }
