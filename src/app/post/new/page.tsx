@@ -42,9 +42,9 @@ export default function NewPost() {
 
       if (result === "success") {
         const postResponse: ICommonResponse = await apiClient.post(
-          "/api/post",
+          `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post`,
           {
-            image: data,
+            image_url: data,
             description,
           }
         );
@@ -76,7 +76,7 @@ export default function NewPost() {
             name={userInfo.username || "error"}
           />
           <PostDragAndDrop
-            className="mt-5 h-[200px] w-full lg:h-[250px]"
+            className="mt-5 h-[300px] w-full lg:h-[250px]"
             onChange={(file) => {
               setImageFile(file);
             }}
