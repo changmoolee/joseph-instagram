@@ -39,6 +39,8 @@ apiClient.interceptors.response.use(
 
       // 메인 페이지 이동
       location.href = "/";
+
+      alert("로그인이 필요합니다.");
     }
 
     return Promise.reject(error);

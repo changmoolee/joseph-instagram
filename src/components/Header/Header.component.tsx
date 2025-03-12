@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { ICommonResponse } from "@/typescript/common/response.interface";
 import { useLoginStore } from "@/store/useLoginStore";
 import apiClient from "@/utils/axios";
-import { useCheckLogin } from "@/hooks/auth/useCheckLogin";
 import React from "react";
 import ProfileImage from "@/components/ProfileImage/ProfileImage.component";
 
@@ -31,8 +30,9 @@ export default function Header() {
    * 로그아웃 함수
    */
   const signOut = async () => {
-    const response: ICommonResponse =
-      await apiClient.post("/api/auth/sign-out");
+    const response: ICommonResponse = await apiClient.post(
+      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/signout`
+    );
 
     const { result, message } = response.data;
 
@@ -51,17 +51,8 @@ export default function Header() {
     }
   };
 
-  // 로그인 여부 체크
-  // const { data } = useCheckLogin();
-
-  // React.useEffect(() => {
-  //   if (!data.isLogin) {
-  //     excuteLogout();
-  //   }
-  // }, [data, excuteLogout]);
-
   return (
-    <header className="fixed top-0 z-10 flex h-[100px] w-full justify-center border-b-[1px] border-solid border-black bg-white px-5">
+    <header className="fixed top-0 z-10 flex h-[100px] w-full min-w-[320px] justify-center border-b-[1px] border-solid border-black bg-white px-5">
       <section className="flex h-full w-full justify-between">
         <Link href={"/"} className="flex h-full items-center justify-center">
           Instargram

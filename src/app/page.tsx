@@ -1,13 +1,12 @@
 "use client";
 
-import ChatSection from "@/components/ChatSection/ChatSection.component";
+// import ChatSection from "@/components/ChatSection/ChatSection.component";
 import Loading from "@/components/Loading/Loading.component";
 import Post from "@/components/Post/Post.component";
 import ProfileAndName from "@/components/ProfileAndName/ProfileAndName.component";
 import { useGetPosts } from "@/hooks/post/useGetPosts";
 import { useLoginStore } from "@/store/useLoginStore";
-import apiClient from "@/utils/axios";
-import React, { useEffect } from "react";
+import React from "react";
 
 export default function Home() {
   // const [skip, setSkip] = React.useState<number>(1);
