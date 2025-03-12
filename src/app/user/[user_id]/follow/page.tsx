@@ -75,8 +75,8 @@ export default function UserFollowPage({
                 <ProfileCard
                   name={user.username}
                   image={user.image_url}
-                  followersNum={user.follower.length}
-                  followingNum={user.following.length}
+                  followersNum={user.followers.length}
+                  followingNum={user.followings.length}
                 />
               </Link>
             ))
@@ -86,8 +86,8 @@ export default function UserFollowPage({
                 <ProfileCard
                   name={user.username}
                   image={user.image_url}
-                  followersNum={user.follower.length}
-                  followingNum={user.following.length}
+                  followersNum={user.followers.length}
+                  followingNum={user.followings.length}
                 />
               </Link>
             ))

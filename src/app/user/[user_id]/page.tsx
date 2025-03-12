@@ -59,6 +59,10 @@ export default function User({ params }: { params: { user_id: string } }) {
     if (userError) alert(userMessage);
   }, [postError, postMessage, userError, userMessage]);
 
+  const isFollower = userData?.followers.find(
+    (follower) => follower.follower.id === userInfo?.id
+  );
+
   return (
     <main className="flex h-full w-full justify-center">
       <div className="flex w-full max-w-[1000px] flex-col items-center px-[10px]">
@@ -86,15 +90,15 @@ export default function User({ params }: { params: { user_id: string } }) {
                   <span>{userData?.username}</span>
                   {isLogin && userInfo?.id !== userData?.id && (
                     <ColorButton
-                      // TODO:  !!followDetails.find((followingId) => followingId.user_id === followingId?._id)
-                      text="팔로우"
-                      className="h-[30px] rounded-md bg-blue-500 px-3 text-white"
+                      text={!!isFollower ? "팔로잉" : "팔로우"}
+                      className={`h-[30px] rounded-md px-3 text-white ${
+                        !!isFollower ? "bg-black" : "bg-blue-500"
+                      }`}
                       onClick={() => {
                         if (isLogin && userData) {
                           excuteFollow({
                             user_id: userData.id,
-                          });
-                          mutate();
+                          }).then(() => mutate());
                         } else {
                           alert(
                             "페이지 오류가 발생하여 팔로우 등록/해제가 불가능합니다."
@@ -128,7 +132,7 @@ export default function User({ params }: { params: { user_id: string } }) {
                     }}
                   >
                     <span className="font-bold">
-                      {userData?.follower.length || 0}
+                      {userData?.followers.length || 0}
                     </span>{" "}
                     팔로워
                   </Link>
@@ -142,7 +146,7 @@ export default function User({ params }: { params: { user_id: string } }) {
                     }}
                   >
                     <span className="font-bold">
-                      {userData?.following.length || 0}
+                      {userData?.followings.length || 0}
                     </span>{" "}
                     팔로잉
                   </Link>

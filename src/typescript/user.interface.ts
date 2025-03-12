@@ -15,8 +15,8 @@ export interface IUserFollow {
 /** 유저 - 팔로우, 게시물 데이터 */
 export interface IUserInfo extends IUser {
   posts: { id: number }[];
-  follower: { id: number }[];
-  following: { id: number }[];
+  followers: { follower: { id: number } }[];
+  followings: { following: { id: number } }[];
 }
 
 /** 검색 - 회원, 팔로우 데이터 */
