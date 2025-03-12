@@ -146,12 +146,16 @@ export default function DragAndDrop(props: IDragAndDropProps) {
           ref={inputRef}
         />
         {selectedFiles.length !== 0 || previewImgSrc ? (
-          <div className={rounded ? roundedStyle : "relative h-full w-full"}>
+          <div
+            className={
+              rounded ? roundedStyle : "relative h-full w-full overflow-hidden"
+            }
+          >
             <Image
               src={previewImgSrc}
               alt="profile-image"
               fill
-              className="scale-[1.2] object-contain"
+              className="scale-[1.2] object-cover"
             />
           </div>
         ) : (

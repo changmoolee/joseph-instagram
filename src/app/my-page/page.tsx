@@ -94,6 +94,14 @@ export default function MyPage() {
           내정보 수정하기
         </Link>
 
+        {/* 나의게시판 페이지 이동*/}
+        <Link
+          className={`flex h-[40px] w-full items-center justify-center rounded-md bg-teal-400 text-[#fff]`}
+          href={`/user/${userInfo?.id}`}
+        >
+          나의 게시판
+        </Link>
+
         {/* 탈퇴 페이지 이동 */}
         <ColorButton
           text="회원탈퇴"
