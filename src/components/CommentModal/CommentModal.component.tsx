@@ -18,6 +18,14 @@ interface IPostModalProps {
    * 댓글 데이터
    */
   comments: IPostComment[];
+  /**
+   * 로그인한 회원 id
+   */
+  user_id?: number;
+  /**
+   * 게시판 id
+   */
+  post_id: number;
 }
 
 /**
@@ -26,7 +34,7 @@ interface IPostModalProps {
  */
 export default function CommentModal(props: IPostModalProps) {
   // props
-  const { open, onClose, comments } = props;
+  const { open, onClose, comments, user_id, post_id } = props;
 
   return (
     <Modal classname="lg:hidden" open={open} onClose={onClose}>
@@ -36,9 +44,9 @@ export default function CommentModal(props: IPostModalProps) {
           {comments?.map((comment) => (
             <Comment
               key={comment.id.toString()}
-              imageUrl={comment.user.image_url || "/"}
-              nickName={comment.user.username || ""}
-              commentContent={comment.content || ""}
+              isDeletable={comment.user.id === user_id}
+              post_id={post_id}
+              comment={comment}
             />
           ))}
         </section>

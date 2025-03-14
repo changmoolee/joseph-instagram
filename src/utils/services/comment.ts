@@ -5,7 +5,6 @@ import {
 import apiClient from "@/utils/axios";
 
 interface IMakeCommentProps {
-  user_id: number;
   post_id: number;
   content: string;
   parent_comment_id?: number;
@@ -16,16 +15,25 @@ export const makeComment = async (
   props: IMakeCommentProps
 ): Promise<ICommonReturn<null>> => {
   // props
-  const { user_id, post_id, content, parent_comment_id } = props;
+  const { post_id, content, parent_comment_id } = props;
 
   const response: ICommonResponse = await apiClient.post(
-    `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post`,
+    `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post/${post_id}`,
     {
-      post_id,
-      user_id,
       content,
       ...(parent_comment_id && { parent_comment_id }),
     }
   );
+  return response.data;
+};
+
+/** 댓글 삭제 api 함수 */
+export const deleteComment = async (
+  id: number
+): Promise<ICommonReturn<null>> => {
+  const response = await apiClient.delete(
+    `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post/${id}`
+  );
+
   return response.data;
 };

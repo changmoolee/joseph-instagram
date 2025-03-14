@@ -73,7 +73,6 @@ export default function PostModal(props: IPostModalProps) {
 
     const { result } = await makeComment({
       post_id: id,
-      user_id: userInfo?.id,
       content: comment,
     });
 
@@ -129,10 +128,10 @@ export default function PostModal(props: IPostModalProps) {
             ) : (
               comments?.map((comment) => (
                 <Comment
-                  key={comment.id.toString()}
-                  imageUrl={comment.user.image_url || "/"}
-                  nickName={comment.user.username || ""}
-                  commentContent={comment.content || ""}
+                  key={comment.id}
+                  isDeletable={comment.user.id === userInfo?.id}
+                  post_id={id}
+                  comment={comment}
                 />
               ))
             )}
@@ -210,6 +209,8 @@ export default function PostModal(props: IPostModalProps) {
           open={isOpen}
           onClose={closeModal}
           comments={comments || []}
+          user_id={userInfo?.id}
+          post_id={id}
         />
       )}
     </Modal>
