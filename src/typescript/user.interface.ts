@@ -20,4 +20,7 @@ export interface IUserInfo extends IUser {
 }
 
 /** 검색 - 회원, 팔로우 데이터 */
-export interface ISearchUserInfo extends IUserFollow, IUser {}
+export interface ISearchUserInfo extends IUser {
+  followers: { id: number }[];
+  followings: { id: number }[];
+}

@@ -2,7 +2,7 @@
 
 import ProfileCard from "@/components/ProfileCard/ProfileCard.component";
 import SearchInput from "@/components/SearchInput/SearchInput.component";
-import { useGetUser } from "@/hooks/user/search/useGetUser";
+import { useSearchUser } from "@/hooks/user/search/useSearchUser";
 import { ISearchUserInfo } from "@/typescript/user.interface";
 import React from "react";
 import Link from "next/link";
@@ -20,7 +20,7 @@ export default function Search() {
     isLoading,
     message,
     mutate,
-  } = useGetUser(searchWord);
+  } = useSearchUser(searchWord);
 
   const handleKeyDown = () => {
     mutate();
@@ -52,8 +52,8 @@ export default function Search() {
                 <ProfileCard
                   name={user.username}
                   image={user.image_url}
-                  followersNum={user.follower.length}
-                  followingNum={user.following.length}
+                  followersNum={user.followers.length}
+                  followingNum={user.followings.length}
                 />
               </Link>
             ))

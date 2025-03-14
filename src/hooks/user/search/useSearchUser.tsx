@@ -3,7 +3,7 @@ import apiClient from "@/utils/axios";
 import { ISearchUserInfo } from "@/typescript/user.interface";
 import useSWR from "swr";
 
-export function useGetUser(searchWord: string) {
+export function useSearchUser(searchWord: string) {
   const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/user/search?text=${searchWord}`;
 
   const fetcher = async () => await apiClient.get(urlKey);
