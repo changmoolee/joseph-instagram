@@ -19,6 +19,9 @@ import { mutate } from "swr";
 import { useModal } from "@/hooks/components/useModal";
 import CommentModal from "@/components/CommentModal/CommentModal.component";
 import { useGetPost } from "@/hooks/post/useGetPost";
+import Link from "next/link";
+import { deletePost } from "@/utils/services/post";
+import { useRouter } from "next/navigation";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -50,10 +53,10 @@ export default function PostModal(props: IPostModalProps) {
   // props
   const { open, onClose, userInfo, id } = props;
 
+  const router = useRouter();
+
   // 입력된 댓글 텍스트
   const [comment, setComment] = React.useState<string>("");
-
-  const { data: post } = useGetPost(id);
 
   const getPostsUrlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post`;
 
@@ -62,8 +65,34 @@ export default function PostModal(props: IPostModalProps) {
   // modal 커스텀 훅
   const { isOpen, openModal, closeModal } = useModal();
 
+  /** 게시물 조회  */
+  const { data: post } = useGetPost(id);
+
   /** 게시물 댓글 조회 */
   const { isLoading, data: comments } = useGetPostComments(id);
+
+  const deletePostApi = async () => {
+    if (!confirm("정말 삭제하시겠습니까?")) {
+      return;
+    }
+
+    const response = await deletePost(id);
+
+    const { result, message } = response;
+
+    if (result === "success") {
+      alert(message);
+      // 모달 닫기
+      onClose();
+      // 메인페이지로 이동
+      router.push("/");
+    }
+
+    if (result === "failure") {
+      // 에러메시지
+      alert(message);
+    }
+  };
 
   const makeCommentApi = async () => {
     if (!userInfo) {
@@ -101,7 +130,7 @@ export default function PostModal(props: IPostModalProps) {
   return (
     <Modal open={open} onClose={onClose}>
       <section className="flex h-[calc(100vh-40px)] w-screen min-w-[320px] max-w-[500px] flex-col overflow-y-auto overscroll-none bg-white lg:h-[500px] lg:w-[900px] lg:min-w-0 lg:max-w-none lg:flex-row lg:pb-0">
-        <div className="relative aspect-square max-h-[300px] w-full bg-black lg:h-full lg:max-h-none lg:w-[60%]">
+        <div className="relative aspect-square max-h-[220px] w-full bg-black lg:h-full lg:max-h-none lg:w-[60%]">
           <Image
             src={post?.image_url || "/"}
             alt="post-image"
@@ -111,10 +140,18 @@ export default function PostModal(props: IPostModalProps) {
         </div>
         <div className="relative h-full w-full lg:w-[40%]">
           <section className="flex flex-col">
-            <ProfileAndName
-              src={post?.user.image_url}
-              name={post?.user.username || ""}
-            />
+            <div className="flex justify-between">
+              <ProfileAndName
+                src={post?.user.image_url}
+                name={post?.user.username || ""}
+              />
+              {userInfo && post?.user.id === userInfo?.id && (
+                <article className="flex items-center gap-[10px] px-[10px] text-[14px] text-gray-500">
+                  <Link href={`/post/${id}/edit`}>수정</Link>
+                  <button onClick={deletePostApi}>삭제</button>
+                </article>
+              )}
+            </div>
             <p className="h-[100px] overflow-y-auto overscroll-none px-[10px] py-[4px]">
               {post?.description}
             </p>
