@@ -11,7 +11,7 @@ interface ICommentInputProps {
   /**
    * 입력된 댓글 텍스트
    */
-  value: string;
+  value?: string;
   /**
    * CommentInput을 클릭할 때 실행하는 함수
    */
@@ -19,7 +19,7 @@ interface ICommentInputProps {
   /**
    * input에 입력되는 텍스트를 체크하는 함수
    */
-  onChange: (comment: string) => void;
+  onChange?: (comment: string) => void;
   /**
    * 버튼 요소를 클릭할 때 실행하는 함수
    */
@@ -55,7 +55,7 @@ export default function CommentInput(props: ICommentInputProps) {
         className="w-full px-2"
         value={value}
         onChange={(e) => {
-          onChange(e.target.value);
+          onChange && onChange(e.target.value);
         }}
       />
       <ColorButton
