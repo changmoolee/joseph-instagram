@@ -1,7 +1,8 @@
 import { AxiosResponse } from "axios";
+import { KeyedMutator } from "swr";
 
 /**
- * 공통 return 인터페이스
+ * 공통 API함수 return 인터페이스
  */
 export interface ICommonReturn<T = null> {
   /**
@@ -16,6 +17,28 @@ export interface ICommonReturn<T = null> {
    * 성공 또는 에러 메시지
    */
   message?: string;
+}
+
+/**
+ * 공통 useSWR 훅 return 인터페이스
+ */
+export interface IUseSWR<T = null> {
+  /**
+   * 데이터 타입
+   */
+  data?: T | null;
+  /**
+   * 로딩 여부
+   */
+  isLoading?: boolean;
+  /**
+   * 성공 또는 에러 메시지
+   */
+  message?: string;
+  /**
+   * swr mutate (재호출)
+   */
+  mutate?: KeyedMutator<ICommonResponse<T>>;
 }
 
 /**

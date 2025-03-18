@@ -17,22 +17,38 @@ export const editPost = async (
   // props
   const { post_id, image_url, description } = props;
 
-  const response: ICommonResponse = await apiClient.put(
-    `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post/${post_id}`,
-    {
-      image_url,
-      description,
-    }
-  );
-  return response.data;
+  try {
+    const response: ICommonResponse = await apiClient.put(
+      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post/${post_id}`,
+      {
+        image_url,
+        description,
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    return {
+      data: null,
+      result: "failure",
+      message: error.message,
+    };
+  }
 };
 
 /** 게시물 삭제 api 함수 */
 export const deletePost = async (
   post_id: number
 ): Promise<ICommonReturn<null>> => {
-  const response: ICommonResponse = await apiClient.delete(
-    `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post/${post_id}`
-  );
-  return response.data;
+  try {
+    const response: ICommonResponse = await apiClient.delete(
+      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post/${post_id}`
+    );
+    return response.data;
+  } catch (error: any) {
+    return {
+      data: null,
+      result: "failure",
+      message: error.message,
+    };
+  }
 };

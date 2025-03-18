@@ -9,6 +9,7 @@ import { useModal } from "@/hooks/components/useModal";
 import { useGetUserPost } from "@/hooks/post/useGetUserPost";
 import { useGetUserInfo } from "@/hooks/user/useGetUserInfo";
 import { useLoginStore } from "@/store/useLoginStore";
+import { IUserInfo } from "@/typescript/user.interface";
 import { excuteFollow } from "@/utils/services/follow";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,6 +20,8 @@ import React from "react";
  */
 export default function User({ params }: { params: { user_id: string } }) {
   const tabs = ["POSTS", "SAVED", "LIKED"];
+
+  const { isLogin, userInfo } = useLoginStore();
 
   // 클릭한 탭의 index
   const [clickedTab, setClickedTab] = React.useState<string>(tabs[0]);
@@ -32,12 +35,10 @@ export default function User({ params }: { params: { user_id: string } }) {
   /**
    * 유저 개인의 포스트 데이터 호출
    */
-  const {
-    isLoading: postLoading,
-    data: postData,
-    error: postError,
-    message: postMessage,
-  } = useGetUserPost(params.user_id, clickedTab);
+  const { isLoading: postLoading, data: postData } = useGetUserPost(
+    params.user_id,
+    clickedTab
+  );
 
   /**
    * 유저 프로필 데이터 호출
@@ -45,23 +46,30 @@ export default function User({ params }: { params: { user_id: string } }) {
   const {
     isLoading: userLoading,
     data: userData,
-    error: userError,
-    message: userMessage,
     mutate,
   } = useGetUserInfo(params.user_id);
 
-  const { isLogin, userInfo } = useLoginStore();
-
-  React.useEffect(() => {
-    if (postError) {
-      alert(postMessage);
-    }
-    if (userError) alert(userMessage);
-  }, [postError, postMessage, userError, userMessage]);
-
-  const isFollower = userData?.followers.find(
+  const isFollower = !!userData?.followers.find(
     (follower) => follower.follower.id === userInfo?.id
   );
+
+  const excuteFollowApi = async (userData: IUserInfo) => {
+    if (!userInfo?.id) {
+      alert("로그인한 회원의 정보가 없습니다.");
+      return;
+    }
+
+    const { result, message } = await excuteFollow({
+      user_id: userData.id,
+    });
+
+    if (result === "success") {
+      mutate();
+    }
+    if (result === "failure") {
+      alert(message);
+    }
+  };
 
   return (
     <main className="flex h-full w-full justify-center">
@@ -90,19 +98,15 @@ export default function User({ params }: { params: { user_id: string } }) {
                   <span>{userData?.username}</span>
                   {isLogin && userInfo?.id !== userData?.id && (
                     <ColorButton
-                      text={!!isFollower ? "팔로잉" : "팔로우"}
+                      text={isFollower ? "팔로잉" : "팔로우"}
                       className={`h-[30px] rounded-md px-3 text-white ${
-                        !!isFollower ? "bg-black" : "bg-blue-500"
+                        isFollower ? "bg-black" : "bg-blue-500"
                       }`}
-                      onClick={() => {
+                      onClick={async () => {
                         if (isLogin && userData) {
-                          excuteFollow({
-                            user_id: userData.id,
-                          }).then(() => mutate());
+                          excuteFollowApi(userData);
                         } else {
-                          alert(
-                            "페이지 오류가 발생하여 팔로우 등록/해제가 불가능합니다."
-                          );
+                          alert("로그인이 필요합니다.");
                         }
                       }}
                     />

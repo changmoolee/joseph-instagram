@@ -17,41 +17,51 @@ export const ImageUpload = async (
 ): Promise<ICommonReturn<string>> => {
   if (!imageFile || imageFile.length === 0) {
     alert("등록할 이미지가 없습니다.");
-    return { result: "failure" };
+    return {
+      data: null,
+      result: "failure",
+      message: "이미지 업로드를 실패하였습니다.",
+    };
   }
 
-  const response: ICommonResponse<IUploadData> = await apiClient.post(
-    "/api/upload",
-    {
-      imageInfo: JSON.stringify({
-        filename: imageFile[0].name,
-        contentType: imageFile[0].type,
-      }),
-    }
-  );
+  try {
+    const response: ICommonResponse<IUploadData> = await apiClient.post(
+      "/api/upload",
+      {
+        imageInfo: JSON.stringify({
+          filename: imageFile[0].name,
+          contentType: imageFile[0].type,
+        }),
+      }
+    );
 
-  const { result, data, message } = response.data;
+    const { result, data, message } = response.data;
 
-  if (result === "success" && data) {
-    const { url, fields } = data;
+    if (result === "success" && data) {
+      const { url, fields } = data;
 
-    const formData = new FormData();
-    Object.entries(fields).forEach(([key, value]) => {
-      formData.append(key, value as string);
-    });
-    formData.append("file", imageFile[0]);
+      const formData = new FormData();
+      Object.entries(fields).forEach(([key, value]) => {
+        formData.append(key, value as string);
+      });
+      formData.append("file", imageFile[0]);
 
-    try {
       await apiClient.post(url, formData);
 
-      return { result: "success", data: url + fields.key };
-    } catch (error: any) {
-      alert(error.message);
-      return { result: "failure", data: null };
+      return {
+        data: url + fields.key,
+        result: "success",
+        message: "이미지 업로드를 성공하였습니다.",
+      };
     }
-  } else {
-    // 에러메시지
-    alert(message);
-    return { result: "failure", data: null };
+
+    return {
+      data: null,
+      result: "failure",
+      message,
+    };
+  } catch (error: any) {
+    console.error(error);
+    return { result: "failure", data: null, message: error.message };
   }
 };

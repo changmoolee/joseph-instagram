@@ -1,9 +1,12 @@
-import { ICommonResponse } from "@/typescript/common/response.interface";
+import {
+  ICommonResponse,
+  IUseSWR,
+} from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
 import useSWR from "swr";
 import { IPostUnified } from "@/typescript/post.interface";
 
-export function useGetPost(id: number) {
+export function useGetPost(id: number): IUseSWR<IPostUnified> {
   const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post/${id}`;
 
   const fetcher = async () => await apiClient.get(urlKey);
@@ -12,6 +15,7 @@ export function useGetPost(id: number) {
     data: postResponse,
     error,
     isLoading,
+    mutate,
   } = useSWR<ICommonResponse<IPostUnified>>(urlKey, fetcher);
 
   const { data, result, message } = postResponse?.data || {};
@@ -20,16 +24,14 @@ export function useGetPost(id: number) {
     return {
       data,
       isLoading,
-      message,
+      mutate,
     };
   }
 
   return {
     data: null,
-    error: error || result === "failure",
     isLoading,
-    message: error
-      ? "네트워크 연결 상태 등의 원인으로 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요."
-      : message,
+    message: error?.message || message,
+    mutate,
   };
 }
