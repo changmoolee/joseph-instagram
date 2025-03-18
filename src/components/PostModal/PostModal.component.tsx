@@ -59,7 +59,7 @@ export default function PostModal(props: IPostModalProps) {
   // 입력된 댓글 텍스트
   const [comment, setComment] = React.useState<string>("");
 
-  const getPostsUrlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post`;
+  const getPostsUrlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post/${id}`;
 
   const getCommentsUrlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post/${id}`;
 
@@ -111,6 +111,8 @@ export default function PostModal(props: IPostModalProps) {
 
     if (result === "success") {
       mutate(getCommentsUrlKey);
+      alert("댓글을 추가하였습니다.");
+      setComment("");
     }
     if (result === "failure") {
       alert(message);
@@ -237,6 +239,7 @@ export default function PostModal(props: IPostModalProps) {
               </span>
             </div>
             <CommentInput
+              value={comment}
               onChange={(text) => setComment(text)}
               onButtonClick={makeCommentApi}
             />
