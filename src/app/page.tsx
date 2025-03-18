@@ -31,33 +31,17 @@ export default function Home() {
           </div>
         )}
       </section>
-      <section className="hidden h-full w-[200px] flex-col gap-5 p-5 lg:flex">
+      <section className="hidden h-full w-[300px] flex-col gap-5 p-5 lg:flex">
         {userInfo && (
           <ProfileAndName
             src={userInfo?.image_url || "/images/user.png"}
             name={userInfo?.username || "error"}
           />
         )}
-        <div>
-          {[
-            "About",
-            "Help",
-            "Press",
-            "API",
-            "Jobs",
-            "Privacy",
-            "Terms",
-            "Location",
-            "Language",
-          ].map((value) => (
-            <span key={value} className="text-gray-500">
-              {value}
-            </span>
-          ))}
-        </div>
-        <div>
-          <span>@Copyright INSTANTGRAM from META</span>
-        </div>
+        <p className="whitespace-pre-wrap">
+          {`joseph-instagram에\n오신걸 환영합니다.`}
+        </p>
+
         {/* <ChatSection /> */}
       </section>
     </main>
