@@ -10,6 +10,7 @@ import { useLoginStore } from "@/store/useLoginStore";
 import apiClient from "@/utils/axios";
 import React from "react";
 import ProfileImage from "@/components/ProfileImage/ProfileImage.component";
+import Image from "next/image";
 
 /**
  * 헤더 컴포넌트
@@ -54,8 +55,17 @@ export default function Header() {
   return (
     <header className="fixed top-0 z-10 flex h-[100px] w-full min-w-[320px] justify-center border-b-[1px] border-solid border-black bg-white px-5">
       <section className="flex h-full w-full justify-between">
-        <Link href={"/"} className="flex h-full items-center justify-center">
-          Instargram
+        <Link
+          href={"/"}
+          className="relative flex h-full w-[100px] items-center justify-center lg:w-[150px]"
+        >
+          <Image
+            src="/images/logo-image.png"
+            alt="app-logo"
+            fill
+            objectFit="contain"
+            sizes="100px ,(max-width: 1200px) 150px"
+          />
         </Link>
 
         <ul className="flex h-full items-center gap-x-[15px] lg:gap-x-[30px]">
