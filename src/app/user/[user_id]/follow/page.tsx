@@ -33,12 +33,9 @@ export default function UserFollowPage({
   /**
    * 유저 프로필 데이터 호출
    */
-  const {
-    isLoading: userLoading,
-    data: userData,
-    error: userError,
-    message: userMessage,
-  } = useGetUserInfo(params.user_id);
+  const { isLoading: userLoading, data: userData } = useGetUserInfo(
+    params.user_id
+  );
 
   return (
     <main className="flex h-full w-full items-center justify-center">

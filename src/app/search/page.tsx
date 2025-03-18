@@ -16,21 +16,14 @@ export default function Search() {
 
   const {
     data: userInfo,
-    error,
     isLoading,
     message,
     mutate,
   } = useSearchUser(searchWord);
 
   const handleKeyDown = () => {
-    mutate();
+    mutate && mutate();
   };
-
-  React.useEffect(() => {
-    if (error) {
-      alert(message);
-    }
-  }, [error, message]);
 
   return (
     <main className="flex h-full w-full justify-center">
