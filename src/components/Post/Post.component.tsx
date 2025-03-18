@@ -99,7 +99,13 @@ export default function Post(props: IPostProps) {
       </Link>
       {postSrc && (
         <div className="relative h-[400px] w-full">
-          <Image src={postSrc} alt="" className="object-cover" fill />
+          <Image
+            src={postSrc}
+            alt=""
+            className="object-cover"
+            fill
+            sizes="300px ,(max-width: 1200px) 500px"
+          />
         </div>
       )}
       <section>

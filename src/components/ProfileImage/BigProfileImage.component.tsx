@@ -16,6 +16,7 @@ export default function BigProfileImage({ src }: IProfileImageProps) {
           alt="profile-image"
           fill
           className="scale-[1.2] object-cover"
+          sizes="100px"
         />
       </div>
     </section>

@@ -160,8 +160,9 @@ export default function PostModal(props: IPostModalProps) {
           <Image
             src={post?.image_url || "/"}
             alt="post-image"
-            className="object-cover"
             fill
+            className="object-cover"
+            sizes="300px ,(max-width: 1200px) 540px"
           />
         </div>
         <div className="relative h-full w-full lg:w-[40%]">

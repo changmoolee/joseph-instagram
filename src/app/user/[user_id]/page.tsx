@@ -63,9 +63,10 @@ export default function User({ params }: { params: { user_id: string } }) {
       user_id: userData.id,
     });
 
-    if (result === "success") {
+    if (result === "success" && mutate) {
       mutate();
     }
+
     if (result === "failure") {
       alert(message);
     }
@@ -215,6 +216,7 @@ export default function User({ params }: { params: { user_id: string } }) {
                     alt="post-image"
                     fill
                     className="object-cover"
+                    sizes="300px ,(max-width: 1200px) 330px"
                   />
                 </button>
               </li>

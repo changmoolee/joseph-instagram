@@ -60,6 +60,7 @@ export default function MyPage() {
               alt="my-page-profile-image"
               fill
               className="scale-[1.2] object-cover"
+              sizes="300px ,(max-width: 1200px) 400px"
             />
           </div>
         </section>
