@@ -22,6 +22,7 @@ import { useGetPost } from "@/hooks/post/useGetPost";
 import Link from "next/link";
 import { deletePost } from "@/utils/services/post";
 import { useRouter } from "next/navigation";
+import { excuteBookmark } from "@/utils/services/bookmark";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -72,13 +73,16 @@ export default function PostModal(props: IPostModalProps) {
   const { isLoading, data: comments } = useGetPostComments(id);
 
   const deletePostApi = async () => {
+    if (!userInfo?.id) {
+      alert("로그인한 회원의 정보가 없습니다.");
+      return;
+    }
+
     if (!confirm("정말 삭제하시겠습니까?")) {
       return;
     }
 
-    const response = await deletePost(id);
-
-    const { result, message } = response;
+    const { result, message } = await deletePost(id);
 
     if (result === "success") {
       alert(message);
@@ -95,12 +99,12 @@ export default function PostModal(props: IPostModalProps) {
   };
 
   const makeCommentApi = async () => {
-    if (!userInfo) {
+    if (!userInfo?.id) {
       alert("로그인한 회원의 정보가 없습니다.");
       return;
     }
 
-    const { result } = await makeComment({
+    const { result, message } = await makeComment({
       post_id: id,
       content: comment,
     });
@@ -109,21 +113,43 @@ export default function PostModal(props: IPostModalProps) {
       mutate(getCommentsUrlKey);
     }
     if (result === "failure") {
-      alert("댓글 생성을 실패하였습니다.");
+      alert(message);
     }
   };
 
-  const excuteLikeApi = async (userInfo: IUser) => {
-    const { result } = await excuteLike({
+  const excuteLikeApi = async () => {
+    if (!userInfo?.id) {
+      alert("로그인한 회원의 정보가 없습니다.");
+      return;
+    }
+
+    const { result, message } = await excuteLike({
       post_id: id,
-      user_id: userInfo.id,
     });
 
     if (result === "success") {
       mutate(getPostsUrlKey);
     }
     if (result === "failure") {
-      alert("좋아요 실행을 실패하였습니다.");
+      alert(message);
+    }
+  };
+
+  const excuteBookmarkApi = async () => {
+    if (!userInfo?.id) {
+      alert("로그인한 회원의 정보가 없습니다.");
+      return;
+    }
+
+    const { result, message } = await excuteBookmark({
+      post_id: id,
+    });
+
+    if (result === "success") {
+      mutate(getPostsUrlKey);
+    }
+    if (result === "failure") {
+      alert(message);
     }
   };
 
@@ -191,17 +217,7 @@ export default function PostModal(props: IPostModalProps) {
                   !!post?.likes.find((like) => like.user.id === userInfo?.id)
                 }
                 size={25}
-                onClick={() => {
-                  // 로그인 정보가 있다면
-                  if (userInfo?.id) {
-                    excuteLike({
-                      post_id: id,
-                      user_id: userInfo.id,
-                    });
-                  } else {
-                    alert("로그인이 필요합니다.");
-                  }
-                }}
+                onClick={excuteLikeApi}
               />
               <Bookmark
                 checked={
@@ -210,14 +226,7 @@ export default function PostModal(props: IPostModalProps) {
                   )
                 }
                 size={25}
-                onClick={() => {
-                  // 로그인 정보가 있다면
-                  if (userInfo?.id) {
-                    excuteLikeApi(userInfo);
-                  } else {
-                    alert("로그인이 필요합니다.");
-                  }
-                }}
+                onClick={excuteBookmarkApi}
               />
             </div>
             <div className="flex flex-col gap-2 p-[10px]">
@@ -228,13 +237,7 @@ export default function PostModal(props: IPostModalProps) {
             </div>
             <CommentInput
               onChange={(text) => setComment(text)}
-              onButtonClick={() => {
-                if (userInfo?.id) {
-                  makeCommentApi();
-                } else {
-                  alert("로그인이 필요합니다.");
-                }
-              }}
+              onButtonClick={makeCommentApi}
             />
           </section>
         </div>

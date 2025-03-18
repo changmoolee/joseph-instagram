@@ -54,9 +54,13 @@ export default function Post(props: IPostProps) {
   /** 유저 개인 프로필 전역 상태 데이터 */
   const userInfo = useLoginStore((state) => state.userInfo);
 
-  const excuteLikeApi = async (userInfo: IUser) => {
-    const { result } = await excuteLike({
-      user_id: userInfo.id,
+  const excuteLikeApi = async () => {
+    if (!userInfo?.id) {
+      alert("로그인한 회원의 정보가 없습니다.");
+      return;
+    }
+
+    const { result, message } = await excuteLike({
       post_id,
     });
 
@@ -64,13 +68,17 @@ export default function Post(props: IPostProps) {
       mutate(getPostsUrlKey);
     }
     if (result === "failure") {
-      alert("좋아요 실행을 실패하였습니다.");
+      alert(message);
     }
   };
 
-  const excuteBookmarkApi = async (userInfo: IUser) => {
-    const { result } = await excuteBookmark({
-      user_id: userInfo.id,
+  const excuteBookmarkApi = async () => {
+    if (!userInfo?.id) {
+      alert("로그인한 회원의 정보가 없습니다.");
+      return;
+    }
+
+    const { result, message } = await excuteBookmark({
       post_id,
     });
 
@@ -78,7 +86,7 @@ export default function Post(props: IPostProps) {
       mutate(getPostsUrlKey);
     }
     if (result === "failure") {
-      alert("북마크 실행을 실패하였습니다.");
+      alert(message);
     }
   };
 
@@ -100,14 +108,7 @@ export default function Post(props: IPostProps) {
             <Like
               checked={!!likes?.find((like) => like.user.id === userInfo?.id)}
               size={25}
-              onClick={() => {
-                // 로그인 정보가 있다면
-                if (userInfo?.id) {
-                  excuteLikeApi(userInfo);
-                } else {
-                  alert("로그인이 필요합니다.");
-                }
-              }}
+              onClick={excuteLikeApi}
             />
             <Bookmark
               checked={
@@ -116,18 +117,11 @@ export default function Post(props: IPostProps) {
                 )
               }
               size={25}
-              onClick={() => {
-                // 로그인 정보가 있다면
-                if (userInfo?.id) {
-                  excuteBookmarkApi(userInfo);
-                } else {
-                  alert("로그인이 필요합니다.");
-                }
-              }}
+              onClick={excuteBookmarkApi}
             />
           </div>
           <div className="flex flex-col gap-2">
-            {/* <span>{likeDetails.length} Like</span> */}
+            <span>{likes.length} Like</span>
             <p>
               <span className="mr-5 min-w-[80px] max-w-[200px] font-bold">
                 {user.username || ""}

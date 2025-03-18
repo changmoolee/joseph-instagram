@@ -17,23 +17,39 @@ export const makeComment = async (
   // props
   const { post_id, content, parent_comment_id } = props;
 
-  const response: ICommonResponse = await apiClient.post(
-    `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post/${post_id}`,
-    {
-      content,
-      ...(parent_comment_id && { parent_comment_id }),
-    }
-  );
-  return response.data;
+  try {
+    const response: ICommonResponse = await apiClient.post(
+      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post/${post_id}`,
+      {
+        content,
+        ...(parent_comment_id && { parent_comment_id }),
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    return {
+      data: null,
+      result: "failure",
+      message: error.message,
+    };
+  }
 };
 
 /** 댓글 삭제 api 함수 */
 export const deleteComment = async (
   id: number
 ): Promise<ICommonReturn<null>> => {
-  const response = await apiClient.delete(
-    `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post/${id}`
-  );
+  try {
+    const response = await apiClient.delete(
+      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post/${id}`
+    );
 
-  return response.data;
+    return response.data;
+  } catch (error: any) {
+    return {
+      data: null,
+      result: "failure",
+      message: error.message,
+    };
+  }
 };

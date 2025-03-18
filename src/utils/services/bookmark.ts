@@ -5,7 +5,6 @@ import {
 import apiClient from "@/utils/axios";
 
 interface IExcuteBookmarkProps {
-  user_id: number;
   post_id: number;
 }
 
@@ -14,15 +13,22 @@ export const excuteBookmark = async (
   props: IExcuteBookmarkProps
 ): Promise<ICommonReturn<null>> => {
   // props
-  const { user_id, post_id } = props;
+  const { post_id } = props;
 
-  const response: ICommonResponse = await apiClient.post(
-    `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/bookmark/post`,
-    {
-      post_id,
-      user_id,
-    }
-  );
+  try {
+    const response: ICommonResponse = await apiClient.post(
+      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/bookmark/post`,
+      {
+        post_id,
+      }
+    );
 
-  return response.data;
+    return response.data;
+  } catch (error: any) {
+    return {
+      data: null,
+      result: "failure",
+      message: error.message,
+    };
+  }
 };
