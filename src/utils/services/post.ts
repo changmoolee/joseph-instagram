@@ -30,7 +30,7 @@ export const editPost = async (
     return {
       data: null,
       result: "failure",
-      message: error.message,
+      message: error.response?.data?.message || error.message,
     };
   }
 };
@@ -48,7 +48,7 @@ export const deletePost = async (
     return {
       data: null,
       result: "failure",
-      message: error.message,
+      message: error.response?.data?.message || error.message,
     };
   }
 };

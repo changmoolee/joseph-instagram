@@ -30,7 +30,7 @@ export const makeComment = async (
     return {
       data: null,
       result: "failure",
-      message: error.message,
+      message: error.response?.data?.message || error.message,
     };
   }
 };
@@ -49,7 +49,7 @@ export const deleteComment = async (
     return {
       data: null,
       result: "failure",
-      message: error.message,
+      message: error.response?.data?.message || error.message,
     };
   }
 };

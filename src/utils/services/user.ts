@@ -32,7 +32,7 @@ export const signUp = async (
     return {
       data: null,
       result: "failure",
-      message: error.message,
+      message: error.response?.data?.message || error.message,
     };
   }
 };
@@ -61,7 +61,7 @@ export const signIn = async (
     return {
       data: null,
       result: "failure",
-      message: error.message,
+      message: error.response?.data?.message || error.message,
     };
   }
 };
@@ -80,7 +80,7 @@ export const signOut = async (): Promise<ICommonReturn<null>> => {
     return {
       data: null,
       result: "failure",
-      message: error.message,
+      message: error.response?.data?.message || error.message,
     };
   }
 };

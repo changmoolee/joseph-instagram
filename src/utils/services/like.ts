@@ -27,7 +27,7 @@ export const excuteLike = async (
     return {
       data: null,
       result: "failure",
-      message: error.message,
+      message: error.response?.data?.message || error.message,
     };
   }
 };
