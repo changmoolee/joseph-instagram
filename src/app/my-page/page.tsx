@@ -19,6 +19,8 @@ export default function MyPage() {
   /** 유저 개인 프로필 전역 상태 데이터 */
   const userInfo = useLoginStore((state) => state.userInfo);
 
+  const excuteLogout = useLoginStore((state) => state.excuteLogout);
+
   /**
    * 회원 탈퇴
    */
@@ -34,6 +36,9 @@ export default function MyPage() {
     const { result, data, message } = response.data;
 
     if (result === "success") {
+      // 로그아웃
+      excuteLogout();
+
       alert(message);
 
       // 메인페이지 이동
