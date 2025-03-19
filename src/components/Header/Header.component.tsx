@@ -1,16 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { AiOutlineHome } from "react-icons/ai";
 import { FiSearch } from "react-icons/fi";
 import { BsPlusSquare } from "react-icons/bs";
 import { useRouter } from "next/navigation";
-import { ICommonResponse } from "@/typescript/common/response.interface";
 import { useLoginStore } from "@/store/useLoginStore";
-import apiClient from "@/utils/axios";
 import React from "react";
 import ProfileImage from "@/components/ProfileImage/ProfileImage.component";
 import Image from "next/image";
+import { signOut } from "@/utils/services/user";
 
 /**
  * 헤더 컴포넌트
@@ -30,12 +28,10 @@ export default function Header() {
   /**
    * 로그아웃 함수
    */
-  const signOut = async () => {
-    const response: ICommonResponse = await apiClient.post(
-      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/signout`
-    );
+  const signOutApi = async () => {
+    const signOutResponse = await signOut();
 
-    const { result, message } = response.data;
+    const { result, message } = signOutResponse;
 
     if (result === "success") {
       // 로그아웃
@@ -90,7 +86,7 @@ export default function Header() {
           )}
           <li className="text-[14px]">
             {isLogin ? (
-              <button onClick={signOut}>로그아웃</button>
+              <button onClick={signOutApi}>로그아웃</button>
             ) : (
               <Link href={"/login"}>로그인</Link>
             )}

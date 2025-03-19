@@ -4,15 +4,13 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
-import { ICommonResponse } from "@/typescript/common/response.interface";
 import { useLoginStore } from "@/store/useLoginStore";
-import apiClient from "@/utils/axios";
 import InputSection from "@/components/InputSection/InputSection.component";
-import { IUser } from "@/typescript/user.interface";
 import ColorButton from "@/components/ColorButton/ColorButton.component";
+import { signIn } from "@/utils/services/user";
 
 // https://react-hook-form.com/ts
-interface FormValues {
+export interface ISignInFormValues {
   email: string;
   password: string;
 }
@@ -29,27 +27,17 @@ export default function Login() {
     setValue,
     formState: { errors },
     handleSubmit,
-  } = useForm<FormValues>();
+  } = useForm<ISignInFormValues>();
 
   const excuteLogin = useLoginStore((state) => state.excuteLogin);
 
   /**
    * 로그인 함수
    */
-  const signIn = async (data: FormValues) => {
-    // 객체분해할당
-    const { email, password } = data;
+  const signInApi = async (data: ISignInFormValues) => {
+    const signInResponse = await signIn(data);
 
-    const signInResponse: ICommonResponse<IUser> = await apiClient.post(
-      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/signin`,
-      {
-        email,
-        password,
-      },
-      { withCredentials: true }
-    );
-
-    const { result, data: responseData, message } = signInResponse.data;
+    const { result, data: responseData, message } = signInResponse;
 
     if (result === "success" && responseData) {
       // 로그인 전역상태
@@ -72,8 +60,8 @@ export default function Login() {
   };
 
   // 유효성 검사 통과시 실행될 함수
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    signIn(data);
+  const onSubmit: SubmitHandler<ISignInFormValues> = (data) => {
+    signInApi(data);
   };
 
   return (

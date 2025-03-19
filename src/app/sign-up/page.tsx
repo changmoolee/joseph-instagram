@@ -5,13 +5,12 @@ import SignupDragAndDrop from "@/components/DragAndDrop/SignupDragAndDrop/Signup
 import { useRouter } from "next/navigation";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { ICommonResponse } from "@/typescript/common/response.interface";
 import { ImageUpload } from "@/utils/services/upload";
-import apiClient from "@/utils/axios";
 import InputSection from "@/components/InputSection/InputSection.component";
 import { IUser } from "@/typescript/user.interface";
+import { signUp } from "@/utils/services/user";
 
-interface FormValues extends IUser {
+export interface ISignUpFormValues extends IUser {
   password: string;
   verifyPassword: string;
 }
@@ -31,12 +30,12 @@ export default function SignUp() {
     watch,
     formState: { errors },
     handleSubmit,
-  } = useForm<FormValues>();
+  } = useForm<ISignUpFormValues>();
 
   /**
    * 회원가입 함수
    */
-  const signUp = async (params: FormValues) => {
+  const signUpApi = async (params: ISignUpFormValues) => {
     let imageApiResult;
     let imageApiData;
 
@@ -56,19 +55,12 @@ export default function SignUp() {
       imageApiData = data;
     }
 
-    const { email, username, password } = params;
+    const singupResponse = await signUp({
+      ...params,
+      image_url: imageApiData || "",
+    });
 
-    const response: ICommonResponse = await apiClient.post(
-      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/signup`,
-      {
-        ...(imageApiData && { image: imageApiData }),
-        email,
-        username,
-        password,
-      }
-    );
-
-    const { result, message } = response.data;
+    const { result, message } = singupResponse;
 
     if (result === "success") {
       alert("회원가입에 성공하였습니다. 서비스 이용을 원할시 로그인해주세요.");
@@ -83,8 +75,8 @@ export default function SignUp() {
     }
   };
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    signUp(data);
+  const onSubmit: SubmitHandler<ISignUpFormValues> = (data) => {
+    signUpApi(data);
   };
 
   return (
