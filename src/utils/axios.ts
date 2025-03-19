@@ -3,6 +3,7 @@ import axios from "axios";
 // axios 인스턴스 생성
 const apiClient = axios.create({
   timeout: 30000,
+  withCredentials: true,
 });
 
 // axios 인터셉터 추가
@@ -38,6 +39,8 @@ apiClient.interceptors.response.use(
 
       // 메인 페이지 이동
       location.href = "/";
+
+      alert("로그인이 필요합니다.");
     }
 
     return Promise.reject(error);

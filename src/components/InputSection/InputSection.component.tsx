@@ -1,10 +1,10 @@
 import React from "react";
-import { FieldValues, UseFormRegister } from "react-hook-form";
+import { UseFormRegisterReturn } from "react-hook-form";
 
 interface IInputSectionProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  register?: UseFormRegister<FieldValues>;
+  register?: UseFormRegisterReturn;
 }
 
 /**
@@ -16,7 +16,7 @@ export default function InputSection(props: IInputSectionProps) {
 
   return (
     <section className="flex w-full items-center">
-      <span className="w-[120px] font-semibold">{label}</span>
+      <span className="w-[140px] font-semibold">{label}</span>
       <input className="w-full border p-2" {...rest} {...register} />
     </section>
   );

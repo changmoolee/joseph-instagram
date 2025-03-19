@@ -4,11 +4,16 @@ import ColorButton from "@/components/ColorButton/ColorButton.component";
 import SignupDragAndDrop from "@/components/DragAndDrop/SignupDragAndDrop/SignupDragAndDrop.component";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useForm } from "react-hook-form";
-import { ICommonResponse } from "@/typescript/common/response.interface";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { ImageUpload } from "@/utils/services/upload";
-import apiClient from "@/utils/axios";
 import InputSection from "@/components/InputSection/InputSection.component";
+import { IUser } from "@/typescript/user.interface";
+import { signUp } from "@/utils/services/user";
+
+export interface ISignUpFormValues extends IUser {
+  password: string;
+  verifyPassword: string;
+}
 
 /**
  * 회원가입 페이지
@@ -25,61 +30,59 @@ export default function SignUp() {
     watch,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm<ISignUpFormValues>();
 
   /**
    * 회원가입 함수
    */
-  const signUp = async (params: any) => {
-    // 이미지 업 로드
-    if (imageFile) {
+  const signUpApi = async (params: ISignUpFormValues) => {
+    let imageApiResult;
+    let imageApiData;
+
+    // 이미지가 있을 경우, 이미지 API 호출
+    if (imageFile?.length) {
       const imageUploadResponse = await ImageUpload(imageFile);
 
       const { result, data } = imageUploadResponse;
 
-      if (result === "success") {
-        // 객체분해할당
-        const { email, name, password } = params;
-
-        const response: ICommonResponse = await apiClient.post(
-          "/api/auth/sign-up",
-          {
-            image: data,
-            email,
-            name,
-            password,
-          }
-        );
-
-        const { result, message } = response.data;
-
-        if (result === "success") {
-          alert(
-            "회원가입에 성공하였습니다. 서비스 이용을 원할시 로그인해주세요."
-          );
-
-          // 메인페이지 이동
-          router.push("/");
-        }
-
-        if (result === "fail") {
-          // 에러메시지
-          alert(message);
-        }
-      } else {
+      // API 호출 실패시 중단
+      if (result === "failure") {
         alert("유저 이미지 업로드에 실패했습니다. 관리자에게 문의해 주세요.");
+        return;
       }
+
+      imageApiResult = result;
+      imageApiData = data;
+    }
+
+    const singupResponse = await signUp({
+      ...params,
+      image_url: imageApiData || "",
+    });
+
+    const { result, message } = singupResponse;
+
+    if (result === "success") {
+      alert("회원가입에 성공하였습니다. 서비스 이용을 원할시 로그인해주세요.");
+
+      // 메인페이지 이동
+      router.push("/");
+    }
+
+    if (result === "failure") {
+      // 에러메시지
+      alert(message);
     }
   };
 
-  const onSubmit = (data: any) => {
-    signUp(data);
+  const onSubmit: SubmitHandler<ISignUpFormValues> = (data) => {
+    signUpApi(data);
   };
 
   return (
     <main className="flex w-full justify-center pb-20 pt-10">
       <form
-        className="flex h-full w-full min-w-[320px] max-w-[400px] flex-col gap-5"
+        className="flex h-full w-full max-w-[400px] flex-col gap-5 px-[20px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <section className="mt-10 flex w-full justify-center">
@@ -96,7 +99,7 @@ export default function SignUp() {
             <InputSection
               label="이메일"
               placeholder="abc1234@gmail.com"
-              {...register("email", { required: true })}
+              register={register("email", { required: true })}
             />
             {errors.email && (
               <span className="text-[red]">이메일을 입력해 주세요.</span>
@@ -106,17 +109,18 @@ export default function SignUp() {
             <InputSection
               label="이름"
               placeholder="홍길동"
-              {...register("홍길동", { required: true })}
+              register={register("username", { required: true })}
             />
-            {errors.name && (
+            {errors.username && (
               <span className="text-[red]">이름을 입력해 주세요.</span>
             )}
           </article>
           <article className="w-full gap-5">
             <InputSection
               label="비밀번호"
+              type="password"
               placeholder="password"
-              {...register("password", { required: true })}
+              register={register("password", { required: true })}
             />
             {errors.password && (
               <span className="text-[red]">비밀번호를 입력해 주세요.</span>
@@ -125,8 +129,9 @@ export default function SignUp() {
           <article className="w-full gap-5">
             <InputSection
               label="비밀번호 확인"
+              type="password"
               placeholder="verify password"
-              {...register("verifyPassword", {
+              register={register("verifyPassword", {
                 required: true,
                 validate: (v) => watch("password") == v,
               })}
@@ -138,7 +143,7 @@ export default function SignUp() {
         </section>
         <ColorButton
           text="가입하기"
-          className="mt-10 flex h-[40px] w-full items-center justify-center rounded-md bg-sky-400 text-[white]"
+          className="mt-10 flex h-[40px] w-full items-center justify-center bg-blue-500"
         />
       </form>
     </main>

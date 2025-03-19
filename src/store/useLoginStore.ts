@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { IUserData } from "@/typescript/user.interface";
+import { IUser } from "@/typescript/user.interface";
 
 interface LoginState {
   isLogin: boolean;
   token: string;
-  userInfo: IUserData | null;
-  excuteLogin: (data: IUserData) => void;
+  userInfo: IUser | null;
+  excuteLogin: (data: IUser) => void;
   excuteLogout: () => void;
 }
 

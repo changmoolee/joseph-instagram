@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 interface IProfileImageProps {
-  src: string;
+  src?: string;
 }
 
 /**
@@ -15,7 +15,8 @@ export default function BigProfileImage({ src }: IProfileImageProps) {
           src={src ? src : "/images/user.png"}
           alt="profile-image"
           fill
-          className="object-cover"
+          className="scale-[1.2] object-cover"
+          sizes="100px"
         />
       </div>
     </section>

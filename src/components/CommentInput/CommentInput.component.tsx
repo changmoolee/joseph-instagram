@@ -1,4 +1,5 @@
 "use client";
+import ColorButton from "@/components/ColorButton/ColorButton.component";
 import React from "react";
 import { BiSmile } from "react-icons/bi";
 
@@ -7,6 +8,10 @@ interface ICommentInputProps {
    * button 내부에 들어갈 텍스트
    */
   buttonText?: string;
+  /**
+   * 입력된 댓글 텍스트
+   */
+  value?: string;
   /**
    * CommentInput을 클릭할 때 실행하는 함수
    */
@@ -26,37 +31,40 @@ interface ICommentInputProps {
  */
 export default function CommentInput(props: ICommentInputProps) {
   // props
-  const { onClick, onChange, onButtonClick, buttonText = "Post" } = props;
-
-  // 입력된 댓글 텍스트
-  const [comment, setComment] = React.useState<string>("");
-
-  React.useEffect(() => {
-    onChange && onChange(comment);
-  }, [comment, onChange]);
+  const {
+    value,
+    onClick,
+    onChange,
+    onButtonClick,
+    buttonText = "Post",
+  } = props;
 
   return (
     <section
-      className="flex h-[50px] w-full border-[1px] border-solid border-gray-200"
+      className="flex h-[50px] w-full items-center justify-center border-[1px] border-solid border-gray-200 px-[10px]"
       onClick={onClick}
     >
-      <button className="flex h-full w-[50px] items-center justify-center">
+      <button
+        className="flex h-full w-[50px] items-center justify-center"
+        onClick={() => alert("기능 제작중입니다")}
+      >
         <BiSmile className="h-[25px] w-[25px]" />
       </button>
       <input
-        placeholder="Add a comment..."
+        placeholder="댓글을 추가하세요."
         className="w-full px-2"
-        value={comment}
+        value={value}
         onChange={(e) => {
-          setComment(e.target.value);
+          onChange && onChange(e.target.value);
         }}
       />
-      <button
+      <ColorButton
+        text="보내기"
         onClick={onButtonClick}
-        className="flex h-full w-[60px] items-center justify-center font-[600] text-[#6cb9d2]"
+        className="h-[40px] w-[80px] bg-blue-500"
       >
         {buttonText}
-      </button>
+      </ColorButton>
     </section>
   );
 }

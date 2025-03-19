@@ -2,27 +2,27 @@ import {
   ICommonResponse,
   IUseSWR,
 } from "@/typescript/common/response.interface";
+import { IUserInfo } from "@/typescript/user.interface";
 import apiClient from "@/utils/axios";
 import useSWR from "swr";
-import { IPostComment } from "@/typescript/post.interface";
 
 /**
- * 게시물 댓글 GET 커스텀 훅
- * @param post_id
+ * 회원 데이터 조회 커스텀 훅
+ * @param postId
  */
-export function useGetPostComments(post_id: number): IUseSWR<IPostComment[]> {
-  const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post/${post_id}`;
+export function useGetUserInfo(userId: string): IUseSWR<IUserInfo> {
+  const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/user/${userId}`;
 
   const fetcher = async () => await apiClient.get(urlKey);
 
   const {
-    data: commentResponse,
+    data: userResponse,
     error,
     isLoading,
     mutate,
-  } = useSWR<ICommonResponse<IPostComment[]>>(urlKey, fetcher);
+  } = useSWR<ICommonResponse<IUserInfo>>(urlKey, fetcher);
 
-  const { data, result, message } = commentResponse?.data || {};
+  const { data, result, message } = userResponse?.data || {};
 
   if (result === "success") {
     return {

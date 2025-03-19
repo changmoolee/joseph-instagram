@@ -44,7 +44,7 @@ export default function Tab(props: ITabProps) {
 
   return (
     <section
-      className={`flex h-[50px] w-full min-w-[320px] items-center justify-center ${className}`}
+      className={`flex h-[50px] w-full items-center justify-center ${className}`}
     >
       {tabArr.map((tab: string, index: number) => (
         <button

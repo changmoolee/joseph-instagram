@@ -6,18 +6,23 @@ import Comment from "@/components/Comment/Comment.component";
 import CommentInput from "@/components/CommentInput/CommentInput.component";
 import Like from "@/components/Like/Like.component";
 import Modal from "@/components/Modal/Modal.component";
-import { IPostProps } from "@/components/Post/Post.component";
 import ProfileAndName from "@/components/ProfileAndName/ProfileAndName.component";
 import Image from "next/image";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { excuteLike } from "@/utils/services/like";
-import { IUserData } from "@/typescript/user.interface";
-import useSWRMutation from "swr/mutation";
-import apiClient from "@/utils/axios";
+import { IUser } from "@/typescript/user.interface";
 import { useGetPostComments } from "@/hooks/post/useGetPostComments";
-import { IoMdClose } from "react-icons/io";
 import SkeletonComment from "@/components/Comment/SkeletonComment.component";
+import { makeComment } from "@/utils/services/comment";
+import { mutate } from "swr";
+import { useModal } from "@/hooks/components/useModal";
+import CommentModal from "@/components/CommentModal/CommentModal.component";
+import { useGetPost } from "@/hooks/post/useGetPost";
+import Link from "next/link";
+import { deletePost } from "@/utils/services/post";
+import { useRouter } from "next/navigation";
+import { excuteBookmark } from "@/utils/services/bookmark";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -32,13 +37,13 @@ interface IPostModalProps {
    */
   onClose: () => void;
   /**
-   * Post 컴포넌트의 props
-   */
-  PostProps: IPostProps;
-  /**
    * 로그인한 회원의 프로필 데이터
    */
-  userInfo: IUserData | null;
+  userInfo: IUser | null;
+  /**
+   * 게시물 id
+   */
+  id: number;
 }
 
 /**
@@ -47,156 +52,211 @@ interface IPostModalProps {
  */
 export default function PostModal(props: IPostModalProps) {
   // props
-  const { open, onClose, PostProps, userInfo } = props;
+  const { open, onClose, userInfo, id } = props;
+
+  const router = useRouter();
 
   // 입력된 댓글 텍스트
   const [comment, setComment] = React.useState<string>("");
 
-  // props
-  const {
-    /** 게시글 Idx */
-    _id: postId,
-    /** 게시글 이미지 */
-    image: postSrc,
-    /** 게시글 내용 */
-    description,
-    /** 게시글 생성 날짜 */
-    CreateDate: createDate,
-    /** 북마크 여부 */
-    bookmark,
-    /** 회원 정보 */
-    userDetails,
-    /** 좋아요 정보 */
-    likeDetails,
-    /** 북마크 정보 */
-    bookmarkDetails,
-    /** 댓글 정보 */
-    commentDetails,
-  } = PostProps;
+  const getPostsUrlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post/${id}`;
+
+  const getCommentsUrlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post/${id}`;
+
+  // modal 커스텀 훅
+  const { isOpen, openModal, closeModal } = useModal();
+
+  /** 게시물 조회  */
+  const { data: post } = useGetPost(id);
 
   /** 게시물 댓글 조회 */
-  const { isLoading, data: commentsData } = useGetPostComments(postId);
+  const { isLoading, data: comments } = useGetPostComments(id);
 
-  const { trigger } = useSWRMutation(
-    `/api/comments/${postId}`,
-    () =>
-      apiClient.post<{ result: string; message: string }>(
-        `/api/comments/${postId}`,
-        { text: comment }
-      ),
-    {
-      onSuccess: (data) => {
-        const { result, message } = data.data;
-        alert(message);
-      },
-      onError: (error) => {
-        alert(error.message);
-      },
+  const deletePostApi = async () => {
+    if (!userInfo?.id) {
+      alert("로그인이 필요합니다.");
+      return;
     }
-  );
+
+    if (!confirm("정말 삭제하시겠습니까?")) {
+      return;
+    }
+
+    const { result, message } = await deletePost(id);
+
+    if (result === "success") {
+      alert(message);
+      // 모달 닫기
+      onClose();
+      // 메인페이지로 이동
+      router.push("/");
+    }
+
+    if (result === "failure") {
+      // 에러메시지
+      alert(message);
+    }
+  };
+
+  const makeCommentApi = async () => {
+    if (!userInfo?.id) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
+    const { result, message } = await makeComment({
+      post_id: id,
+      content: comment,
+    });
+
+    if (result === "success") {
+      mutate(getCommentsUrlKey);
+      alert("댓글을 추가하였습니다.");
+      setComment("");
+    }
+    if (result === "failure") {
+      alert(message);
+    }
+  };
+
+  const excuteLikeApi = async () => {
+    if (!userInfo?.id) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
+    const { result, message } = await excuteLike({
+      post_id: id,
+    });
+
+    if (result === "success") {
+      mutate(getPostsUrlKey);
+    }
+    if (result === "failure") {
+      alert(message);
+    }
+  };
+
+  const excuteBookmarkApi = async () => {
+    if (!userInfo?.id) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
+    const { result, message } = await excuteBookmark({
+      post_id: id,
+    });
+
+    if (result === "success") {
+      mutate(getPostsUrlKey);
+    }
+    if (result === "failure") {
+      alert(message);
+    }
+  };
 
   return (
     <Modal open={open} onClose={onClose}>
-      <section className="flex h-fit max-h-[100vh] w-[90vw] min-w-[300px] max-w-[500px] flex-col overflow-y-auto overscroll-none bg-white pb-[50px] lg:h-[500px] lg:w-[800px] lg:min-w-0 lg:max-w-none lg:flex-row lg:pb-0">
-        <div className="flex w-full justify-end p-2 lg:hidden">
-          <button onClick={onClose}>
-            <IoMdClose className="h-[20px] w-[20px]" />
-          </button>
-        </div>
-        <div className="relative aspect-square max-h-[300px] w-full bg-black lg:h-full lg:max-h-none lg:w-[60%]">
+      <section className="flex h-[calc(100vh-40px)] w-screen min-w-[320px] max-w-[500px] flex-col overflow-y-auto overscroll-none bg-white lg:h-[500px] lg:w-[900px] lg:min-w-0 lg:max-w-none lg:flex-row lg:pb-0">
+        <div className="relative aspect-square max-h-[220px] w-full bg-black lg:h-full lg:max-h-none lg:w-[60%]">
           <Image
-            src={postSrc || "/"}
+            src={post?.image_url || "/"}
             alt="post-image"
-            className="object-cover"
             fill
+            className="object-cover"
+            sizes="300px ,(max-width: 1200px) 540px"
           />
         </div>
-        <div className="relative h-auto w-full lg:w-[40%]">
+        <div className="relative h-full w-full lg:w-[40%]">
           <section className="flex flex-col">
-            <ProfileAndName
-              src={userDetails.at(0)?.image}
-              name={userDetails.at(0)?.name || ""}
-            />
-            <p className="max-h-[200px] overflow-y-auto overscroll-none px-5 py-2">
-              {description}
+            <div className="flex justify-between">
+              <ProfileAndName
+                src={post?.user.image_url}
+                name={post?.user.username || ""}
+              />
+              {userInfo && post?.user.id === userInfo?.id && (
+                <article className="flex items-center gap-[10px] px-[10px] text-[14px] text-gray-500">
+                  <Link href={`/post/${id}/edit`}>수정</Link>
+                  <button onClick={deletePostApi}>삭제</button>
+                </article>
+              )}
+            </div>
+            <p className="h-[100px] overflow-y-auto overscroll-none px-[10px] py-[4px]">
+              {post?.description}
             </p>
           </section>
-          <section className="h-[150px] overflow-y-auto overscroll-none p-2">
+          <section className="hidden flex-grow overflow-y-auto overscroll-none px-[10px] py-[4px] lg:block lg:h-[150px]">
             {isLoading ? (
               <>
                 <SkeletonComment isActive={isLoading} />
                 <SkeletonComment isActive={isLoading} />
               </>
             ) : (
-              commentsData?.map((comment) => (
+              comments?.map((comment) => (
                 <Comment
-                  key={comment._id.toString()}
-                  imageUrl={comment.userImage || "/"}
-                  nickName={comment.username || ""}
-                  commentContent={comment.text || ""}
+                  key={comment.id}
+                  isDeletable={comment.user.id === userInfo?.id}
+                  post_id={id}
+                  comment={comment}
                 />
               ))
             )}
           </section>
-          <section className="bottom-0 mt-5 w-full flex-col lg:absolute">
-            <div className="flex justify-between px-2 py-1">
+
+          {/* 좋아요 북마크 INPUT */}
+          <section className="absolute bottom-[0px] w-full flex-col pb-[20px] lg:pb-0">
+            <div className="flex justify-end p-[10px] lg:hidden">
+              <button
+                className="text-[14px] text-gray-400 underline"
+                onClick={openModal}
+              >
+                댓글보기
+              </button>
+            </div>
+
+            <div className="flex justify-between px-[10px] py-[4px]">
               <Like
                 checked={
-                  !!likeDetails.find((like) => like.userId === userInfo?._id)
+                  !!post?.likes.find((like) => like.user.id === userInfo?.id)
                 }
-                size={20}
-                onClick={() => {
-                  // 로그인 정보가 있다면
-                  if (userInfo?._id) {
-                    excuteLike({
-                      userId: userInfo?._id || null,
-                      postId,
-                    });
-                  } else {
-                    alert("로그인이 필요합니다.");
-                  }
-                }}
+                size={25}
+                onClick={excuteLikeApi}
               />
               <Bookmark
                 checked={
-                  !!bookmarkDetails.find(
-                    (bookmark) => bookmark.userId === userInfo?._id
+                  !!post?.bookmarks.find(
+                    (bookmark) => bookmark.user.id === userInfo?.id
                   )
                 }
-                size={20}
-                onClick={() => {
-                  // 로그인 정보가 있다면
-                  if (userInfo?._id) {
-                    excuteLike({
-                      userId: userInfo?._id || null,
-                      postId,
-                    });
-                  } else {
-                    alert("로그인이 필요합니다.");
-                  }
-                }}
+                size={25}
+                onClick={excuteBookmarkApi}
               />
             </div>
-            <div className="flex flex-col gap-2 p-2">
-              <span>{likeDetails.length} Like</span>
+            <div className="flex flex-col gap-2 p-[10px]">
+              <span>{post?.likes.length} Like</span>
               <span className="text-gray-400">
-                {dayjs(createDate).fromNow()}
+                {dayjs(post?.created_at).fromNow()}
               </span>
             </div>
             <CommentInput
+              value={comment}
               onChange={(text) => setComment(text)}
-              onButtonClick={() => {
-                if (userInfo?._id) {
-                  trigger();
-                  console.log("등록", comment);
-                } else {
-                  alert("로그인이 필요합니다.");
-                }
-              }}
+              onButtonClick={makeCommentApi}
             />
           </section>
         </div>
       </section>
+
+      {/* 모바일뷰에서 생성되는 댓글모달 */}
+      {isOpen && (
+        <CommentModal
+          open={isOpen}
+          onClose={closeModal}
+          comments={comments || []}
+          user_id={userInfo?.id}
+          post_id={id}
+        />
+      )}
     </Modal>
   );
 }

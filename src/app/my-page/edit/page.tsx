@@ -9,9 +9,6 @@ import { ICommonResponse } from "@/typescript/common/response.interface";
 import { ImageUpload } from "@/utils/services/upload";
 import apiClient from "@/utils/axios";
 import { useLoginStore } from "@/store/useLoginStore";
-import { useGetMyData } from "@/hooks/user/useGetMyData";
-import SkeletonUI from "@/components/SkeletonUI/SkeletonUI.component";
-import SignupDragAndDropSkeletonUI from "@/components/DragAndDrop/SignupDragAndDrop/SignupDragAndDropSkeletonUI.component";
 
 /**
  * 마이 페이지 수정
@@ -23,14 +20,24 @@ export default function MyPageEdit() {
   // router
   const router = useRouter();
 
+  /** 유저 개인 프로필 전역 상태 데이터 */
+  const userInfo = useLoginStore((state) => state.userInfo);
+
   // useForm
   const {
     register,
     watch,
-    setValue,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm({
+    values: {
+      image_url: userInfo?.image_url,
+      email: userInfo?.email,
+      username: userInfo?.username,
+      password: "",
+      verifyPassword: "",
+    },
+  });
 
   /** 로그인 전역 상태 데이터 */
   const excuteLogin = useLoginStore((state) => state.excuteLogin);
@@ -48,7 +55,7 @@ export default function MyPageEdit() {
 
       const { result, data } = imageUploadResponse;
 
-      if (result === "fail") {
+      if (result === "failure") {
         alert("게시물 업로드에 실패했습니다.");
         return;
       }
@@ -57,18 +64,21 @@ export default function MyPageEdit() {
     }
 
     // 이미지 파일을 제외한 데이터
-    const { email, name, password } = params;
+    const { email, username, password } = params;
 
     /**
      * 프로필 데이터 수정 api 호출 결과
      */
-    const response: ICommonResponse = await apiClient.patch("/api/user/edit", {
-      // 수정할 프로필 이미지가 존재할 시
-      ...(imageData && { image: imageData }),
-      email,
-      name,
-      password,
-    });
+    const response: ICommonResponse = await apiClient.put(
+      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/user/${userInfo?.id}`,
+      {
+        // 수정할 프로필 이미지가 존재할 시
+        ...(imageData && { image: imageData }),
+        email,
+        username,
+        password,
+      }
+    );
 
     const { result, message } = response.data;
 
@@ -80,7 +90,7 @@ export default function MyPageEdit() {
       userInfo &&
         excuteLogin({
           ...userInfo,
-          name,
+          username,
           ...(imageData && { image: imageData }),
         });
 
@@ -89,7 +99,7 @@ export default function MyPageEdit() {
     }
 
     // 프로필 데이터 수정이 실패했을 경우
-    if (result === "fail") {
+    if (result === "failure") {
       // 에러메시지
       alert(message);
     }
@@ -99,142 +109,98 @@ export default function MyPageEdit() {
     updateUser(data);
   };
 
-  // 유저 프로필 데이터 호출
-  const { isLoading, data: userInfo, error, message } = useGetMyData();
-
-  React.useEffect(() => {
-    // 에러시
-    if (error) {
-      alert(message);
-    }
-
-    setValue("email", userInfo?.email);
-    setValue("name", userInfo?.name);
-    setValue("image", userInfo?.image);
-  }, [userInfo, setValue, error, message]);
-
   return (
     <main className="flex w-full justify-center">
       <form
-        className="flex h-full w-full min-w-[320px] max-w-[400px] flex-col"
+        className="flex h-full w-full max-w-[400px] flex-col px-[20px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <section className="mb-10 mt-10 flex w-full justify-center lg:mb-20">
           <span className="text-xl font-[600]">내정보 수정</span>
         </section>
+
         {/* 프로필 이미지 수정 */}
-        {isLoading ? (
-          <SignupDragAndDropSkeletonUI isActive={isLoading} />
-        ) : (
-          <SignupDragAndDrop
-            className="h-[200px] lg:h-[300px]"
-            prevSrc={watch("image")}
-            onChange={(file) => {
-              setImageFile(file);
-            }}
-          />
-        )}
+        <SignupDragAndDrop
+          className="h-[200px] lg:h-[300px]"
+          prevSrc={watch("image_url")}
+          onChange={(file) => {
+            setImageFile(file);
+          }}
+        />
 
         <section className="mt-10 flex w-full flex-col gap-10">
-          {isLoading ? (
-            <SkeletonUI
-              isActive={isLoading}
-              isCircle
-              className="h-[24px] w-full"
-            />
-          ) : (
-            <article className="w-full gap-5">
-              <section className="flex w-full">
-                <span className="w-[200px]">이메일</span>
-                <input
-                  className="w-full"
-                  placeholder="abc1234@gmail.com"
-                  {...register("email", { required: true })}
-                />
-              </section>
-              {errors.email && (
-                <span className="text-[red]">이메일을 입력해 주세요.</span>
-              )}
-            </article>
-          )}
+          <article className="w-full gap-5">
+            <section className="flex w-full">
+              <span className="w-[200px]">이메일</span>
+              <input
+                disabled
+                className="w-full"
+                placeholder="abc1234@gmail.com"
+                {...register("email", {
+                  required: true,
+                })}
+              />
+            </section>
+            {errors.email && (
+              <span className="text-[red]">이메일을 입력해 주세요.</span>
+            )}
+          </article>
+
           {/* 이름 수정 */}
-          {isLoading ? (
-            <SkeletonUI
-              isActive={isLoading}
-              isCircle
-              className="h-[24px] w-full"
-            />
-          ) : (
-            <article className="w-full gap-5">
-              <section className="flex w-full">
-                <span className="w-[200px]">이름</span>
-                <input
-                  className="w-full"
-                  placeholder="홍길동"
-                  {...register("name", { required: true })}
-                />
-              </section>
-              {errors.name && (
-                <span className="text-[red]">이름을 입력해 주세요.</span>
-              )}
-            </article>
-          )}
+          <article className="w-full gap-5">
+            <section className="flex w-full">
+              <span className="w-[200px]">이름</span>
+              <input
+                className="w-full"
+                placeholder="홍길동"
+                {...register("username", {
+                  required: true,
+                })}
+              />
+            </section>
+            {errors.username && (
+              <span className="text-[red]">이름을 입력해 주세요.</span>
+            )}
+          </article>
+
           {/* 비밀번호 수정 */}
-          {isLoading ? (
-            <SkeletonUI
-              isActive={isLoading}
-              isCircle
-              className="h-[24px] w-full"
-            />
-          ) : (
-            <article className="w-full gap-5">
-              <section className="flex w-full">
-                <span className="w-[200px]">비밀번호</span>
-                <input
-                  className="w-full"
-                  type="password"
-                  placeholder="password"
-                  {...register("password", { required: false })}
-                />
-              </section>
-              {errors.password && (
-                <span className="text-[red]">비밀번호를 입력해 주세요.</span>
-              )}
-            </article>
-          )}
-          {/* 비밀번호 확인 수정 */}
-          {isLoading ? (
-            <SkeletonUI
-              isActive={isLoading}
-              isCircle
-              className="h-[24px] w-full"
-            />
-          ) : (
-            <article className="w-full gap-5">
-              <section className="flex w-full">
-                <span className="w-[200px]">비밀번호 확인</span>
-                <input
-                  className="w-full"
-                  type="password"
-                  placeholder="verify password"
-                  {...register("verifyPassword", {
-                    validate: (v) => watch("password") == v,
-                    disabled: !watch("password"),
-                  })}
-                />
-              </section>
-              {errors.verifyPassword && (
-                <span className="text-[red]">
-                  비밀번호가 일치하지 않습니다.
-                </span>
-              )}
-            </article>
-          )}
+          <article className="w-full gap-5">
+            <section className="flex w-full">
+              <span className="w-[200px]">비밀번호</span>
+              <input
+                className="w-full"
+                type="password"
+                placeholder="password"
+                {...register("password", { required: false })}
+              />
+            </section>
+            {errors.password && (
+              <span className="text-[red]">비밀번호를 입력해 주세요.</span>
+            )}
+          </article>
+
+          <article className="w-full gap-5">
+            <section className="flex w-full">
+              <span className="w-[200px]">비밀번호 확인</span>
+              <input
+                className="w-full"
+                type="password"
+                placeholder="verify password"
+                {...register("verifyPassword", {
+                  validate: (v) => watch("password") == v,
+                  disabled: !watch("password"),
+                })}
+              />
+            </section>
+            {errors.verifyPassword && (
+              <span className="text-[red]">비밀번호가 일치하지 않습니다.</span>
+            )}
+          </article>
         </section>
 
         <ColorButton
           text="수정하기"
-          className="mt-10 h-[40px] w-full bg-sky-400 text-[white]"
+          className="mt-10 h-[40px] w-full bg-blue-500"
         />
       </form>
     </main>

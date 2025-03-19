@@ -1,37 +1,26 @@
-import { ObjectId } from "mongodb";
-
-/** 유저 데이터 */
-export interface IUserData {
-  _id: ObjectId;
-  image: string;
+/** 마이그레이션 유저 데이터 */
+export interface IUser {
+  id: number;
+  image_url: string;
   email: string;
-  name: string;
+  username: string;
 }
 
 /** 유저 팔로우 데이터 */
-export interface IUserFollowData {
-  follower: IRefinedUserData[];
-  following: IRefinedUserData[];
+export interface IUserFollow {
+  follower: IUserInfo[];
+  following: IUserInfo[];
 }
 
-/** 팔로우 데이터 */
-export interface IFollowData {
-  _id: ObjectId;
-  followerId: ObjectId;
-  followingId: ObjectId;
-  CreatedAt: string;
+/** 유저 - 팔로우, 게시물 데이터 */
+export interface IUserInfo extends IUser {
+  posts: { id: number }[];
+  followers: { follower: { id: number } }[];
+  followings: { following: { id: number } }[];
 }
 
-/** 유저 + 팔로우 데이터 */
-export interface IRefinedUserData {
-  // 유저 데이터
-  _id: ObjectId;
-  image: string;
-  email: string;
-  name: string;
-  // 게시물 데이터
-  totalPostCount: number;
-  // 팔로우 데이터
-  followers: number;
-  following: number;
+/** 검색 - 회원, 팔로우 데이터 */
+export interface ISearchUserInfo extends IUser {
+  followers: { id: number }[];
+  followings: { id: number }[];
 }

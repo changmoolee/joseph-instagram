@@ -42,9 +42,9 @@ export default function NewPost() {
 
       if (result === "success") {
         const postResponse: ICommonResponse = await apiClient.post(
-          "/api/post",
+          `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post`,
           {
-            image: data,
+            image_url: data,
             description,
           }
         );
@@ -57,7 +57,7 @@ export default function NewPost() {
           router.push("/");
         }
 
-        if (result === "fail") {
+        if (result === "failure") {
           // 에러메시지
           alert(message);
         }
@@ -70,27 +70,27 @@ export default function NewPost() {
   return (
     userInfo && (
       <main className="flex w-full justify-center">
-        <section className="mt-5 flex w-[320px] flex-col items-center lg:w-[500px]">
+        <section className="mt-5 flex w-full max-w-[400px] flex-col items-center px-[10px] lg:w-[500px]">
           <ProfileAndName
-            src={userInfo.image || "/images/user.png"}
-            name={userInfo.name || "error"}
+            src={userInfo.image_url || "/images/user.png"}
+            name={userInfo.username || "error"}
           />
           <PostDragAndDrop
-            className="mt-5 h-[200px] w-full lg:h-[250px]"
+            className="mt-5 h-[300px] w-full lg:h-[250px]"
             onChange={(file) => {
               setImageFile(file);
             }}
           />
           <Textarea
-            className="h-[300px] w-full"
-            placeholder="Write a capiton..."
+            className="h-[300px] w-full p-[10px]"
+            placeholder="글 작성하기..."
             onChange={(text) => {
               setDescription(text);
             }}
           />
           <ColorButton
-            text="Publish"
-            className="mt-5 h-[40px] w-full bg-sky-400"
+            text="올리기"
+            className="mt-5 h-[40px] w-full bg-blue-500"
             onClick={() => {
               postCreate();
             }}

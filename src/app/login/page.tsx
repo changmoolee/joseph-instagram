@@ -2,13 +2,18 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
-import { ICommonResponse } from "@/typescript/common/response.interface";
-import { getUserData } from "@/utils/services/user";
 import { useLoginStore } from "@/store/useLoginStore";
-import apiClient from "@/utils/axios";
 import InputSection from "@/components/InputSection/InputSection.component";
+import ColorButton from "@/components/ColorButton/ColorButton.component";
+import { signIn } from "@/utils/services/user";
+
+// https://react-hook-form.com/ts
+export interface ISignInFormValues {
+  email: string;
+  password: string;
+}
 
 /**
  * 로그인 페이지
@@ -22,46 +27,31 @@ export default function Login() {
     setValue,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm<ISignInFormValues>();
 
   const excuteLogin = useLoginStore((state) => state.excuteLogin);
 
   /**
    * 로그인 함수
    */
-  const signIn = async (data: any) => {
-    // 객체분해할당
-    const { email, password } = data;
+  const signInApi = async (data: ISignInFormValues) => {
+    const signInResponse = await signIn(data);
 
-    const signInResponse: ICommonResponse = await apiClient.post(
-      "/api/auth/sign-in",
-      {
-        email,
-        password,
-      }
-    );
+    const { result, data: responseData, message } = signInResponse;
 
-    const { result, message } = signInResponse.data;
-
-    if (result === "success") {
-      const userProfileResponse = await getUserData();
-
-      const { result: userProfileResult, data: userProfileData } =
-        userProfileResponse;
-
-      if (userProfileResult === "success" && userProfileData) {
-        // 로그인 전역상태
-        excuteLogin(userProfileData);
-        // 메인페이지로 이동
-        router.push("/");
-      } else {
-        alert(
-          "유저의 프로필 데이터를 불러오는데 실패하였습니다. 관리자에게 문의해주세요."
-        );
-      }
+    if (result === "success" && responseData) {
+      // 로그인 전역상태
+      excuteLogin({
+        id: responseData.id,
+        email: responseData.email,
+        image_url: responseData.image_url,
+        username: responseData.username,
+      });
+      // 메인페이지로 이동
+      router.push("/");
     }
 
-    if (result === "fail") {
+    if (result === "failure") {
       // 에러메시지
       alert(message);
       // 비밀번호 초기화
@@ -70,8 +60,8 @@ export default function Login() {
   };
 
   // 유효성 검사 통과시 실행될 함수
-  const onSubmit = (data: any) => {
-    signIn(data);
+  const onSubmit: SubmitHandler<ISignInFormValues> = (data) => {
+    signInApi(data);
   };
 
   return (
@@ -79,7 +69,7 @@ export default function Login() {
       <section className="my-10 flex w-full justify-center">
         <h1 className="text-2xl font-semibold">로그인</h1>
       </section>
-      <div className="w-full min-w-[320px] max-w-[400px]">
+      <div className="w-full max-w-[400px] px-[20px]">
         <form
           className="flex w-full flex-col gap-3"
           onSubmit={handleSubmit(onSubmit)}
@@ -88,7 +78,7 @@ export default function Login() {
             <InputSection
               label="이메일"
               placeholder="abc1234@gmail.com"
-              {...register("email", { required: true })}
+              register={register("email", { required: true })}
             />
             {errors.email && (
               <span className="text-[red]">이메일을 입력해 주세요.</span>
@@ -96,22 +86,26 @@ export default function Login() {
           </article>
           <article className="w-full gap-5">
             <InputSection
+              type="password"
               label="비밀번호"
               placeholder="password"
-              {...register("password", { required: true })}
+              register={register("password", { required: true })}
             />
             {errors.password && (
               <span className="text-[red]">비밀번호를 입력해 주세요.</span>
             )}
           </article>
-          <button className="mt-10 flex h-[40px] w-full items-center justify-center rounded-md bg-blue-500 font-[600] text-[#fff]">
-            로그인
-          </button>
+          <ColorButton
+            text="로그인"
+            type="submit"
+            className="mt-10 h-[40px] w-full bg-blue-500"
+          />
         </form>
         <Link href="/sign-up">
-          <button className="mt-3 flex h-[40px] w-full items-center justify-center rounded-md bg-orange-500 font-[600] text-[#fff]">
-            회원가입
-          </button>
+          <ColorButton
+            text="회원가입"
+            className="mt-3 h-[40px] w-full bg-orange-500"
+          />
         </Link>
       </div>
     </main>

@@ -1,30 +1,33 @@
-import { ICommonResponse } from "@/typescript/common/response.interface";
-import { ILikeData } from "@/typescript/post.interface";
+import {
+  ICommonResponse,
+  ICommonReturn,
+} from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
-import { ObjectId } from "mongodb";
 
 interface IExcuteLikeProps {
-  userId: ObjectId;
-  postId: ObjectId;
+  post_id: number;
 }
 
 /** 좋아요 실행 api 함수 */
-export const excuteLike = async (props: IExcuteLikeProps) => {
+export const excuteLike = async (
+  props: IExcuteLikeProps
+): Promise<ICommonReturn<null>> => {
   // props
-  const { userId, postId } = props;
+  const { post_id } = props;
 
-  const response: ICommonResponse = await apiClient.post("/api/post/like", {
-    postId: postId,
-    createUser: userId,
-  });
-
-  const { result, message } = response.data;
-
-  if (result === "success") {
-    alert("좋아요를 실행하였습니다.");
-  }
-
-  if (result === "fail") {
-    alert(message || "좋아요을 실패하였습니다.");
+  try {
+    const response: ICommonResponse = await apiClient.post(
+      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/like/post`,
+      {
+        post_id,
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    return {
+      data: null,
+      result: "failure",
+      message: error.response?.data?.message || error.message,
+    };
   }
 };

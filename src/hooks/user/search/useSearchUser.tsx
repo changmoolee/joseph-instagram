@@ -3,26 +3,22 @@ import {
   IUseSWR,
 } from "@/typescript/common/response.interface";
 import apiClient from "@/utils/axios";
+import { ISearchUserInfo } from "@/typescript/user.interface";
 import useSWR from "swr";
-import { IPostComment } from "@/typescript/post.interface";
 
-/**
- * 게시물 댓글 GET 커스텀 훅
- * @param post_id
- */
-export function useGetPostComments(post_id: number): IUseSWR<IPostComment[]> {
-  const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post/${post_id}`;
+export function useSearchUser(searchWord: string): IUseSWR<ISearchUserInfo[]> {
+  const urlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/user/search?text=${searchWord}`;
 
   const fetcher = async () => await apiClient.get(urlKey);
 
   const {
-    data: commentResponse,
+    data: userResponse,
     error,
     isLoading,
     mutate,
-  } = useSWR<ICommonResponse<IPostComment[]>>(urlKey, fetcher);
+  } = useSWR<ICommonResponse<ISearchUserInfo[]>>(urlKey, fetcher);
 
-  const { data, result, message } = commentResponse?.data || {};
+  const { data, result, message } = userResponse?.data || {};
 
   if (result === "success") {
     return {

@@ -29,10 +29,11 @@ export async function POST(req: NextRequest) {
       message: "",
     });
   } catch (error: any) {
+    console.error(error);
     return NextResponse.json({
       data: null,
-      result: "fail",
-      message: error.message,
+      result: "failure",
+      message: "이미지 업로드를 실패하였습니다.",
     });
   }
 }

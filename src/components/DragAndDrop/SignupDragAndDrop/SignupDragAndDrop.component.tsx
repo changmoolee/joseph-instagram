@@ -48,10 +48,10 @@ export default function SignupDragAndDrop(props: ISignupDragAndDropProps) {
           <FaPhotoVideo className="h-[70%] w-[70%]" color="#ced4da" />
         </div>
       </DragAndDrop>
-      <section className="m-2 flex h-[40px] w-full justify-end px-10">
+      <section className="m-2 flex w-full justify-end px-10">
         <ColorButton
           text="사진 삭제"
-          className="h-full w-[100px] rounded-md bg-sky-400 text-[white]"
+          className="h-[40px] w-[100px] bg-black"
           onClick={deleteImage}
         />
       </section>
