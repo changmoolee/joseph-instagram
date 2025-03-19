@@ -52,8 +52,7 @@ export const signIn = async (
       {
         email,
         password,
-      },
-      { withCredentials: true }
+      }
     );
 
     return response.data;
