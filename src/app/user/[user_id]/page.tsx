@@ -55,7 +55,7 @@ export default function User({ params }: { params: { user_id: string } }) {
 
   const excuteFollowApi = async (userData: IUserInfo) => {
     if (!userInfo?.id) {
-      alert("로그인한 회원의 정보가 없습니다.");
+      alert("로그인이 필요합니다.");
       return;
     }
 

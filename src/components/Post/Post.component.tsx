@@ -56,7 +56,7 @@ export default function Post(props: IPostProps) {
 
   const excuteLikeApi = async () => {
     if (!userInfo?.id) {
-      alert("로그인한 회원의 정보가 없습니다.");
+      alert("로그인이 필요합니다.");
       return;
     }
 
@@ -74,7 +74,7 @@ export default function Post(props: IPostProps) {
 
   const excuteBookmarkApi = async () => {
     if (!userInfo?.id) {
-      alert("로그인한 회원의 정보가 없습니다.");
+      alert("로그인이 필요합니다.");
       return;
     }
 
