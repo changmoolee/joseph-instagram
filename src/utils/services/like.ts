@@ -20,9 +20,6 @@ export const excuteLike = async (
       `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/like/post`,
       {
         post_id,
-      },
-      {
-        withCredentials: true,
       }
     );
     return response.data;
