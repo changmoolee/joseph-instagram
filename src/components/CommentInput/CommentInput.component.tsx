@@ -13,6 +13,10 @@ interface ICommentInputProps {
    */
   value?: string;
   /**
+   * 컴포넌트 readonly 처리
+   */
+  readOnly?: boolean;
+  /**
    * CommentInput을 클릭할 때 실행하는 함수
    */
   onClick?: () => void;
@@ -33,6 +37,7 @@ export default function CommentInput(props: ICommentInputProps) {
   // props
   const {
     value,
+    readOnly = false,
     onClick,
     onChange,
     onButtonClick,
@@ -46,11 +51,18 @@ export default function CommentInput(props: ICommentInputProps) {
     >
       <button
         className="flex h-full w-[50px] items-center justify-center"
-        onClick={() => alert("기능 제작중입니다")}
+        onClick={() => {
+          if (readOnly) {
+            onClick && onClick();
+            return;
+          }
+          alert("기능 제작중입니다");
+        }}
       >
         <BiSmile className="h-[25px] w-[25px]" />
       </button>
       <input
+        readOnly={readOnly}
         placeholder="댓글을 추가하세요."
         className="w-full px-2"
         value={value}
@@ -60,7 +72,13 @@ export default function CommentInput(props: ICommentInputProps) {
       />
       <ColorButton
         text="보내기"
-        onClick={onButtonClick}
+        onClick={(e) => {
+          if (readOnly) {
+            onClick && onClick();
+            return;
+          }
+          onButtonClick && onButtonClick();
+        }}
         className="h-[40px] w-[80px] bg-blue-500"
       >
         {buttonText}
