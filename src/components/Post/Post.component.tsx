@@ -137,7 +137,7 @@ export default function Post(props: IPostProps) {
             <span className="text-gray-400">{dayjs(createDate).fromNow()}</span>
           </div>
         </section>
-        <CommentInput onClick={openModal} />
+        <CommentInput readOnly onClick={openModal} />
       </section>
 
       {isOpen && (
