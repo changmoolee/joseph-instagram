@@ -1,28 +1,33 @@
 # joseph-instagram
 
-### 🚀 배포 URL
+🚀 **배포 URL:**
 
-👉 [joseph-instagram.vercel.app](https://joseph-instagram.vercel.app/)
+**프론트엔드 (Next.js) →** [🌍 joseph-instagram.vercel.app](https://joseph-instagram.vercel.app/)
 
----
+- GitHub 레포지토리: [📂 joseph-instagram](https://github.com/changmoolee/joseph-instagram)
 
-## 🛠 현재 개발 상태
+**백엔드 (NestJS) →** [🌐 joseph-backend.site](https://joseph-backend.site)
+
+- GitHub 레포지토리: [📂 joseph-api](https://github.com/changmoolee/joseph-api)
+
+<br><br>
 
 📌 **현재 애플리케이션은 개발 중입니다.**  
 📌 **버그 및 미완성된 기능이 있을 수 있습니다.**
 
----
+<br><br>
 
-## 📌 개요
+## 개요
 
-`joseph-instagram`은 **Next.js 기반으로 제작된 Instagram 클론 프로젝트**입니다.  
-프론트엔드 개발자로서 **백엔드 및 데이터베이스 등 전체적인 웹 애플리케이션 개발 경험**을 쌓기 위해 시작한 프로젝트입니다.
+`joseph-instagram`은 **Next.js 기반으로 제작된 Instagram 클론 프로젝트**입니다.
+<br>
+프론트엔드 개발자로서 **프론트엔드, 백엔드, 데이터베이스까지 전체적인 웹 애플리케이션 개발 경험**을 쌓기 위해 시작한 프로젝트입니다.
 
----
+<br><br>
 
-## 🏗 Tech Stack
+## Tech Stack
 
-### 💻 **Frontend**
+### 📌 **프론트엔드**
 
 <div>
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=TypeScript&logoColor=white"/>
@@ -31,37 +36,27 @@
   <img src="https://img.shields.io/badge/SWR-111111?style=flat-square&logo=SWR&logoColor=white"/>
 </div>
 
-### 🖥 **Backend**
+### 📌 **백엔드**
 
-<div>
-  <img src="https://img.shields.io/badge/NestJS-E0234E?style=flat-square&logo=NestJS&logoColor=white"/>
-  <img src="https://img.shields.io/badge/TypeORM-000000?style=flat-square&logo=TypeORM&logoColor=white"/>
-  <img src="https://img.shields.io/badge/EC2-FF9900?style=flat-square&logo=AmazonAWS&logoColor=white"/>
-</div>
+- GitHub 레포지토리: [📂 joseph-api](https://github.com/changmoolee/joseph-api)
 
-### 🗄 **Database**
-
-<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/>
-
----
+<br><br>
 
 ## 📌 기능
 
-### 1️⃣ 사용자 인증
+### 주요 기능
 
-✔ 회원가입, 로그인 및 탈퇴 기능  
-✔ JWT 토큰 기반 인증
-
-### 2️⃣ 게시글 작성 및 댓글 작성
-
-✔ 게시글 작성 및 삭제  
-✔ 댓글 추가 및 삭제
-
-### 3️⃣ 좋아요 및 북마크
-
-✔ 게시글 좋아요 기능  
-✔ 북마크(저장) 기능
-
-### 4️⃣ 사용자 간 팔로우
-
-✔ 다른 사용자를 팔로우 및 언팔로우 가능
+1. 사용자 인증
+   회원가입, 로그인 (JWT 기반 인증)
+   비밀번호 암호화 (bcrypt)
+   사용자 정보 조회 및 수정
+2. 게시글 관리
+   게시글 생성, 수정, 삭제
+   게시글 목록 조회 (전체 / 특정 사용자)
+   이미지 업로드
+3. 좋아요 기능
+   게시물 좋아요 / 좋아요 취소
+   좋아요한 게시물 목록 조회
+4. 팔로우 기능
+   특정 사용자를 팔로우 / 언팔로우
+   팔로잉 / 팔로워 목록 조회
