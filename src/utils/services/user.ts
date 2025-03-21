@@ -37,23 +37,36 @@ export const signUp = async (
   }
 };
 
+interface ISignInResult extends IUser {
+  token: string;
+}
+
 /**
  * 로그인 함수
  */
 export const signIn = async (
-  data: ISignInFormValues
+  props: ISignInFormValues
 ): Promise<ICommonReturn<IUser>> => {
   try {
     // 객체분해할당
-    const { email, password } = data;
+    const { email, password } = props;
 
-    const response: ICommonResponse<IUser> = await apiClient.post(
+    const response: ICommonResponse<ISignInResult> = await apiClient.post(
       `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/signin`,
       {
         email,
         password,
       }
     );
+
+    const signInData = response.data.data;
+
+    if (!signInData) {
+      throw new Error("로그인에 실패하였습니다.(응답값 없음)");
+    }
+
+    // 토큰값을 localStorage에 저장
+    localStorage.setItem("token", signInData.token);
 
     return response.data;
   } catch (error: any) {
