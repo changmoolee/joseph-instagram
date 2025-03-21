@@ -48,7 +48,7 @@ export const signIn = async (
     const { email, password } = data;
 
     const response: ICommonResponse<IUser> = await apiClient.post(
-      `/api/login`,
+      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/signin`,
       {
         email,
         password,
