@@ -7,6 +7,17 @@ const apiClient = axios.create({
 });
 
 // axios 인터셉터 추가
+apiClient.interceptors.request.use((config) => {
+  // localStorage에서 token 추출
+  const token = localStorage.getItem("token");
+
+  // 존재할시 요청 header에 추가
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 apiClient.interceptors.response.use(
   (response) => {
     return response;
