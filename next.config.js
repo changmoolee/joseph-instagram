@@ -4,7 +4,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: process.env.IMAGE_HOSTNAME,
+        hostname: process.env.IMAGE_HOSTNAME_S3,
+      },
+      {
+        protocol: "https",
+        hostname: process.env.IMAGE_HOSTNAME_UNSPLASH,
       },
     ],
   },
