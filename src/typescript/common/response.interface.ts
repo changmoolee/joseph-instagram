@@ -42,6 +42,35 @@ export interface IUseSWR<T = null> {
 }
 
 /**
+ * 공통 useSWRInfinite 훅 return 인터페이스
+ */
+export interface IUseSWRInfinite<T = null> {
+  /**
+   * 데이터 타입
+   */
+  data?: T | null;
+  /**
+   * 로딩 여부
+   */
+  isLoading?: boolean;
+  /**
+   * 현재 불러온 페이지 수 (0부터 시작)
+   */
+  size: number;
+  /**
+   * 다음에 가져올 페이지 수를 설정하는 함수
+   * ex) setSize(size + 1) → 다음 페이지 요청
+   */
+  setSize: (
+    size: number | ((_size: number) => number)
+  ) => Promise<T[] | undefined>;
+  /**
+   * 마지막 페이지 여부
+   */
+  isReachingEnd?: boolean | undefined;
+}
+
+/**
  * 백엔드 api return 인터페이스
  */
 export interface ICommonResponse<T = null>
