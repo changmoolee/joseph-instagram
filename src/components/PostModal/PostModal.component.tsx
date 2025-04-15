@@ -23,6 +23,7 @@ import Link from "next/link";
 import { deletePost } from "@/utils/services/post";
 import { useRouter } from "next/navigation";
 import { excuteBookmark } from "@/utils/services/bookmark";
+import AlertModal from "@/components/AlertModal/AlertModal.component";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -64,7 +65,17 @@ export default function PostModal(props: IPostModalProps) {
   const getCommentsUrlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/comment/post/${id}`;
 
   // modal 커스텀 훅
-  const { isOpen, openModal, closeModal } = useModal();
+  const {
+    isOpen: isCommentOpen,
+    openModal: openCommentModal,
+    closeModal: closeCommentModal,
+  } = useModal();
+
+  const {
+    isOpen: isLoginOpen,
+    openModal: openLoginModal,
+    closeModal: closeLoginModal,
+  } = useModal();
 
   /** 게시물 조회  */
   const { data: post } = useGetPost(id);
@@ -74,7 +85,7 @@ export default function PostModal(props: IPostModalProps) {
 
   const deletePostApi = async () => {
     if (!userInfo?.id) {
-      alert("로그인이 필요합니다.");
+      openLoginModal();
       return;
     }
 
@@ -100,7 +111,7 @@ export default function PostModal(props: IPostModalProps) {
 
   const makeCommentApi = async () => {
     if (!userInfo?.id) {
-      alert("로그인이 필요합니다.");
+      openLoginModal();
       return;
     }
 
@@ -121,7 +132,7 @@ export default function PostModal(props: IPostModalProps) {
 
   const excuteLikeApi = async () => {
     if (!userInfo?.id) {
-      alert("로그인이 필요합니다.");
+      openLoginModal();
       return;
     }
 
@@ -139,7 +150,7 @@ export default function PostModal(props: IPostModalProps) {
 
   const excuteBookmarkApi = async () => {
     if (!userInfo?.id) {
-      alert("로그인이 필요합니다.");
+      openLoginModal();
       return;
     }
 
@@ -208,7 +219,7 @@ export default function PostModal(props: IPostModalProps) {
             <div className="flex justify-end p-[10px] lg:hidden">
               <button
                 className="text-[14px] text-gray-400 underline"
-                onClick={openModal}
+                onClick={openCommentModal}
               >
                 댓글보기
               </button>
@@ -248,13 +259,22 @@ export default function PostModal(props: IPostModalProps) {
       </section>
 
       {/* 모바일뷰에서 생성되는 댓글모달 */}
-      {isOpen && (
+      {isCommentOpen && (
         <CommentModal
-          open={isOpen}
-          onClose={closeModal}
+          open={isCommentOpen}
+          onClose={closeCommentModal}
           comments={comments || []}
           user_id={userInfo?.id}
           post_id={id}
+        />
+      )}
+      {/* 로그인 검증 모달 */}
+      {isLoginOpen && (
+        <AlertModal
+          message="로그인이 필요합니다."
+          open={isLoginOpen}
+          onClose={closeLoginModal}
+          showCancelButton={true}
         />
       )}
     </Modal>

@@ -15,6 +15,7 @@ import { excuteBookmark } from "@/utils/services/bookmark";
 import { useModal } from "@/hooks/components/useModal";
 import { IUser } from "@/typescript/user.interface";
 import { mutate } from "swr";
+import AlertModal from "@/components/AlertModal/AlertModal.component";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -49,14 +50,24 @@ export default function Post(props: IPostProps) {
   const getPostsUrlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post`;
 
   // modal 커스텀 훅
-  const { isOpen, openModal, closeModal } = useModal();
+  const {
+    isOpen: isPostOpen,
+    openModal: openPostModal,
+    closeModal: closePostModal,
+  } = useModal();
+
+  const {
+    isOpen: isLoginOpen,
+    openModal: openLoginModal,
+    closeModal: closeLoginModal,
+  } = useModal();
 
   /** 유저 개인 프로필 전역 상태 데이터 */
   const userInfo = useLoginStore((state) => state.userInfo);
 
   const excuteLikeApi = async () => {
     if (!userInfo?.id) {
-      alert("로그인이 필요합니다.");
+      openLoginModal();
       return;
     }
 
@@ -74,7 +85,7 @@ export default function Post(props: IPostProps) {
 
   const excuteBookmarkApi = async () => {
     if (!userInfo?.id) {
-      alert("로그인이 필요합니다.");
+      openLoginModal();
       return;
     }
 
@@ -137,15 +148,23 @@ export default function Post(props: IPostProps) {
             <span className="text-gray-400">{dayjs(createDate).fromNow()}</span>
           </div>
         </section>
-        <CommentInput readOnly onClick={openModal} />
+        <CommentInput readOnly onClick={openPostModal} />
       </section>
-
-      {isOpen && (
+      {isPostOpen && (
         <PostModal
-          open={isOpen}
-          onClose={closeModal}
+          open={isPostOpen}
+          onClose={closePostModal}
           userInfo={userInfo}
           id={post_id}
+        />
+      )}
+
+      {isLoginOpen && (
+        <AlertModal
+          message="로그인이 필요합니다."
+          open={isLoginOpen}
+          onClose={closeLoginModal}
+          showCancelButton={true}
         />
       )}
     </div>

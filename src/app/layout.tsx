@@ -1,6 +1,7 @@
 import Header from "@/components/Header/Header.component";
 import "./globals.css";
 import type { Metadata } from "next";
+import ToastProvider from "@/context/ToastContext";
 
 export const metadata: Metadata = {
   title: "joseph-instagram에 오신걸 환영합니다.",
@@ -15,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="relative w-full min-w-[320px] pb-[50px] pt-[100px]">
-        <Header />
-        {children}
+        <ToastProvider>
+          <Header />
+          {children}
+        </ToastProvider>
       </body>
     </html>
   );
