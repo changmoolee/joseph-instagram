@@ -1,5 +1,6 @@
 "use client";
 
+import AlertModal from "@/components/AlertModal/AlertModal.component";
 import ColorButton from "@/components/ColorButton/ColorButton.component";
 import PostModal from "@/components/PostModal/PostModal.component";
 import BigProfileImage from "@/components/ProfileImage/BigProfileImage.component";
@@ -30,7 +31,17 @@ export default function User({ params }: { params: { user_id: string } }) {
   const [clickedId, setClickedId] = React.useState<number>();
 
   // modal 커스텀 훅
-  const { isOpen, openModal, closeModal } = useModal();
+  const {
+    isOpen: isPostOpen,
+    openModal: openPostModal,
+    closeModal: closePostModal,
+  } = useModal();
+
+  const {
+    isOpen: isLoginOpen,
+    openModal: openLoginModal,
+    closeModal: closeLoginModal,
+  } = useModal();
 
   /**
    * 유저 개인의 포스트 데이터 호출
@@ -55,7 +66,7 @@ export default function User({ params }: { params: { user_id: string } }) {
 
   const excuteFollowApi = async (userData: IUserInfo) => {
     if (!userInfo?.id) {
-      alert("로그인이 필요합니다.");
+      openLoginModal();
       return;
     }
 
@@ -107,7 +118,7 @@ export default function User({ params }: { params: { user_id: string } }) {
                         if (isLogin && userData) {
                           excuteFollowApi(userData);
                         } else {
-                          alert("로그인이 필요합니다.");
+                          openLoginModal();
                         }
                       }}
                     />
@@ -207,7 +218,7 @@ export default function User({ params }: { params: { user_id: string } }) {
               >
                 <button
                   onClick={() => {
-                    openModal();
+                    openPostModal();
                     setClickedId(post.id);
                   }}
                 >
@@ -225,12 +236,21 @@ export default function User({ params }: { params: { user_id: string } }) {
         </ul>
 
         {/* 게시물 이미지 클릭시 생성되는 게시물 모달 */}
-        {isOpen && clickedId && (
+        {isPostOpen && clickedId && (
           <PostModal
-            open={isOpen}
-            onClose={closeModal}
+            open={isPostOpen}
+            onClose={closePostModal}
             userInfo={userInfo}
             id={clickedId}
+          />
+        )}
+
+        {isLoginOpen && (
+          <AlertModal
+            message="로그인이 필요합니다."
+            open={isLoginOpen}
+            onClose={closeLoginModal}
+            showCancelButton={true}
           />
         )}
       </div>
