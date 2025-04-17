@@ -32,7 +32,7 @@
 <div>
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=TypeScript&logoColor=white"/>
   <img src="https://img.shields.io/badge/Next.js-111111?style=flat-square&logo=Next.js&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Tailwind CSS-0DA5E9?style=flat-square&logo=Tailwind CSS&logoColor=white"/>
+  <img src="https://img.shields.io/badge/TailwindCSS-0DA5E9?style=flat-square&logo=TailwindCSS&logoColor=white"/>
   <img src="https://img.shields.io/badge/SWR-111111?style=flat-square&logo=SWR&logoColor=white"/>
 </div>
 
@@ -49,7 +49,8 @@
 1. **사용자 인증**<br>
    - 회원가입, 로그인 (JWT 기반 인증)<br>
    - 비밀번호 암호화 (bcrypt)<br>
-   - 사용자 정보 조회 및 수정<br><br>
+   - 사용자 정보 조회 및 수정<br>
+   - ✅ **Google OAuth 로그인 기능 (access_token → 사용자 정보 → JWT 발급)** <br><br>
 2. **게시글 관리**<br>
    - 게시글 생성, 수정, 삭제<br>
    - 게시글 목록 조회 (전체 / 특정 사용자)<br>
@@ -60,7 +61,7 @@
 4. **팔로우 기능**<br>
    - 특정 사용자를 팔로우 / 언팔로우<br>
    - 팔로잉 / 팔로워 목록 조회<br><br>
-5. **게시물 자동 생성 기능**<br>
+5. **✅ 게시물 자동 생성 기능**<br>
    - OpenAI GPT-4 API를 사용하여 자동 게시물 텍스트 생성
    - 키워드 기반으로 Unsplash에서 이미지를 자동으로 검색 & 업로드
    - NestJS Scheduler(CRON) 기반으로 매일 1회 자동 게시
