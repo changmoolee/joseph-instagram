@@ -10,6 +10,10 @@ const nextConfig = {
         protocol: "https",
         hostname: process.env.IMAGE_HOSTNAME_UNSPLASH,
       },
+      {
+        protocol: "https",
+        hostname: process.env.IMAGE_HOSTNAME_GOOGLE,
+      },
     ],
   },
 };

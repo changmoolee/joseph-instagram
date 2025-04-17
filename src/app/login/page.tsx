@@ -8,6 +8,7 @@ import { useLoginStore } from "@/store/useLoginStore";
 import InputSection from "@/components/InputSection/InputSection.component";
 import ColorButton from "@/components/ColorButton/ColorButton.component";
 import { signIn } from "@/utils/services/user";
+import Image from "next/image";
 
 // https://react-hook-form.com/ts
 export interface ISignInFormValues {
@@ -98,13 +99,27 @@ export default function Login() {
           <ColorButton
             text="로그인"
             type="submit"
-            className="mt-10 h-[40px] w-full bg-blue-500"
+            className="mt-10 h-[40px] w-full bg-blue-500 hover:bg-blue-300"
           />
         </form>
+        <Link
+          href={`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&response_type=code&state=state_parameter_passthrough_value&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URL}/auth/google&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
+          className="relative mt-3 flex h-[40px] w-full items-center justify-center gap-5 whitespace-nowrap rounded-md border border-gray-300 font-semibold hover:bg-gray-100"
+        >
+          <Image
+            src="/images/google-icon.svg"
+            alt="google-icon"
+            className="absolute left-5"
+            width={20}
+            height={20}
+          />
+          <span>Google 계정으로 로그인</span>
+        </Link>
+
         <Link href="/sign-up">
           <ColorButton
             text="회원가입"
-            className="mt-3 h-[40px] w-full bg-orange-500"
+            className="mt-3 h-[40px] w-full bg-orange-500 hover:bg-orange-300"
           />
         </Link>
       </div>
