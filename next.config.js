@@ -14,6 +14,10 @@ const nextConfig = {
         protocol: "https",
         hostname: process.env.IMAGE_HOSTNAME_GOOGLE,
       },
+      {
+        protocol: "http",
+        hostname: process.env.IMAGE_HOSTNAME_KAKAO,
+      },
     ],
   },
 };

@@ -1,20 +1,24 @@
-import { ICommonReturn } from "@/typescript/common/response.interface";
+import { ISignInResult } from "@/typescript/auth.interface";
+import {
+  ICommonResponse,
+  ICommonReturn,
+} from "@/typescript/common/response.interface";
 import { IUser } from "@/typescript/user.interface";
 import apiClient from "@/utils/axios";
 
-interface IAuthGootleProps {
+interface IAuthGoogleProps {
   code: string;
 }
 
 /** 구글 로그인 api 함수 */
 export const authGoogle = async (
-  props: IAuthGootleProps
-): Promise<ICommonReturn<IUser>> => {
+  props: IAuthGoogleProps
+): Promise<ICommonReturn<ISignInResult>> => {
   // props
   const { code } = props;
 
   try {
-    const response = await apiClient.post(
+    const response: ICommonResponse<ISignInResult> = await apiClient.post(
       `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/google`,
       {
         code,

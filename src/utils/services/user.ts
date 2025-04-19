@@ -1,5 +1,6 @@
 import { ISignInFormValues } from "@/app/login/page";
 import { ISignUpFormValues } from "@/app/sign-up/page";
+import { ISignInResult } from "@/typescript/auth.interface";
 import {
   ICommonResponse,
   ICommonReturn,
@@ -36,10 +37,6 @@ export const signUp = async (
     };
   }
 };
-
-interface ISignInResult extends IUser {
-  token: string;
-}
 
 /**
  * 로그인 함수
@@ -83,11 +80,21 @@ export const signIn = async (
  */
 export const signOut = async (): Promise<ICommonReturn<null>> => {
   try {
-    const response: ICommonResponse = await apiClient.post(
-      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/signout`
-    );
+    /** 현재 쿠키 로그인 방식을 사용하지 않으므로 주석 처리 */
+    // const response: ICommonResponse = await apiClient.post(
+    //   `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/signout`
+    // );
 
-    return response.data;
+    // return response.data;
+    // 토큰값을 localStorage에서 제거
+
+    localStorage.removeItem("token");
+
+    return {
+      data: null,
+      result: "success",
+      message: "로그아웃 되었습니다.",
+    };
   } catch (error: any) {
     return {
       data: null,

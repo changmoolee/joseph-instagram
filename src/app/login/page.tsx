@@ -116,6 +116,20 @@ export default function Login() {
           <span>Google 계정으로 로그인</span>
         </Link>
 
+        <Link
+          href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URL}/auth/kakao`}
+          className="relative mt-3 flex h-[40px] w-full items-center justify-center gap-5 whitespace-nowrap rounded-md border border-yellow-200 bg-[#faea29] font-semibold hover:bg-yellow-200"
+        >
+          <Image
+            src="/images/kakao-icon.svg"
+            alt="kakao-icon"
+            className="absolute left-5"
+            width={20}
+            height={20}
+          />
+          <span>kakao 계정으로 로그인</span>
+        </Link>
+
         <Link href="/sign-up">
           <ColorButton
             text="회원가입"
