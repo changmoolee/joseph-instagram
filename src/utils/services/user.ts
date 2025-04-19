@@ -1,5 +1,6 @@
 import { ISignInFormValues } from "@/app/login/page";
 import { ISignUpFormValues } from "@/app/sign-up/page";
+import { ISignInResult } from "@/typescript/auth.interface";
 import {
   ICommonResponse,
   ICommonReturn,
@@ -36,10 +37,6 @@ export const signUp = async (
     };
   }
 };
-
-interface ISignInResult extends IUser {
-  token: string;
-}
 
 /**
  * 로그인 함수
