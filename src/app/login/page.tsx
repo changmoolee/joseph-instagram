@@ -104,7 +104,7 @@ export default function Login() {
         </form>
         <Link
           href={`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&response_type=code&state=state_parameter_passthrough_value&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URL}/auth/google&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
-          className="relative mt-3 flex h-[40px] w-full items-center justify-center gap-5 whitespace-nowrap rounded-md border border-gray-300 font-semibold hover:bg-gray-100"
+          className="relative mt-3 flex h-[40px] w-full items-center justify-center gap-5 whitespace-nowrap rounded-md border border-[#F2F2F2] bg-[#F2F2F2] font-semibold hover:opacity-80"
         >
           <Image
             src="/images/google-icon.svg"
@@ -118,7 +118,7 @@ export default function Login() {
 
         <Link
           href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URL}/auth/kakao`}
-          className="relative mt-3 flex h-[40px] w-full items-center justify-center gap-5 whitespace-nowrap rounded-md border border-yellow-200 bg-[#faea29] font-semibold hover:bg-yellow-200"
+          className="hover:bg- relative mt-3 flex h-[40px] w-full items-center justify-center gap-5 whitespace-nowrap rounded-md border border-[#FEE500] bg-[#FEE500] font-semibold hover:opacity-80"
         >
           <Image
             src="/images/kakao-icon.svg"
@@ -127,7 +127,9 @@ export default function Login() {
             width={20}
             height={20}
           />
-          <span>kakao 계정으로 로그인</span>
+          <span>카카오 로그인</span>
+        </Link>
+
         </Link>
 
         <Link href="/sign-up">
