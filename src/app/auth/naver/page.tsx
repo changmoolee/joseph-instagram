@@ -37,29 +37,28 @@ export default function AuthNaverPage({
     }
 
     const handleNaverAuth = async () => {
-      try {
-        const authNaverResponse = await authNaver({ code, state });
+      const authNaverResponse = await authNaver({ code, state });
 
-        const { result, data: responseData, message } = authNaverResponse;
+      const { result, data: responseData, message } = authNaverResponse;
 
-        if (result === "success" && responseData) {
-          // 로그인 전역상태
-          excuteLogin({
-            id: responseData.id,
-            email: responseData.email,
-            image_url: responseData.image_url,
-            username: responseData.username,
-          });
-          // 메인페이지로 이동
-          router.push("/");
-        }
+      if (result === "success" && responseData) {
+        // 로그인 전역상태
+        excuteLogin({
+          id: responseData.id,
+          email: responseData.email,
+          image_url: responseData.image_url,
+          username: responseData.username,
+        });
+        // 메인페이지로 이동
+        router.push("/");
+      }
 
-        if (result === "failure") {
-          // 에러메시지
-          alert(message);
-        }
-      } catch (error) {
+      if (result === "failure") {
+        // 에러메시지
+        alert(message);
         console.error("naver 로그인 실패", error);
+        // 메인페이지로 이동
+        router.push("/");
       }
     };
 

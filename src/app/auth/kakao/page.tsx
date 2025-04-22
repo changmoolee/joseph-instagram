@@ -48,39 +48,38 @@ export default function AuthKakaoPage({
     }
 
     const handleKakaoAuth = async () => {
-      try {
-        const authKakaoResponse = await authKakao({ code });
+      const authKakaoResponse = await authKakao({ code });
 
-        const { result, data: responseData, message } = authKakaoResponse;
+      const { result, data: responseData, message } = authKakaoResponse;
 
-        if (result === "success" && responseData) {
+      if (result === "success" && responseData) {
+        /**
+         * 응답값에 토큰이 존재할 경우, 로그인 처리
+         */
+        if ("token" in responseData) {
+          // 로그인 전역상태
+          excuteLogin({
+            id: responseData.id,
+            email: responseData.email,
+            image_url: responseData.image_url,
+            username: responseData.username,
+          });
+          // 메인페이지로 이동
+          router.push("/");
+        } else {
           /**
-           * 응답값에 토큰이 존재할 경우, 로그인 처리
+           * 응답값에 토큰이 없을 경우, 회원가입을 위한 회원정보를 상태에 저장
            */
-          if ("token" in responseData) {
-            // 로그인 전역상태
-            excuteLogin({
-              id: responseData.id,
-              email: responseData.email,
-              image_url: responseData.image_url,
-              username: responseData.username,
-            });
-            // 메인페이지로 이동
-            router.push("/");
-          } else {
-            /**
-             * 응답값에 토큰이 없을 경우, 회원가입을 위한 회원정보를 상태에 저장
-             */
-            setKakaoUserinfo(responseData);
-          }
+          setKakaoUserinfo(responseData);
         }
+      }
 
-        if (result === "failure") {
-          // 에러메시지
-          alert(message);
-        }
-      } catch (error) {
+      if (result === "failure") {
+        // 에러메시지
+        alert(message);
         console.error("kakao 로그인 실패", error);
+        // 메인페이지로 이동
+        router.push("/");
       }
     };
 
