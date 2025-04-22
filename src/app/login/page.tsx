@@ -30,6 +30,9 @@ export default function Login() {
     handleSubmit,
   } = useForm<ISignInFormValues>();
 
+  /** 네이버 소셜 로그인 - CSRF 공격 방지 랜덤 문자열 생성 */
+  const state = crypto.randomUUID();
+
   const excuteLogin = useLoginStore((state) => state.excuteLogin);
 
   /**
@@ -130,6 +133,18 @@ export default function Login() {
           <span>카카오 로그인</span>
         </Link>
 
+        <Link
+          href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URL}/auth/naver&state=${state}`}
+          className="hover: relative mt-3 flex h-[40px] w-full items-center justify-center gap-5 whitespace-nowrap rounded-md border border-[#03c75a] bg-[#03c75a] font-semibold text-white hover:opacity-80"
+        >
+          <Image
+            src="/images/naver-icon.png"
+            alt="naver-login-button"
+            className="absolute left-3"
+            width={40}
+            height={40}
+          />
+          <span>네이버 로그인</span>
         </Link>
 
         <Link href="/sign-up">

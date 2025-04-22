@@ -18,6 +18,10 @@ const nextConfig = {
         protocol: "http",
         hostname: process.env.IMAGE_HOSTNAME_KAKAO,
       },
+      {
+        protocol: "https",
+        hostname: process.env.IMAGE_HOSTNAME_NAVER,
+      },
     ],
   },
 };
