@@ -99,7 +99,7 @@ export default function Login() {
           <ColorButton
             text="로그인"
             type="submit"
-            className="mt-10 h-[40px] w-full bg-blue-500 hover:bg-blue-300"
+            className="mt-10 h-[40px] w-full bg-blue-500 hover:opacity-80"
           />
         </form>
         <Link
@@ -135,7 +135,7 @@ export default function Login() {
         <Link href="/sign-up">
           <ColorButton
             text="회원가입"
-            className="mt-3 h-[40px] w-full bg-orange-500 hover:bg-orange-300"
+            className="mt-3 h-[40px] w-full bg-orange-500 hover:opacity-80"
           />
         </Link>
       </div>
