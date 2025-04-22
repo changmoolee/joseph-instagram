@@ -9,11 +9,13 @@ import { IKakaoSignInResult } from "@/typescript/auth.interface";
 import ColorButton from "@/components/ColorButton/ColorButton.component";
 
 interface ISearchParams {
-  state: string;
+  /** 토큰 받기 요청에 필요한 인가 코드 */
   code: string;
-  scope: string;
-  authuser: string;
-  prompt: string;
+  /** 인증 실패 시 반환되는 에러 코드 */
+  error: string;
+  /** 인증 실패 시 반환되는 에러 메시지 */
+  error_description: string;
+  state: string;
 }
 
 export interface IEmailFormValues {
@@ -25,7 +27,7 @@ export default function AuthKakaoPage({
 }: {
   searchParams: ISearchParams;
 }) {
-  const { code } = searchParams;
+  const { code, error, error_description } = searchParams;
 
   const router = useRouter();
 
@@ -41,7 +43,9 @@ export default function AuthKakaoPage({
     React.useState<IKakaoSignInResult>();
 
   React.useEffect(() => {
-    if (!code) return;
+    if (!code || error) {
+      return;
+    }
 
     const handleKakaoAuth = async () => {
       try {
@@ -129,6 +133,15 @@ export default function AuthKakaoPage({
       alert(message);
     }
   };
+
+  // 카카오 인증 실패 시
+  if (!code || error) {
+    return (
+      <span>
+        {error_description || "카카오 로그인 중 에러가 발생하였습니다."}
+      </span>
+    );
+  }
 
   return (
     <main>

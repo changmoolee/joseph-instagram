@@ -30,6 +30,9 @@ export default function Login() {
     handleSubmit,
   } = useForm<ISignInFormValues>();
 
+  /** 네이버 소셜 로그인 - CSRF 공격 방지 랜덤 문자열 생성 */
+  const state = crypto.randomUUID();
+
   const excuteLogin = useLoginStore((state) => state.excuteLogin);
 
   /**
@@ -99,12 +102,12 @@ export default function Login() {
           <ColorButton
             text="로그인"
             type="submit"
-            className="mt-10 h-[40px] w-full bg-blue-500 hover:bg-blue-300"
+            className="mt-10 h-[40px] w-full bg-blue-500 hover:opacity-80"
           />
         </form>
         <Link
           href={`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&response_type=code&state=state_parameter_passthrough_value&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URL}/auth/google&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
-          className="relative mt-3 flex h-[40px] w-full items-center justify-center gap-5 whitespace-nowrap rounded-md border border-gray-300 font-semibold hover:bg-gray-100"
+          className="relative mt-3 flex h-[40px] w-full items-center justify-center gap-5 whitespace-nowrap rounded-md border border-[#F2F2F2] bg-[#F2F2F2] font-semibold hover:opacity-80"
         >
           <Image
             src="/images/google-icon.svg"
@@ -118,7 +121,7 @@ export default function Login() {
 
         <Link
           href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URL}/auth/kakao`}
-          className="relative mt-3 flex h-[40px] w-full items-center justify-center gap-5 whitespace-nowrap rounded-md border border-yellow-200 bg-[#faea29] font-semibold hover:bg-yellow-200"
+          className="hover:bg- relative mt-3 flex h-[40px] w-full items-center justify-center gap-5 whitespace-nowrap rounded-md border border-[#FEE500] bg-[#FEE500] font-semibold hover:opacity-80"
         >
           <Image
             src="/images/kakao-icon.svg"
@@ -127,13 +130,27 @@ export default function Login() {
             width={20}
             height={20}
           />
-          <span>kakao 계정으로 로그인</span>
+          <span>카카오 로그인</span>
+        </Link>
+
+        <Link
+          href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URL}/auth/naver&state=${state}`}
+          className="hover: relative mt-3 flex h-[40px] w-full items-center justify-center gap-5 whitespace-nowrap rounded-md border border-[#03c75a] bg-[#03c75a] font-semibold text-white hover:opacity-80"
+        >
+          <Image
+            src="/images/naver-icon.png"
+            alt="naver-login-button"
+            className="absolute left-3"
+            width={40}
+            height={40}
+          />
+          <span>네이버 로그인</span>
         </Link>
 
         <Link href="/sign-up">
           <ColorButton
             text="회원가입"
-            className="mt-3 h-[40px] w-full bg-orange-500 hover:bg-orange-300"
+            className="mt-3 h-[40px] w-full bg-orange-500 hover:opacity-80"
           />
         </Link>
       </div>
