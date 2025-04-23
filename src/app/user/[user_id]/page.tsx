@@ -14,6 +14,7 @@ import { IUserInfo } from "@/typescript/user.interface";
 import { excuteFollow } from "@/utils/services/follow";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 /**
@@ -21,6 +22,8 @@ import React from "react";
  */
 export default function User({ params }: { params: { user_id: string } }) {
   const tabs = ["POSTS", "SAVED", "LIKED"];
+
+  const router = useRouter();
 
   const { isLogin, userInfo } = useLoginStore();
 
@@ -64,6 +67,8 @@ export default function User({ params }: { params: { user_id: string } }) {
   const isFollower = !!userData?.followers.find(
     (follower) => follower.follower.id === userInfo?.id
   );
+
+  const redirectToLogin = () => router.push("/login");
 
   const excuteFollowApi = async (userData: IUserInfo) => {
     if (!userInfo?.id) {
@@ -252,6 +257,7 @@ export default function User({ params }: { params: { user_id: string } }) {
             open={isLoginOpen}
             onClose={closeLoginModal}
             showCancelButton={true}
+            confirmAction={redirectToLogin}
           />
         )}
       </div>

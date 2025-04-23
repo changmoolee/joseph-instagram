@@ -16,6 +16,7 @@ import { useModal } from "@/hooks/components/useModal";
 import { IUser } from "@/typescript/user.interface";
 import { mutate } from "swr";
 import AlertModal from "@/components/AlertModal/AlertModal.component";
+import { useRouter } from "next/navigation";
 
 // dayjs의 RelativeTime 플러그인 추가
 dayjs.extend(relativeTime);
@@ -49,6 +50,8 @@ export default function Post(props: IPostProps) {
 
   const getPostsUrlKey = `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/post`;
 
+  const router = useRouter();
+
   // modal 커스텀 훅
   const {
     isOpen: isPostOpen,
@@ -65,6 +68,8 @@ export default function Post(props: IPostProps) {
 
   /** 유저 개인 프로필 전역 상태 데이터 */
   const userInfo = useLoginStore((state) => state.userInfo);
+
+  const redirectToLogin = () => router.push("/login");
 
   const excuteLikeApi = async () => {
     if (!userInfo?.id) {
@@ -169,6 +174,7 @@ export default function Post(props: IPostProps) {
           open={isLoginOpen}
           onClose={closeLoginModal}
           showCancelButton={true}
+          confirmAction={redirectToLogin}
         />
       )}
     </div>

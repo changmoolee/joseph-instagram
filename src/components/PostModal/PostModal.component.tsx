@@ -84,6 +84,8 @@ export default function PostModal(props: IPostModalProps) {
   /** 게시물 댓글 조회 */
   const { isLoading, data: comments } = useGetPostComments(id);
 
+  const redirectToLogin = () => router.push("/login");
+
   const deletePostApi = async () => {
     if (!userInfo?.id) {
       openLoginModal("로그인이 필요합니다.");
@@ -276,6 +278,7 @@ export default function PostModal(props: IPostModalProps) {
           open={isLoginOpen}
           onClose={closeLoginModal}
           showCancelButton={true}
+          confirmAction={redirectToLogin}
         />
       )}
     </Modal>
