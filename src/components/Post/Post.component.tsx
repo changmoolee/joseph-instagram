@@ -58,6 +58,7 @@ export default function Post(props: IPostProps) {
 
   const {
     isOpen: isLoginOpen,
+    message: loginMessage,
     openModal: openLoginModal,
     closeModal: closeLoginModal,
   } = useModal();
@@ -67,7 +68,7 @@ export default function Post(props: IPostProps) {
 
   const excuteLikeApi = async () => {
     if (!userInfo?.id) {
-      openLoginModal();
+      openLoginModal("로그인이 필요합니다.");
       return;
     }
 
@@ -85,7 +86,7 @@ export default function Post(props: IPostProps) {
 
   const excuteBookmarkApi = async () => {
     if (!userInfo?.id) {
-      openLoginModal();
+      openLoginModal("로그인이 필요합니다.");
       return;
     }
 
@@ -148,7 +149,10 @@ export default function Post(props: IPostProps) {
             <span className="text-gray-400">{dayjs(createDate).fromNow()}</span>
           </div>
         </section>
-        <CommentInput readOnly onClick={openPostModal} />
+        <CommentInput
+          readOnly
+          onClick={() => openPostModal("로그인이 필요합니다.")}
+        />
       </section>
       {isPostOpen && (
         <PostModal
@@ -161,7 +165,7 @@ export default function Post(props: IPostProps) {
 
       {isLoginOpen && (
         <AlertModal
-          message="로그인이 필요합니다."
+          message={loginMessage}
           open={isLoginOpen}
           onClose={closeLoginModal}
           showCancelButton={true}

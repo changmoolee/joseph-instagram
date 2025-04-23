@@ -39,6 +39,7 @@ export default function User({ params }: { params: { user_id: string } }) {
 
   const {
     isOpen: isLoginOpen,
+    message: loginMessage,
     openModal: openLoginModal,
     closeModal: closeLoginModal,
   } = useModal();
@@ -66,7 +67,7 @@ export default function User({ params }: { params: { user_id: string } }) {
 
   const excuteFollowApi = async (userData: IUserInfo) => {
     if (!userInfo?.id) {
-      openLoginModal();
+      openLoginModal("로그인이 필요합니다.");
       return;
     }
 
@@ -118,7 +119,7 @@ export default function User({ params }: { params: { user_id: string } }) {
                         if (isLogin && userData) {
                           excuteFollowApi(userData);
                         } else {
-                          openLoginModal();
+                          openLoginModal("로그인이 필요합니다.");
                         }
                       }}
                     />
@@ -218,7 +219,7 @@ export default function User({ params }: { params: { user_id: string } }) {
               >
                 <button
                   onClick={() => {
-                    openPostModal();
+                    openPostModal("로그인이 필요합니다.");
                     setClickedId(post.id);
                   }}
                 >
@@ -247,7 +248,7 @@ export default function User({ params }: { params: { user_id: string } }) {
 
         {isLoginOpen && (
           <AlertModal
-            message="로그인이 필요합니다."
+            message={loginMessage}
             open={isLoginOpen}
             onClose={closeLoginModal}
             showCancelButton={true}
