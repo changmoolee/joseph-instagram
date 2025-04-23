@@ -43,14 +43,14 @@ export default function AlertModal(props: IAlertModalProps) {
   return (
     <Modal open={open} onClose={onClose}>
       <section className="flex h-screen w-screen items-center justify-center">
-        <div className="flex max-h-[300px] min-h-[150px] w-[90%] max-w-[400px] flex-col justify-between rounded-lg bg-white p-[20px] pt-[30px]">
+        <div className="flex max-h-[350px] min-h-[200px] w-[80%] min-w-[200px] max-w-[350px] flex-col justify-between rounded-lg bg-white p-[20px] pt-[30px]">
           {/* 메시지 */}
           <span className="whitespace-pre-wrap text-lg font-bold">
             {message}
           </span>
 
           {/* 버튼 */}
-          <article className="mt-[10px] flex gap-2">
+          <article className="mt-[20px] flex gap-2">
             {showCancelButton && (
               <button
                 className="flex-1 rounded-md bg-gray-200 p-[5px] text-black"
