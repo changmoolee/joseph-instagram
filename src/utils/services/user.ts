@@ -43,7 +43,7 @@ export const signUp = async (
  */
 export const signIn = async (
   props: ISignInFormValues
-): Promise<ICommonReturn<IUser>> => {
+): Promise<ICommonReturn<ISignInResult>> => {
   try {
     // 객체분해할당
     const { email, password } = props;

@@ -5,9 +5,13 @@ import { IUser } from "@/typescript/user.interface";
 interface LoginState {
   isLogin: boolean;
   token: string;
-  userInfo: IUser | null;
-  excuteLogin: (data: IUser) => void;
+  userInfo: ILoginUserInfo | null;
+  excuteLogin: (data: ILoginUserInfo) => void;
   excuteLogout: () => void;
+}
+
+interface ILoginUserInfo extends IUser {
+  provider: null | "google" | "kakao" | "naver";
 }
 
 /** 로그인 전역상태 */

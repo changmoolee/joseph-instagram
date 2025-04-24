@@ -65,7 +65,7 @@ interface IAuthKakaoSignupProps {
 /** 카카오 소셜 회원가입 api 함수 */
 export const authKakaoSignup = async (
   props: IAuthKakaoSignupProps
-): Promise<ICommonReturn<IUser>> => {
+): Promise<ICommonReturn<ISignInResult>> => {
   // props
   const { email, username, image_url, provider_id } = props;
 
