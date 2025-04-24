@@ -1,14 +1,14 @@
 # joseph-instagram
-
-🚀 **배포 URL:**
+<br>
 
 **프론트엔드 (Next.js) →** [🌍 joseph-instagram.vercel.app](https://joseph-instagram.vercel.app/)
 
 - GitHub 레포지토리: [📂 joseph-instagram](https://github.com/changmoolee/joseph-instagram)
 
-**백엔드 (NestJS) →** [🌐 joseph-backend.site](https://joseph-backend.site)
+**백엔드 (NestJS) Swagger Api 문서 →** [☘️ swagger](https://joseph-backend.site/api) 
 
 - GitHub 레포지토리: [📂 joseph-api](https://github.com/changmoolee/joseph-api)
+- 배포 URL: [🌐 joseph-backend.site](https://joseph-backend.site)
 
 <br><br>
 
@@ -34,6 +34,9 @@
   <img src="https://img.shields.io/badge/Next.js-111111?style=flat-square&logo=Next.js&logoColor=white"/>
   <img src="https://img.shields.io/badge/TailwindCSS-0DA5E9?style=flat-square&logo=TailwindCSS&logoColor=white"/>
   <img src="https://img.shields.io/badge/SWR-111111?style=flat-square&logo=SWR&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Kakao%20Login-FEE500?style=flat-square&logo=kakao&logoColor=black"/>
+  <img src="https://img.shields.io/badge/Naver%20Login-03C75A?style=flat-square&logo=naver&logoColor=white"/>
+  <img src="https://img.shields.io/badge/OAuth2.0-4285F4?style=flat-square&logo=google&logoColor=white"/>
 </div>
 
 ### 📌 **백엔드**
@@ -50,25 +53,31 @@
    - 회원가입, 로그인 (JWT 기반 인증)<br>
    - 비밀번호 암호화 (bcrypt)<br>
    - 사용자 정보 조회 및 수정<br>
-   - ✅ **Google OAuth 로그인 기능 (access_token → 사용자 정보 → JWT 발급)** <br><br>
-2. **게시글 관리**<br>
+   - ✅ Google / Kakao / Naver 소셜 로그인 기능 (OAuth2.0)
+   - Kakao 소셜로그인 - 이메일 인증 기능<br><br>
+
+   <div>
+     <img alt="로그인 화면" width="300" src="https://github.com/user-attachments/assets/61baf152-097b-488f-8f25-4635024f6e68" />
+     </div>
+
+3. **게시글 관리**<br>
    - 게시글 생성, 수정, 삭제<br>
    - 게시글 목록 조회 (전체 / 특정 사용자)<br>
    - 이미지 업로드<br><br>
-3. **좋아요 기능**<br>
+4. **좋아요 기능**<br>
    - 게시물 좋아요 / 좋아요 취소<br>
    - 좋아요한 게시물 목록 조회<br><br>
-4. **팔로우 기능**<br>
+5. **팔로우 기능**<br>
    - 특정 사용자를 팔로우 / 언팔로우<br>
    - 팔로잉 / 팔로워 목록 조회<br><br>
-5. **✅ 게시물 자동 생성 기능**<br>
+6. **✅ 게시물 자동 생성 기능**<br>
    - OpenAI GPT-4 API를 사용하여 자동 게시물 텍스트 생성
    - 키워드 기반으로 Unsplash에서 이미지를 자동으로 검색 & 업로드
    - NestJS Scheduler(CRON) 기반으로 매일 1회 자동 게시
      <div>
      <img alt="게시물 자동 생성 기능 시연" width="300" src="https://github.com/user-attachments/assets/b0e82fa1-94f1-4e79-96cf-478447d7acbb" />
      </div><br><br> 
-6. **무한스크롤 구현**<br>
+7. **무한스크롤 구현**<br>
    - SWR `useSWRInfinite` + IntersectionObserver API 사용
    - 페이지네이션 버튼 없이 자연스러운 사용자 경험 제공
      <div>
