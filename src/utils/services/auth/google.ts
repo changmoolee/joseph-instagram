@@ -31,8 +31,16 @@ export const authGoogle = async (
       throw new Error("로그인에 실패하였습니다.(응답값 없음)");
     }
 
+    const { token, isDeleted } = authGoogleData;
+
     // 토큰값을 localStorage에 저장
-    localStorage.setItem("token", authGoogleData.token);
+    localStorage.setItem("token", token);
+
+    // 탈퇴 회원이 재로그인한 경우
+    if (isDeleted) {
+      // 백엔드 메시지 사용
+      alert(response.data.message);
+    }
 
     return response.data;
   } catch (error: any) {

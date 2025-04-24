@@ -33,8 +33,16 @@ export const authKakao = async (
     }
 
     if ("token" in authKakaoData) {
+      const { token, isDeleted } = authKakaoData;
+
       // 토큰값을 localStorage에 저장
-      localStorage.setItem("token", authKakaoData.token);
+      localStorage.setItem("token", token);
+
+      // 탈퇴 회원이 재로그인한 경우
+      if (isDeleted) {
+        // 백엔드 메시지 사용
+        alert(response.data.message);
+      }
     }
 
     return response.data;
