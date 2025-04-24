@@ -39,6 +39,7 @@ export default function AuthGooglePage({
           email: responseData.email,
           image_url: responseData.image_url,
           username: responseData.username,
+          provider: responseData.provider,
         });
         // 메인페이지로 이동
         router.push("/");
@@ -53,7 +54,7 @@ export default function AuthGooglePage({
     };
 
     handleGoogleAuth();
-  }, [code, router]);
+  }, [code, router, excuteLogin]);
 
   return <p className="py-10 text-center">로그인 처리 중입니다...</p>;
 }

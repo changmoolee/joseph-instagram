@@ -50,6 +50,7 @@ export default function Login() {
         email: responseData.email,
         image_url: responseData.image_url,
         username: responseData.username,
+        provider: responseData.provider,
       });
       // 메인페이지로 이동
       router.push("/");

@@ -9,6 +9,7 @@ import { ICommonResponse } from "@/typescript/common/response.interface";
 import { ImageUpload } from "@/utils/services/upload";
 import apiClient from "@/utils/axios";
 import { useLoginStore } from "@/store/useLoginStore";
+import { useEditVerificationStore } from "@/store/useEditVerificationStore";
 
 /**
  * 마이 페이지 수정
@@ -22,6 +23,9 @@ export default function MyPageEdit() {
 
   /** 유저 개인 프로필 전역 상태 데이터 */
   const userInfo = useLoginStore((state) => state.userInfo);
+
+  /** 비밀번호 재입력 인증 여부 전역 상태 데이터 */
+  const { isVerified } = useEditVerificationStore();
 
   // useForm
   const {
@@ -93,9 +97,6 @@ export default function MyPageEdit() {
           username,
           ...(imageData && { image: imageData }),
         });
-
-      // 메인페이지 이동
-      router.push("/");
     }
 
     // 프로필 데이터 수정이 실패했을 경우
@@ -109,100 +110,113 @@ export default function MyPageEdit() {
     updateUser(data);
   };
 
+  React.useEffect(() => {
+    if (!isVerified) {
+      alert("잘못된 접근입니다.");
+      // 메인페이지 이동
+      router.push("/");
+    }
+  }, [isVerified, router]);
+
   return (
     <main className="flex w-full justify-center">
-      <form
-        className="flex h-full w-full max-w-[400px] flex-col px-[20px]"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <section className="mb-10 mt-10 flex w-full justify-center lg:mb-20">
-          <span className="text-xl font-[600]">내정보 수정</span>
-        </section>
+      {/* 비밀번호 재입력 인증 전역상태 - true일때 구현 */}
+      {isVerified && (
+        <form
+          className="flex h-full w-full max-w-[400px] flex-col px-[20px]"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <section className="mb-10 mt-10 flex w-full justify-center lg:mb-20">
+            <span className="text-xl font-[600]">내정보 수정</span>
+          </section>
 
-        {/* 프로필 이미지 수정 */}
-        <SignupDragAndDrop
-          className="h-[200px] lg:h-[300px]"
-          prevSrc={watch("image_url")}
-          onChange={(file) => {
-            setImageFile(file);
-          }}
-        />
+          {/* 프로필 이미지 수정 */}
+          <SignupDragAndDrop
+            className="h-[200px] lg:h-[300px]"
+            prevSrc={watch("image_url")}
+            onChange={(file) => {
+              setImageFile(file);
+            }}
+          />
 
-        <section className="mt-10 flex w-full flex-col gap-10">
-          <article className="w-full gap-5">
-            <section className="flex w-full">
-              <span className="w-[200px]">이메일</span>
-              <input
-                disabled
-                className="w-full"
-                placeholder="abc1234@gmail.com"
-                {...register("email", {
-                  required: true,
-                })}
-              />
-            </section>
-            {errors.email && (
-              <span className="text-[red]">이메일을 입력해 주세요.</span>
-            )}
-          </article>
+          <section className="mt-10 flex w-full flex-col gap-10">
+            <article className="w-full gap-5">
+              <section className="flex w-full">
+                <span className="w-[200px]">이메일</span>
+                <input
+                  disabled
+                  className="w-full"
+                  placeholder="abc1234@gmail.com"
+                  {...register("email", {
+                    required: true,
+                  })}
+                />
+              </section>
+              {errors.email && (
+                <span className="text-[red]">이메일을 입력해 주세요.</span>
+              )}
+            </article>
 
-          {/* 이름 수정 */}
-          <article className="w-full gap-5">
-            <section className="flex w-full">
-              <span className="w-[200px]">이름</span>
-              <input
-                className="w-full"
-                placeholder="홍길동"
-                {...register("username", {
-                  required: true,
-                })}
-              />
-            </section>
-            {errors.username && (
-              <span className="text-[red]">이름을 입력해 주세요.</span>
-            )}
-          </article>
+            {/* 이름 수정 */}
+            <article className="w-full gap-5">
+              <section className="flex w-full">
+                <span className="w-[200px]">이름</span>
+                <input
+                  className="w-full"
+                  placeholder="홍길동"
+                  {...register("username", {
+                    required: true,
+                  })}
+                />
+              </section>
+              {errors.username && (
+                <span className="text-[red]">이름을 입력해 주세요.</span>
+              )}
+            </article>
 
-          {/* 비밀번호 수정 */}
-          <article className="w-full gap-5">
-            <section className="flex w-full">
-              <span className="w-[200px]">비밀번호</span>
-              <input
-                className="w-full"
-                type="password"
-                placeholder="password"
-                {...register("password", { required: false })}
-              />
-            </section>
-            {errors.password && (
-              <span className="text-[red]">비밀번호를 입력해 주세요.</span>
-            )}
-          </article>
+            {/* 비밀번호 수정 */}
+            <article className="w-full gap-5">
+              <section className="flex w-full">
+                <span className="w-[200px]">비밀번호</span>
+                <input
+                  className="w-full"
+                  type="password"
+                  placeholder="password"
+                  {...register("password", { required: false })}
+                />
+              </section>
+              {errors.password && (
+                <span className="text-[red]">비밀번호를 입력해 주세요.</span>
+              )}
+            </article>
 
-          <article className="w-full gap-5">
-            <section className="flex w-full">
-              <span className="w-[200px]">비밀번호 확인</span>
-              <input
-                className="w-full"
-                type="password"
-                placeholder="verify password"
-                {...register("verifyPassword", {
-                  validate: (v) => watch("password") == v,
-                  disabled: !watch("password"),
-                })}
-              />
-            </section>
-            {errors.verifyPassword && (
-              <span className="text-[red]">비밀번호가 일치하지 않습니다.</span>
-            )}
-          </article>
-        </section>
+            <article className="w-full gap-5">
+              <section className="flex w-full">
+                <span className="w-[200px]">비밀번호 확인</span>
+                <input
+                  className="w-full"
+                  type="password"
+                  placeholder="verify password"
+                  {...register("verifyPassword", {
+                    validate: (v) => watch("password") == v,
+                    disabled: !watch("password"),
+                  })}
+                />
+              </section>
+              {errors.verifyPassword && (
+                <span className="text-[red]">
+                  비밀번호가 일치하지 않습니다.
+                </span>
+              )}
+            </article>
+          </section>
 
-        <ColorButton
-          text="수정하기"
-          className="mt-10 h-[40px] w-full bg-blue-500"
-        />
-      </form>
+          <ColorButton
+            text="수정하기"
+            className="mt-10 h-[40px] w-full bg-blue-500"
+          />
+        </form>
+      )}
     </main>
   );
 }

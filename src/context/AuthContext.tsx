@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } else {
       setIsChecked(true);
     }
-  }, [isLogin]);
+  }, [isLogin, router]);
 
   if (!isChecked) return null; // 렌더링 막기
 

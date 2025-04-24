@@ -85,6 +85,7 @@ export default function AuthKakaoPage({
             email: responseData.email,
             image_url: responseData.image_url,
             username: responseData.username,
+            provider: responseData.provider,
           });
           // 메인페이지로 이동
           router.push("/");
@@ -106,7 +107,7 @@ export default function AuthKakaoPage({
     };
 
     handleKakaoAuth();
-  }, [code, router]);
+  }, [code, error, router, excuteLogin]);
 
   /**
    * 카카오 소셜로그인 - 이메일 인증코드 발송
@@ -179,6 +180,7 @@ export default function AuthKakaoPage({
           email: signuResponseData.email,
           image_url: signuResponseData.image_url,
           username: signuResponseData.username,
+          provider: signuResponseData.provider,
         });
         openModal("카카오 로그인이 완료되었습니다!");
         // 메인페이지로 이동

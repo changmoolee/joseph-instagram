@@ -1,11 +1,11 @@
 import { ISignInFormValues } from "@/app/login/page";
+import { IVerifyPasswordFormValues } from "@/app/my-page/edit/verify-password/page";
 import { ISignUpFormValues } from "@/app/sign-up/page";
 import { ISignInResult } from "@/typescript/auth.interface";
 import {
   ICommonResponse,
   ICommonReturn,
 } from "@/typescript/common/response.interface";
-import { IUser } from "@/typescript/user.interface";
 import apiClient from "@/utils/axios";
 
 /**
@@ -43,7 +43,7 @@ export const signUp = async (
  */
 export const signIn = async (
   props: ISignInFormValues
-): Promise<ICommonReturn<IUser>> => {
+): Promise<ICommonReturn<ISignInResult>> => {
   try {
     // 객체분해할당
     const { email, password } = props;
@@ -103,6 +103,33 @@ export const signOut = async (): Promise<ICommonReturn<null>> => {
       result: "success",
       message: "로그아웃 되었습니다.",
     };
+  } catch (error: any) {
+    return {
+      data: null,
+      result: "failure",
+      message: error.response?.data?.message || error.message,
+    };
+  }
+};
+
+/**
+ * 비밀번호 재입력 인증
+ */
+export const vefifyPassword = async (
+  props: IVerifyPasswordFormValues
+): Promise<ICommonReturn<null>> => {
+  try {
+    // 객체분해할당
+    const { password } = props;
+
+    const response: ICommonResponse<null> = await apiClient.post(
+      `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/auth/verify-password`,
+      {
+        password,
+      }
+    );
+
+    return response.data;
   } catch (error: any) {
     return {
       data: null,
