@@ -28,29 +28,27 @@ export default function AuthGooglePage({
     if (!code) return;
 
     const handleGoogleAuth = async () => {
-      try {
-        const authGoogleResponse = await authGoogle({ code });
+      const authGoogleResponse = await authGoogle({ code });
 
-        const { result, data: responseData, message } = authGoogleResponse;
+      const { result, data: responseData, message } = authGoogleResponse;
 
-        if (result === "success" && responseData) {
-          // 로그인 전역상태
-          excuteLogin({
-            id: responseData.id,
-            email: responseData.email,
-            image_url: responseData.image_url,
-            username: responseData.username,
-          });
-          // 메인페이지로 이동
-          router.push("/");
-        }
+      if (result === "success" && responseData) {
+        // 로그인 전역상태
+        excuteLogin({
+          id: responseData.id,
+          email: responseData.email,
+          image_url: responseData.image_url,
+          username: responseData.username,
+        });
+        // 메인페이지로 이동
+        router.push("/");
+      }
 
-        if (result === "failure") {
-          // 에러메시지
-          alert(message);
-        }
-      } catch (error) {
-        console.error("Google 로그인 실패", error);
+      if (result === "failure") {
+        // 에러메시지
+        alert(message);
+        // 메인페이지로 이동
+        router.push("/");
       }
     };
 

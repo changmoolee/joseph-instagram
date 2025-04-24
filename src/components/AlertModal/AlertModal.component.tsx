@@ -2,7 +2,6 @@
 
 import React from "react";
 import Modal from "@/components/Modal/Modal.component";
-import { useRouter } from "next/navigation";
 
 interface IAlertModalProps {
   /**
@@ -20,7 +19,11 @@ interface IAlertModalProps {
   /**
    * 취소 버튼 사용 유무
    */
-  showCancelButton: boolean;
+  showCancelButton?: boolean;
+  /**
+   * 확인 버튼 사용시 실행될 함수
+   */
+  confirmAction: () => void;
 }
 
 /**
@@ -29,21 +32,25 @@ interface IAlertModalProps {
  */
 export default function AlertModal(props: IAlertModalProps) {
   // props
-  const { open, onClose, message, showCancelButton } = props;
-
-  const router = useRouter();
-
-  const redirectToLogin = () => router.push("/login");
+  const {
+    open,
+    onClose,
+    message,
+    showCancelButton = false,
+    confirmAction,
+  } = props;
 
   return (
     <Modal open={open} onClose={onClose}>
       <section className="flex h-screen w-screen items-center justify-center">
-        <div className="flex max-h-[200px] min-h-[150px] w-[90%] max-w-[300px] flex-col justify-between rounded-lg bg-white p-[20px] pt-[30px]">
+        <div className="flex max-h-[350px] min-h-[200px] w-[80%] min-w-[200px] max-w-[350px] flex-col justify-between rounded-lg bg-white p-[20px] pt-[30px]">
           {/* 메시지 */}
-          <span className="text-lg font-bold">{message}</span>
+          <span className="whitespace-pre-wrap text-lg font-bold">
+            {message}
+          </span>
 
           {/* 버튼 */}
-          <article className="flex gap-2">
+          <article className="mt-[20px] flex gap-2">
             {showCancelButton && (
               <button
                 className="flex-1 rounded-md bg-gray-200 p-[5px] text-black"
@@ -54,7 +61,7 @@ export default function AlertModal(props: IAlertModalProps) {
             )}
             <button
               className="flex-1 rounded-md bg-blue-500 p-[5px] text-white"
-              onClick={redirectToLogin}
+              onClick={confirmAction}
             >
               확인
             </button>

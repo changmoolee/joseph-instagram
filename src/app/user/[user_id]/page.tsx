@@ -14,6 +14,7 @@ import { IUserInfo } from "@/typescript/user.interface";
 import { excuteFollow } from "@/utils/services/follow";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 /**
@@ -21,6 +22,8 @@ import React from "react";
  */
 export default function User({ params }: { params: { user_id: string } }) {
   const tabs = ["POSTS", "SAVED", "LIKED"];
+
+  const router = useRouter();
 
   const { isLogin, userInfo } = useLoginStore();
 
@@ -39,6 +42,7 @@ export default function User({ params }: { params: { user_id: string } }) {
 
   const {
     isOpen: isLoginOpen,
+    message: loginMessage,
     openModal: openLoginModal,
     closeModal: closeLoginModal,
   } = useModal();
@@ -64,9 +68,11 @@ export default function User({ params }: { params: { user_id: string } }) {
     (follower) => follower.follower.id === userInfo?.id
   );
 
+  const redirectToLogin = () => router.push("/login");
+
   const excuteFollowApi = async (userData: IUserInfo) => {
     if (!userInfo?.id) {
-      openLoginModal();
+      openLoginModal("로그인이 필요합니다.");
       return;
     }
 
@@ -118,7 +124,7 @@ export default function User({ params }: { params: { user_id: string } }) {
                         if (isLogin && userData) {
                           excuteFollowApi(userData);
                         } else {
-                          openLoginModal();
+                          openLoginModal("로그인이 필요합니다.");
                         }
                       }}
                     />
@@ -218,7 +224,7 @@ export default function User({ params }: { params: { user_id: string } }) {
               >
                 <button
                   onClick={() => {
-                    openPostModal();
+                    openPostModal("로그인이 필요합니다.");
                     setClickedId(post.id);
                   }}
                 >
@@ -247,10 +253,11 @@ export default function User({ params }: { params: { user_id: string } }) {
 
         {isLoginOpen && (
           <AlertModal
-            message="로그인이 필요합니다."
+            message={loginMessage}
             open={isLoginOpen}
             onClose={closeLoginModal}
             showCancelButton={true}
+            confirmAction={redirectToLogin}
           />
         )}
       </div>

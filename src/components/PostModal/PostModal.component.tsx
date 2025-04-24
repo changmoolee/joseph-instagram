@@ -67,6 +67,7 @@ export default function PostModal(props: IPostModalProps) {
   // modal 커스텀 훅
   const {
     isOpen: isCommentOpen,
+    message: commentMessage,
     openModal: openCommentModal,
     closeModal: closeCommentModal,
   } = useModal();
@@ -83,9 +84,11 @@ export default function PostModal(props: IPostModalProps) {
   /** 게시물 댓글 조회 */
   const { isLoading, data: comments } = useGetPostComments(id);
 
+  const redirectToLogin = () => router.push("/login");
+
   const deletePostApi = async () => {
     if (!userInfo?.id) {
-      openLoginModal();
+      openLoginModal("로그인이 필요합니다.");
       return;
     }
 
@@ -111,7 +114,7 @@ export default function PostModal(props: IPostModalProps) {
 
   const makeCommentApi = async () => {
     if (!userInfo?.id) {
-      openLoginModal();
+      openLoginModal("로그인이 필요합니다.");
       return;
     }
 
@@ -132,7 +135,7 @@ export default function PostModal(props: IPostModalProps) {
 
   const excuteLikeApi = async () => {
     if (!userInfo?.id) {
-      openLoginModal();
+      openLoginModal("로그인이 필요합니다.");
       return;
     }
 
@@ -150,7 +153,7 @@ export default function PostModal(props: IPostModalProps) {
 
   const excuteBookmarkApi = async () => {
     if (!userInfo?.id) {
-      openLoginModal();
+      openLoginModal("로그인이 필요합니다.");
       return;
     }
 
@@ -219,7 +222,7 @@ export default function PostModal(props: IPostModalProps) {
             <div className="flex justify-end p-[10px] lg:hidden">
               <button
                 className="text-[14px] text-gray-400 underline"
-                onClick={openCommentModal}
+                onClick={() => openCommentModal("로그인이 필요합니다.")}
               >
                 댓글보기
               </button>
@@ -271,10 +274,11 @@ export default function PostModal(props: IPostModalProps) {
       {/* 로그인 검증 모달 */}
       {isLoginOpen && (
         <AlertModal
-          message="로그인이 필요합니다."
+          message={commentMessage}
           open={isLoginOpen}
           onClose={closeLoginModal}
           showCancelButton={true}
+          confirmAction={redirectToLogin}
         />
       )}
     </Modal>
