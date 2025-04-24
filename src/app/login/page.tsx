@@ -69,7 +69,7 @@ export default function Login() {
   };
 
   return (
-    <main className="flex h-full w-full flex-col items-center pt-10">
+    <main className="flex w-full flex-col items-center py-10">
       <section className="my-10 flex w-full justify-center">
         <h1 className="text-2xl font-semibold">로그인</h1>
       </section>
