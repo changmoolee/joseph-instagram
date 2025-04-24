@@ -95,7 +95,7 @@ export default function MyPage() {
         {/* 내정보 수정 페이지 이동*/}
         <Link
           className={`flex h-[40px] w-full items-center justify-center rounded-md bg-blue-500 text-[#fff]`}
-          href={"/my-page/edit"}
+          href={"/my-page/edit/verify-password"}
         >
           내정보 수정하기
         </Link>
