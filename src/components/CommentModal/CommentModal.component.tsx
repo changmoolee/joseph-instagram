@@ -41,14 +41,20 @@ export default function CommentModal(props: IPostModalProps) {
       <div className="fixed bottom-0 left-0 flex h-[80vh] w-screen flex-col rounded-lg bg-white px-[10px] py-[20px]">
         <span className="flex p-[10px]">댓글</span>
         <section className="overflow-y-auto overscroll-none">
-          {comments?.map((comment) => (
-            <Comment
-              key={comment.id.toString()}
-              isDeletable={comment.user.id === user_id}
-              post_id={post_id}
-              comment={comment}
-            />
-          ))}
+          {comments && comments.length > 0 ? (
+            comments.map((comment) => (
+              <Comment
+                key={comment.id.toString()}
+                isDeletable={comment.user.id === user_id}
+                post_id={post_id}
+                comment={comment}
+              />
+            ))
+          ) : (
+            <div className="flex h-[200px] w-full items-center justify-center">
+              등록된 댓글이 없습니다.
+            </div>
+          )}
         </section>
       </div>
     </Modal>
