@@ -90,7 +90,7 @@ export default function User({ params }: { params: { user_id: string } }) {
   };
 
   return (
-    <main className="flex h-full w-full justify-center">
+    <main className="flex w-full justify-center">
       <div className="flex w-full max-w-[1000px] flex-col items-center px-[10px]">
         <div className="flex h-[200px] w-full items-center justify-center gap-5 p-5 lg:gap-10">
           {/* 유저 프로필 이미지 */}
